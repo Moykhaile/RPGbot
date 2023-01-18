@@ -24,7 +24,7 @@ namespace RPGbot.Modules
 		[SlashCommand("ping", "Receive a pong!")]
 		public async Task HandlePingCommand()
 		{
-			await RespondAsync($"Pong!  🛰️  {_client.Latency}ms");
+			await RespondAsync($"Pong!  🛰️  {_client.Latency}ms", ephemeral: true);
 		}
 	}
 }

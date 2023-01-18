@@ -28,10 +28,10 @@ namespace RPGbot.Modules
 				Player player = DbHandler.LoadPlayer(Context.User.Id.ToString());
 				if (player == null)
 				{
-					await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", null, false, true); return;
+					await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 				}
 
-				await RespondAsync($"Sua ficha de personagem!", null, false, true, null, null, null, PlayerResponse.GerarFicha(player));
+				await RespondAsync($"Sua ficha de personagem!", ephemeral: true, embed: PlayerResponse.GerarFicha(player));
 			}
 			catch (Exception ex)
 			{
@@ -44,14 +44,14 @@ namespace RPGbot.Modules
 		{
 			if (qntd > 999 || qntd < -999 || qntd == 0)
 			{
-				await RespondAsync($"Valor inválido. Tente novamente com um número entre -999 e 999.", null, false, true);
+				await RespondAsync($"Valor inválido. Tente novamente com um número entre -999 e 999.", ephemeral: true);
 				return;
 			}
 
 			Player player = DbHandler.LoadPlayer(Context.User.Id.ToString());
 			if (player == null)
 			{
-				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", null, false, true); return;
+				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
 
 			int old_vida = player.vida;
@@ -65,9 +65,9 @@ namespace RPGbot.Modules
 			Embed embed = PlayerResponse.GerarValor("Vida", player, player.vida, old_vida, qntd);
 
 			if (saved)
-				await RespondAsync($"Vida do personagem alterada!", null, false, false, null, null, null, embed);
+				await RespondAsync($"Vida do personagem alterada!", embed: embed);
 			else
-				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", null, false, true);
+				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true);
 		}
 
 		[SlashCommand("xp", "Adiciona pontos de experiência (XP) ao personagem")]
@@ -76,13 +76,13 @@ namespace RPGbot.Modules
 			qntd = Math.Abs(qntd);
 			if (qntd > 9999 || qntd == 0)
 			{
-				await RespondAsync($"Valor inválido. Tente novamente com um número entre 0 e 9999.", null, false, true); return;
+				await RespondAsync($"Valor inválido. Tente novamente com um número entre 0 e 9999.", ephemeral: true); return;
 			}
 
 			Player player = DbHandler.LoadPlayer(Context.User.Id.ToString());
 			if (player == null)
 			{
-				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", null, false, true); return;
+				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
 
 			int old_xp = player.xp;
@@ -94,9 +94,9 @@ namespace RPGbot.Modules
 			Embed embed = PlayerResponse.GerarValor("XP", player, player.xp, old_xp, qntd);
 
 			if (saved)
-				await RespondAsync($"Pontos de experiência do personagem alterados! Cheque o nível do personagem.", null, false, false, null, null, null, embed);
+				await RespondAsync($"Pontos de experiência do personagem alterados! Cheque o nível do personagem.", embed: embed);
 			else
-				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", null, false, true);
+				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true);
 		}
 	}
 }

@@ -22,90 +22,85 @@ namespace RPGbot.Modules
 		[SlashCommand("add", "Adiciona um personagem ao jogo. Só é permitido 1 personagem por jogador")]
 		public async Task HandleAddCommand()
 		{
-			try
+			Player player = new Player().GetPlayer(Context.User.Id.ToString());
+			if (player.Nome != null)
 			{
-				Player player = new Player().GetPlayer(Context.User.Id.ToString());
-				if (player.Nome != null)
-				{
-					await RespondAsync($"Você já tem um personagem! {player.Nome} já existe.", ephemeral: true); return;
-				}
-
-				var classeMenu = new SelectMenuBuilder()
-				{
-					CustomId = "classeMenu",
-					Placeholder = "Escolha sua classe"
-				};
-				foreach (PlayerClass classe in PlayerClasses.GetClasses())
-				{
-					classeMenu.AddOption(classe.Mname, classe.Mname);
-				}
-
-				var racaMenu = new SelectMenuBuilder()
-				{
-					CustomId = "racaMenu",
-					Placeholder = "Escolha sua raça"
-				};
-				foreach (PlayerRaca raca in PlayerRacas.GetRacas())
-				{
-					racaMenu.AddOption(raca.Mname, raca.Mname);
-				}
-
-				var generoMenu = new SelectMenuBuilder()
-				{
-					CustomId = "generoMenu",
-					Placeholder = "Escolha o gênero"
-				}
-				.AddOption("Masculino", "Masculino")
-				.AddOption("Feminino", "Feminino")
-				.AddOption("Prefiro não dizer/Outro", "Outro");
-
-				var sexualidadeMenu = new SelectMenuBuilder()
-				{
-					CustomId = "sexualidadeMenu",
-					Placeholder = "Escolha a sexualidade"
-				}
-				.AddOption("Heterossexual", "Heterossexual")
-				.AddOption("Homossexual", "Homossexual")
-				.AddOption("Panssexual", "Panssexual")
-				.AddOption("Assexual", "Assexual")
-				.AddOption("Outro", "Outro");
-
-				var posicaoMenu = new SelectMenuBuilder()
-				{
-					CustomId = "posicaoMenu",
-					Placeholder = "Escolha a posição de batalha"
-				}
-				.AddOption("Dano", "Dano")
-				.AddOption("Especialista", "Especialista")
-				.AddOption("Suporte", "Suporte")
-				.AddOption("Tanque", "Tanque");
-
-				var component = new ComponentBuilder()
-				.WithSelectMenu(classeMenu)
-				.WithSelectMenu(racaMenu)
-				.WithSelectMenu(generoMenu)
-				.WithSelectMenu(sexualidadeMenu)
-				.WithSelectMenu(posicaoMenu);
-
-				await RespondAsync("Vamos criar o seu personagem!");
-
-				RestUserMessage selectMenuMsg = await Context.Channel.SendMessageAsync($"Escolha as informações respectivas do seu novo personagem e aperte o botão.", components: component.Build());
-
-
-				var modalButton = new ButtonBuilder()
-				{
-					CustomId = "modalButton",
-					Label = "Enviar!",
-					Style = ButtonStyle.Success
-				};
-
-				var buttonComponent = new ComponentBuilder().WithButton(modalButton);
-
-				await Context.Channel.SendMessageAsync("Clique aqui quando terminar!", components: buttonComponent.Build());
-
-				DbHandler.SavePlayer(Context.User.Id.ToString(), player);
+				await RespondAsync($"Você já tem um personagem! {player.Nome} já existe.", ephemeral: true); return;
 			}
-			catch (Exception ex) { Console.WriteLine(ex.ToString()); }
+
+			var classeMenu = new SelectMenuBuilder()
+			{
+				CustomId = "classeMenu",
+				Placeholder = "Escolha sua classe"
+			};
+			foreach (PlayerClass classe in PlayerClasses.GetClasses())
+			{
+				classeMenu.AddOption(classe.Mname, classe.Mname);
+			}
+
+			var racaMenu = new SelectMenuBuilder()
+			{
+				CustomId = "racaMenu",
+				Placeholder = "Escolha sua raça"
+			};
+			foreach (PlayerRaca raca in PlayerRacas.GetRacas())
+			{
+				racaMenu.AddOption(raca.Mname, raca.Mname);
+			}
+
+			var generoMenu = new SelectMenuBuilder()
+			{
+				CustomId = "generoMenu",
+				Placeholder = "Escolha o gênero"
+			}
+			.AddOption("Masculino", "Masculino")
+			.AddOption("Feminino", "Feminino")
+			.AddOption("Prefiro não dizer/Outro", "Outro");
+
+			var sexualidadeMenu = new SelectMenuBuilder()
+			{
+				CustomId = "sexualidadeMenu",
+				Placeholder = "Escolha a sexualidade"
+			}
+			.AddOption("Heterossexual", "Heterossexual")
+			.AddOption("Homossexual", "Homossexual")
+			.AddOption("Panssexual", "Panssexual")
+			.AddOption("Assexual", "Assexual")
+			.AddOption("Outro", "Outro");
+
+			var posicaoMenu = new SelectMenuBuilder()
+			{
+				CustomId = "posicaoMenu",
+				Placeholder = "Escolha a posição de batalha"
+			}
+			.AddOption("Dano", "Dano")
+			.AddOption("Especialista", "Especialista")
+			.AddOption("Suporte", "Suporte")
+			.AddOption("Tanque", "Tanque");
+
+			var component = new ComponentBuilder()
+			.WithSelectMenu(classeMenu)
+			.WithSelectMenu(racaMenu)
+			.WithSelectMenu(generoMenu)
+			.WithSelectMenu(sexualidadeMenu)
+			.WithSelectMenu(posicaoMenu);
+
+			await RespondAsync("Vamos criar o seu personagem!");
+
+			RestUserMessage selectMenuMsg = await Context.Channel.SendMessageAsync($"Escolha as informações respectivas do seu novo personagem e aperte o botão.", components: component.Build());
+
+			var modalButton = new ButtonBuilder()
+			{
+				CustomId = "modalButton",
+				Label = "Enviar!",
+				Style = ButtonStyle.Success
+			};
+
+			var buttonComponent = new ComponentBuilder().WithButton(modalButton);
+
+			await Context.Channel.SendMessageAsync("Clique aqui quando terminar!", components: buttonComponent.Build());
+
+			DbHandler.SavePlayer(Context.User.Id.ToString(), player);
 		}
 
 		[ComponentInteraction("classeMenu")]
@@ -175,27 +170,18 @@ namespace RPGbot.Modules
 
 		Player generatePlayer(Player player)
 		{
-			try
-			{
-				player.Sabedoria = jogarDadosAtributos();
-				player.Forca = jogarDadosAtributos();
-				player.Destreza = jogarDadosAtributos();
-				player.Constituicao = jogarDadosAtributos();
-				player.Inteligencia = jogarDadosAtributos();
-				player.Carisma = jogarDadosAtributos();
+			player.Sabedoria = jogarDadosAtributos();
+			player.Forca = jogarDadosAtributos();
+			player.Destreza = jogarDadosAtributos();
+			player.Constituicao = jogarDadosAtributos();
+			player.Inteligencia = jogarDadosAtributos();
+			player.Carisma = jogarDadosAtributos();
 
 
-				PlayerClass playerClass = new PlayerClass();
+			PlayerClass playerClass = new PlayerClass();
 
-				player.Vida = jogarDadosVida(playerClass.GetClass(player.Classe).Dice);
-				player.VidaMax = player.Vida;
-
-				Console.WriteLine($"{player.Nome} {player.Classe} {player.Raca} {player.Genero} {player.Sexualidade} {player.Vida}/{player.VidaMax}");
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
+			player.Vida = jogarDadosVida(playerClass.GetClass(player.Classe).Dice);
+			player.VidaMax = player.Vida;
 
 			return player;
 		}

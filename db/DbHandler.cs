@@ -15,23 +15,7 @@ namespace RPGbot.db
 	{
 		public static void SavePlayer(string playerID, Player player)
 		{
-			try
-			{
-				File.WriteAllText($"../../db/c_player/{playerID}.json", JsonSerializer.Serialize(player));
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
+			File.WriteAllText($"../../db/c_player/{playerID}.json", JsonSerializer.Serialize(player));
 		}
-		/*public static PlayerClasses LoadClasses()
-		{
-			classPath += $"classes.json";
-			if (!File.Exists(classPath)) return null;
-
-			PlayerClasses classes = JsonSerializer.Deserialize<PlayerClasses>(File.ReadAllText(classPath));
-
-			return classes;
-		}*/
 	}
 }

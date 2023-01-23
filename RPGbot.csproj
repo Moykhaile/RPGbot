@@ -270,6 +270,7 @@
     <Compile Include="InteractionHandler.cs" />
     <Compile Include="Modules\AddPlayerModule.cs" />
     <Compile Include="Modules\GlobalModule.cs" />
+    <Compile Include="Modules\MasterModule.cs" />
     <Compile Include="Modules\PlayerModule.cs" />
     <Compile Include="Classes\Player.cs" />
     <Compile Include="Program.cs" />

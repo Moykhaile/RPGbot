@@ -20,7 +20,7 @@ namespace RPGbot.Classes
 			Embed embed = new EmbedBuilder()
 			{
 				Author = new EmbedAuthorBuilder() { Name = $"{player.Nome}   {player.Vida}/{player.VidaMax}hp" },
-				Description = $"{(player.Genero == "Feminino" ? racaPlayer.Fname : racaPlayer.Mname)}   -   {(player.Genero == "Feminino" ? classePlayer.Fname : classePlayer.Mname)}   -   {player.Posicao}   -   {player.XP}/{niveisXP[GerarNivel(player.XP) - 1]}xp",
+				Description = $"{(player.Genero == "Feminino" ? racaPlayer.Fname : racaPlayer.Mname)} - {(player.Genero == "Feminino" ? classePlayer.Fname : classePlayer.Mname)}       {player.Posicao}   -   {player.XP}/{niveisXP[GerarNivel(player.XP) - 1]}xp",
 				Footer = new EmbedFooterBuilder() { Text = $"💰 {player.Saldo}po   -   {player.Jogador}" },
 				Fields = new List<EmbedFieldBuilder>()
 				{
@@ -28,12 +28,6 @@ namespace RPGbot.Classes
 					{
 						Name = "Atributos",
 						Value = $"```FOR {GerarMod(player.Forca)}   DES {GerarMod(player.Destreza)}\nINT {GerarMod(player.Inteligencia)}   CON {GerarMod(player.Constituicao)}\nSAB {GerarMod(player.Sabedoria)}   CAR {GerarMod(player.Carisma)}```",
-						IsInline = true
-					},
-					new EmbedFieldBuilder()
-					{
-						Name = "| ",
-						Value = "| \n| \n| \n| ",
 						IsInline = true
 					},
 					new EmbedFieldBuilder()

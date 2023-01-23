@@ -21,7 +21,7 @@ namespace RPGbot.Modules
 
 		public InteractionService Commands { get; set; }
 
-		[SlashCommand("ping", "Receive a pong!")]
+		[SlashCommand("ping", "Teste a conexão do bot")]
 		public async Task HandlePingCommand()
 		{
 			await RespondAsync($"Pong!  🛰️  {_client.Latency}ms", ephemeral: true);

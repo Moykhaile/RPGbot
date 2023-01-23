@@ -37,26 +37,18 @@ namespace RPGbot.Classes
 	{
 		public static List<PlayerClass> GetClasses()
 		{
-			try
+			string classesstring = File.ReadAllText($"../../db/g_data/classes.json");
+
+			Dictionary<string, dynamic> values = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(classesstring);
+
+			List<PlayerClass> playerClasses = new List<PlayerClass>();
+
+			foreach (KeyValuePair<string, dynamic> classe in values)
 			{
-				string classesstring = File.ReadAllText($"../../db/g_data/classes.json");
-
-				Dictionary<string, dynamic> values = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(classesstring);
-
-				List<PlayerClass> playerClasses = new List<PlayerClass>();
-
-				foreach (KeyValuePair<string, dynamic> classe in values)
-				{
-					playerClasses.Add(JsonConvert.DeserializeObject<PlayerClass>(classe.Value.ToString()));
-				}
-
-				return playerClasses;
+				playerClasses.Add(JsonConvert.DeserializeObject<PlayerClass>(classe.Value.ToString()));
 			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex);
-				return null;
-			}
+
+			return playerClasses;
 		}
 	}
 }

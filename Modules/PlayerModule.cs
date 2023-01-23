@@ -2,6 +2,8 @@
 using Discord.Interactions;
 using Discord.WebSocket;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using RPGbot.Classes;
 using RPGbot.db;
 using System;
@@ -10,6 +12,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.IO;
+using Discord.Commands;
 
 namespace RPGbot.Modules
 {
@@ -60,7 +64,7 @@ namespace RPGbot.Modules
 			await RespondAsync($"Vida do personagem alterada!", embed: embed);
 		}
 
-		[SlashCommand("xp", "Adiciona pontos de experiência (XP) ao personagem")]
+		[SlashCommand("xp", "Adiciona pontos de experiência ao personagem")]
 		public async Task HandleXpCommand(int qntd)
 		{
 			qntd = Math.Abs(qntd);
@@ -77,13 +81,12 @@ namespace RPGbot.Modules
 
 			int old_xp = player.XP;
 			player.XP += qntd;
-			player.XP = player.XP > 355000 ? 355000 : player.XP;
 
 			DbHandler.SavePlayer(Context.User.Id.ToString(), player);
 
 			Embed embed = PlayerResponse.GerarValor("XP", player, player.XP, old_xp, qntd);
 
-			await RespondAsync($"Pontos de experiência do personagem alterados! Cheque o nível do personagem.", embed: embed);
+			await RespondAsync($"Pontos de experiência do personagem alterados!", embed: embed);
 		}
 
 		[SlashCommand("saldo", "Adiciona dinheiro à carteira do personagem")]

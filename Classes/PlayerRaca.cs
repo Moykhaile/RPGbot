@@ -14,7 +14,6 @@ namespace RPGbot.Racas
 		public PlayerRaca GetRaca(string nomeRaca)
 		{
 			string racasstring = File.ReadAllText($"../../db/g_data/racas.json");
-			Console.WriteLine(nomeRaca);
 			JToken racaObj = JObject.Parse(racasstring)[nomeRaca];
 			string racastring = racaObj.ToString();
 			PlayerRaca _playerRaca = JsonConvert.DeserializeObject<PlayerRaca>(racastring);
@@ -33,28 +32,20 @@ namespace RPGbot.Racas
 	{
 		public static List<PlayerRaca> GetRacas()
 		{
-			try
+			string racasstring = File.ReadAllText($"../../db/g_data/racas.json");
+
+			Dictionary<string, dynamic> values = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(racasstring);
+			//var values = JsonConvert.DeserializeObject<List<MatrixModel>>(racasstring);
+			//var values = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(racasstring);
+
+			List<PlayerRaca> playerRacas = new List<PlayerRaca>();
+
+			foreach (KeyValuePair<string, dynamic> raca in values)
 			{
-				string racasstring = File.ReadAllText($"../../db/g_data/racas.json");
-
-				Dictionary<string, dynamic> values = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(racasstring);
-				//var values = JsonConvert.DeserializeObject<List<MatrixModel>>(racasstring);
-				//var values = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(racasstring);
-
-				List<PlayerRaca> playerRacas = new List<PlayerRaca>();
-
-				foreach (KeyValuePair<string, dynamic> raca in values)
-				{
-					playerRacas.Add(JsonConvert.DeserializeObject<PlayerRaca>(raca.Value.ToString()));
-				}
-
-				return playerRacas;
+				playerRacas.Add(JsonConvert.DeserializeObject<PlayerRaca>(raca.Value.ToString()));
 			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex);
-				return null;
-			}
+
+			return playerRacas;
 		}
 	}
 }

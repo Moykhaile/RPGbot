@@ -1,0 +1,23 @@
+﻿{
+  "nome": null,
+  "jogador": null,
+  "genero": null,
+  "raca": null,
+  "classe": null,
+  "sexualidade": null,
+  "posicao": null,
+  "idade": 0,
+  "peso": 0,
+  "altura": 0,
+  "imgLink": null,
+  "forca": 0,
+  "destreza": 0,
+  "inteligencia": 0,
+  "constituicao": 0,
+  "sabedoria": 0,
+  "carisma": 0,
+  "vidaMax": 0,
+  "vida": 0,
+  "saldo": 0,
+  "xp": 0
+}

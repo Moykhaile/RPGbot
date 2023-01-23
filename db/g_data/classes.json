@@ -1,0 +1,62 @@
+﻿{
+  "Bárbaro": {
+    "mname": "Bárbaro",
+    "fname": "Bárbara",
+    "dice": 12
+  },
+  "Bardo": {
+    "mname": "Bardo",
+    "fname": "Barda",
+    "dice": 8
+  },
+  "Bruxo": {
+    "mname": "Bruxo",
+    "fname": "Bruxa",
+    "dice": 8
+  },
+  "Clérigo": {
+    "mname": "Clérigo",
+    "fname": "Clériga",
+    "dice": 8
+  },
+  "Druida": {
+    "mname": "Druida",
+    "fname": "Druidesa",
+    "dice": 8
+  },
+  "Feiticeiro": {
+    "mname": "Feiticeiro",
+    "fname": "Feiticeira",
+    "dice": 6
+  },
+  "Guerreiro": {
+    "mname": "Guerreiro",
+    "fname": "Guerreira",
+    "dice": 10
+  },
+  "Ladino": {
+    "mname": "Ladino",
+    "fname": "Ladina",
+    "dice": 8
+  },
+  "Mago": {
+    "mname": "Mago",
+    "fname": "Maga",
+    "dice": 6
+  },
+  "Monge": {
+    "mname": "Monge",
+    "fname": "Monja",
+    "dice": 8
+  },
+  "Paladino": {
+    "mname": "Paladino",
+    "fname": "Paladina",
+    "dice": 10
+  },
+  "Patrulheiro": {
+    "mname": "Patrulheiro",
+    "fname": "Patrulheira",
+    "dice": 10
+  }
+}

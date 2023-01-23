@@ -13,90 +13,103 @@ using System.Threading.Tasks;
 
 namespace RPGbot.Modules
 {
-    public class PlayerModule : InteractionModuleBase<SocketInteractionContext>
-    {
-        public InteractionService Commands { get; set; }
+	public class PlayerModule : InteractionModuleBase<SocketInteractionContext>
+	{
+		public InteractionService Commands { get; set; }
 
-        public PlayerModule(DiscordSocketClient client) => _client = client;
-        private readonly DiscordSocketClient _client;
+		public PlayerModule(DiscordSocketClient client) => _client = client;
+		private readonly DiscordSocketClient _client;
 
-        [SlashCommand("ficha", "Apresenta a ficha do personagem")]
-        public async Task HandleFichaCommand()
-        {
-            try
-            {
-                Player player = DbHandler.LoadPlayer(Context.User.Id.ToString());
-                if (player == null)
-                {
-                    await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
-                }
+		[SlashCommand("ficha", "Apresenta a ficha do personagem")]
+		public async Task HandleFichaCommand()
+		{
+			Player player = new Player().GetPlayer(Context.User.Id.ToString());
+			if (player.Nome == null)
+			{
+				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
+			}
 
-                await RespondAsync($"Sua ficha de personagem!", ephemeral: true, embed: PlayerResponse.GerarFicha(player));
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-        }
+			await RespondAsync($"Sua ficha de personagem!", ephemeral: true, embed: PlayerResponse.GerarFicha(player));
+		}
 
-        [SlashCommand("vida", "Adiciona ou remove vida do personagem")]
-        public async Task HandleVidaCommand(int qntd)
-        {
-            if (qntd > 999 || qntd < -999 || qntd == 0)
-            {
-                await RespondAsync($"Valor inválido. Tente novamente com um número entre -999 e 999.", ephemeral: true);
-                return;
-            }
+		[SlashCommand("vida", "Adiciona ou remove vida do personagem")]
+		public async Task HandleVidaCommand(int qntd)
+		{
+			if (qntd > 999 || qntd < -999 || qntd == 0)
+			{
+				await RespondAsync($"Valor inválido. Tente novamente com um número entre -999 e 999.", ephemeral: true);
+				return;
+			}
 
-            Player player = DbHandler.LoadPlayer(Context.User.Id.ToString());
-            if (player == null)
-            {
-                await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
-            }
+			Player player = new Player().GetPlayer(Context.User.Id.ToString());
+			if (player.Nome == null)
+			{
+				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
+			}
 
-            int old_vida = player.vida;
-            player.vida =
-                player.vida + qntd > player.vidamax ? player.vidamax :
-                player.vida + qntd < -4 ? -4 :
-                player.vida + qntd;
+			int old_vida = player.Vida;
+			player.Vida =
+				player.Vida + qntd > player.VidaMax ? player.VidaMax :
+				player.Vida + qntd < -4 ? -4 :
+				player.Vida + qntd;
 
-            bool saved = DbHandler.SavePlayer("324605986683748352", player);
+			DbHandler.SavePlayer(Context.User.Id.ToString(), player);
 
-            Embed embed = PlayerResponse.GerarValor("Vida", player, player.vida, old_vida, qntd);
+			Embed embed = PlayerResponse.GerarValor("Vida", player, player.Vida, old_vida, qntd);
 
-            if (saved)
-                await RespondAsync($"Vida do personagem alterada!", embed: embed);
-            else
-                await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true);
-        }
+			await RespondAsync($"Vida do personagem alterada!", embed: embed);
+		}
 
-        [SlashCommand("xp", "Adiciona pontos de experiência (XP) ao personagem")]
-        public async Task HandleXpCommand(int qntd)
-        {
-            qntd = Math.Abs(qntd);
-            if (qntd > 9999 || qntd == 0)
-            {
-                await RespondAsync($"Valor inválido. Tente novamente com um número entre 0 e 9999.", ephemeral: true); return;
-            }
+		[SlashCommand("xp", "Adiciona pontos de experiência (XP) ao personagem")]
+		public async Task HandleXpCommand(int qntd)
+		{
+			qntd = Math.Abs(qntd);
+			if (qntd > 9999 || qntd == 0)
+			{
+				await RespondAsync($"Valor inválido. Tente novamente com um número entre 0 e 9999.", ephemeral: true); return;
+			}
 
-            Player player = DbHandler.LoadPlayer(Context.User.Id.ToString());
-            if (player == null)
-            {
-                await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
-            }
+			Player player = new Player().GetPlayer(Context.User.Id.ToString());
+			if (player.Nome == null)
+			{
+				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
+			}
 
-            int old_xp = player.xp;
-            player.xp += qntd;
-            player.xp = player.xp > 355000 ? 355000 : player.xp;
+			int old_xp = player.XP;
+			player.XP += qntd;
+			player.XP = player.XP > 355000 ? 355000 : player.XP;
 
-            bool saved = DbHandler.SavePlayer("324605986683748352", player);
+			DbHandler.SavePlayer(Context.User.Id.ToString(), player);
 
-            Embed embed = PlayerResponse.GerarValor("XP", player, player.xp, old_xp, qntd);
+			Embed embed = PlayerResponse.GerarValor("XP", player, player.XP, old_xp, qntd);
 
-            if (saved)
-                await RespondAsync($"Pontos de experiência do personagem alterados! Cheque o nível do personagem.", embed: embed);
-            else
-                await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true);
-        }
-    }
+			await RespondAsync($"Pontos de experiência do personagem alterados! Cheque o nível do personagem.", embed: embed);
+		}
+
+		[SlashCommand("saldo", "Adiciona dinheiro à carteira do personagem")]
+		public async Task HandleSaldoCommand(int qntd)
+		{
+			if (qntd > 9999 || qntd < -9999 || qntd == 0)
+			{
+				await RespondAsync($"Valor inválido. Tente novamente com um número entre -9999 e 9999.", ephemeral: true);
+				return;
+			}
+
+			Player player = new Player().GetPlayer(Context.User.Id.ToString());
+			if (player.Nome == null)
+			{
+				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
+			}
+
+			int old_saldo = player.Saldo;
+			player.Saldo += qntd;
+			player.Saldo = player.Saldo < 0 ? 0 : player.Saldo;
+
+			DbHandler.SavePlayer(Context.User.Id.ToString(), player);
+
+			Embed embed = PlayerResponse.GerarValor("Saldo", player, player.Saldo, old_saldo, qntd);
+
+			await RespondAsync($"Saldo do personagem alterado!", embed: embed);
+		}
+	}
 }

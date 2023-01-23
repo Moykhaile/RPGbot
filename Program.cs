@@ -5,13 +5,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Yaml;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using RPGbot;
 using System;
 using System.Threading.Tasks;
 using Discord.Commands;
-using RPGbot;
 
-namespace DiscordBot
+namespace RPGbot
 {
 	class Program
 	{

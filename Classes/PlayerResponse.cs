@@ -1,4 +1,5 @@
 ﻿using Discord;
+using RPGbot.Racas;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,17 +14,20 @@ namespace RPGbot.Classes
 	{
 		public static Embed GerarFicha(Player player)
 		{
+			PlayerClass classePlayer = new PlayerClass().GetClass(player.Classe);
+			PlayerRaca racaPlayer = new PlayerRaca().GetRaca(player.Raca);
+
 			Embed embed = new EmbedBuilder()
 			{
-				Author = new EmbedAuthorBuilder() { Name = $"{player.name}   {player.vida}/{player.vidamax}hp" },
-				Description = $"{player.classe}   -   {player.position}   -   {player.xp}xp",
-				Footer = new EmbedFooterBuilder() { Text = $"🪙 {player.saldo}po   -   {player.jogador}" },
+				Author = new EmbedAuthorBuilder() { Name = $"{player.Nome}   {player.Vida}/{player.VidaMax}hp" },
+				Description = $"{(player.Genero == "Feminino" ? racaPlayer.Fname : racaPlayer.Mname)}   -   {(player.Genero == "Feminino" ? classePlayer.Fname : classePlayer.Mname)}   -   {player.Posicao}   -   {player.XP}/{niveisXP[GerarNivel(player.XP) - 1]}xp",
+				Footer = new EmbedFooterBuilder() { Text = $"💰 {player.Saldo}po   -   {player.Jogador}" },
 				Fields = new List<EmbedFieldBuilder>()
 				{
 					new EmbedFieldBuilder()
 					{
 						Name = "Atributos",
-						Value = $"```FOR {GerarMod(player.forca)}   DES {GerarMod(player.destreza)}\nINT {GerarMod(player.inteligencia)}   CON {GerarMod(player.constituicao)}\nSAB {GerarMod(player.sabedoria)}   CAR {GerarMod(player.carisma)}```",
+						Value = $"```FOR {GerarMod(player.Forca)}   DES {GerarMod(player.Destreza)}\nINT {GerarMod(player.Inteligencia)}   CON {GerarMod(player.Constituicao)}\nSAB {GerarMod(player.Sabedoria)}   CAR {GerarMod(player.Carisma)}```",
 						IsInline = true
 					},
 					new EmbedFieldBuilder()
@@ -34,12 +38,12 @@ namespace RPGbot.Classes
 					},
 					new EmbedFieldBuilder()
 					{
-						Name = $"Nível {GerarNivel(player.xp)}",
-						Value = $"{player.weight}kg   {player.height}cm\n{player.age} anos de idade",
+						Name = $"Nível {GerarNivel(player.XP)}",
+						Value = $"{player.Peso}kg   {player.Altura}cm\n{player.Idade} anos de idade\n{player.Genero} - {player.Sexualidade}",
 						IsInline = true
 					}
 				},
-				Color = GerarCorVida(player.vida, player.vidamax)
+				Color = GerarCorVida(player.Vida, player.VidaMax)
 			}.Build();
 
 			return embed;
@@ -48,10 +52,10 @@ namespace RPGbot.Classes
 		{
 			Embed embed = new EmbedBuilder()
 			{
-				Author = new EmbedAuthorBuilder() { Name = $"{player.name}" },
+				Author = new EmbedAuthorBuilder() { Name = $"{player.Nome}" },
 				Description = $"{nomev}:   {oldv} {(v < 0 ? '-' : '+')} {Math.Abs(v)} =   **{newv}**",
-				Footer = new EmbedFooterBuilder() { Text = $"{player.jogador}" },
-				Color = GerarCorVida(player.vida, player.vidamax)
+				Footer = new EmbedFooterBuilder() { Text = $"{player.Jogador}" },
+				Color = GerarCorVida(player.Vida, player.VidaMax)
 			}.Build();
 			return embed;
 		}
@@ -88,29 +92,25 @@ namespace RPGbot.Classes
 				vida > vidamax * 0.25f ? laranja :
 				vida > -4 ? vermelho : preto;
 		}
+
+		public static int[] niveisXP = new int[]
+		{
+			300,900,2700,6500,14000,23000,34000,48000,64000,85000,100000,120000,140000,165000,195000,225000,265000,305000,355000
+		};
+
 		public static int GerarNivel(int xp)
 		{
-			return
-				xp < 300 ? 1 :
-				xp < 900 ? 2 :
-				xp < 2700 ? 3 :
-				xp < 6500 ? 4 :
-				xp < 14000 ? 5 :
-				xp < 23000 ? 6 :
-				xp < 34000 ? 7 :
-				xp < 48000 ? 8 :
-				xp < 64000 ? 9 :
-				xp < 85000 ? 10 :
-				xp < 100000 ? 11 :
-				xp < 120000 ? 12 :
-				xp < 140000 ? 13 :
-				xp < 165000 ? 14 :
-				xp < 195000 ? 15 :
-				xp < 225000 ? 16 :
-				xp < 265000 ? 17 :
-				xp < 305000 ? 18 :
-				xp < 355000 ? 19 :
-				20;
+			var nivel = 1;
+
+			for (int i = 0; i < niveisXP.Length; i++)
+			{
+				if (niveisXP[i] < xp)
+				{
+					nivel += 1;
+				}
+			}
+
+			return nivel;
 		}
 	}
 }

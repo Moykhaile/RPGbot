@@ -8,6 +8,7 @@ using System.Text.Json.Serialization;
 using System.IO;
 using RPGbot.Classes;
 using Newtonsoft.Json.Linq;
+using System.Numerics;
 
 namespace RPGbot.db
 {
@@ -16,6 +17,11 @@ namespace RPGbot.db
 		public static void SavePlayer(string playerID, Player player)
 		{
 			File.WriteAllText($"../../db/c_player/{playerID}.json", JsonSerializer.Serialize(player));
+		}
+
+		public static void SaveInventory(string playerID, Inventory inventory)
+		{
+			File.WriteAllText($"../../db/c_inventory/{playerID}.json", JsonSerializer.Serialize(inventory));
 		}
 	}
 }

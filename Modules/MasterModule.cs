@@ -23,22 +23,37 @@ namespace RPGbot.Modules
 		public MasterModule(DiscordSocketClient client) => _client = client;
 		private readonly DiscordSocketClient _client;
 
-		bool isMaster(string playerID)
+		public enum Atributos
 		{
-			return playerID == "324605986683748352";
+			Nome,
+			Jogador,
+			Genero,
+			Raca,
+			Classe,
+			Sexualidade,
+			Posicao,
+			Idade,
+			Peso,
+			Altura,
+			Forca,
+			Destreza,
+			Inteligencia,
+			Consituicao,
+			Sabedoria,
+			Carisma,
+			VidaMax,
+			Vida,
+			Saldo,
+			XP
 		}
 
+		[RequireRole("720507968663191614")]
 		[SlashCommand("editplayer", "Editar informação do personagem")]
-		public async Task HandleEditPlayerCommand(string atributo, string valor, IMentionable user)
+		public async Task EditPlayer(Atributos atributo, string valor, IMentionable user)
 		{
 			if (!(user is SocketGuildUser))
 			{
 				await RespondAsync($"Usuário inválido.", ephemeral: true); return;
-			}
-
-			if (!isMaster(Context.User.Id.ToString()))
-			{
-				await RespondAsync($"Este comando serve somente ao Mestre do jogo.", ephemeral: true); return;
 			}
 
 			Player player = new Player().GetPlayer((user as SocketGuildUser).Id.ToString());
@@ -48,7 +63,7 @@ namespace RPGbot.Modules
 			}
 
 			JObject playerObj = JObject.Parse(JsonConvert.SerializeObject(player));
-			if (playerObj.GetValue(atributo) == null)
+			if (playerObj.GetValue(atributo.ToString()) == null)
 			{
 				await RespondAsync($"Atributo \"{atributo}\" não encontrado.", ephemeral: true); return;
 			}
@@ -59,17 +74,13 @@ namespace RPGbot.Modules
 			await RespondAsync($"Valor do atributo {atributo} alterado!", ephemeral: true);
 		}
 
+		[RequireRole("720507968663191614")]
 		[SlashCommand("mostrarficha", "Apresenta a ficha de outro personagem")]
-		public async Task HandleMostrarFichaCommand(IMentionable user)
+		public async Task MostrarFicha(IMentionable user)
 		{
 			if (!(user is SocketGuildUser))
 			{
 				await RespondAsync($"Usuário inválido.", ephemeral: true); return;
-			}
-
-			if (!isMaster(Context.User.Id.ToString()))
-			{
-				await RespondAsync($"Este comando serve somente ao Mestre do jogo.", ephemeral: true); return;
 			}
 
 			Player player = new Player().GetPlayer((user as SocketGuildUser).Id.ToString());

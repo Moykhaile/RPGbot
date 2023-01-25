@@ -263,6 +263,7 @@
     <None Include="config.yml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Compile Include="Classes\Inventory.cs" />
     <Compile Include="Classes\PlayerRaca.cs" />
     <Compile Include="Classes\PlayerResponse.cs" />
     <Compile Include="db\DbHandler.cs" />

@@ -1,4 +1,5 @@
 ﻿using Discord;
+using Discord.Interactions;
 using RPGbot.Racas;
 using System;
 using System.Collections.Generic;
@@ -42,12 +43,39 @@ namespace RPGbot.Classes
 
 			return embed;
 		}
-		public static Embed GerarValor(string nomev, Player player, int newv, int oldv, int v)
+		public static Embed GerarInventario(List<Item> inventory, Player player)
 		{
+			string description = "";
+			int index = 0;
+			foreach (Item item in inventory)
+			{
+				if (item.Tipo == Tipo.Item)
+					description += $"``[{index}] {item.Name}``\n";
+				if (item.Tipo == Tipo.Arma)
+					description += $"``[{index}] {item.Name}   {item.Dano}``\n";
+				if (item.Tipo == Tipo.Armadura)
+					description += $"``[{index}] {item.Name}   {item.Defesa}CA``\n";
+
+				index++;
+			}
+
+			Embed embed = new EmbedBuilder()
+			{
+				Author = new EmbedAuthorBuilder() { Name = player.Nome },
+				Description = description,
+				Footer = new EmbedFooterBuilder() { Text = $"💰 {player.Saldo}po   -   {player.Jogador}" },
+				Color = GerarCorVida(player.Vida, player.VidaMax)
+			}.Build();
+			return embed;
+		}
+		public static Embed GerarValor(string nomev, Player player, int newv, int oldv, int v, SocketInteractionContext Context)
+		{
+			CLogger.Log(Context, nomev, new int[] { oldv, v, newv });
+
 			Embed embed = new EmbedBuilder()
 			{
 				Author = new EmbedAuthorBuilder() { Name = $"{player.Nome}" },
-				Description = $"{nomev}:   {oldv} {(v < 0 ? '-' : '+')} {Math.Abs(v)} =   **{newv}**",
+				Description = $"Alterado: **{nomev}**",
 				Footer = new EmbedFooterBuilder() { Text = $"{player.Jogador}" },
 				Color = GerarCorVida(player.Vida, player.VidaMax)
 			}.Build();

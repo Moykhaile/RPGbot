@@ -266,6 +266,7 @@
     <Compile Include="Classes\Inventory.cs" />
     <Compile Include="Classes\PlayerRaca.cs" />
     <Compile Include="Classes\PlayerResponse.cs" />
+    <Compile Include="CLogger.cs" />
     <Compile Include="db\DbHandler.cs" />
     <Compile Include="Classes\PlayerClass.cs" />
     <Compile Include="InteractionHandler.cs" />
@@ -277,6 +278,8 @@
     <Compile Include="Program.cs" />
     <None Include="db\c_player\nullPlayer.json" />
     <None Include="db\g_data\classes.json" />
+    <None Include="db\g_data\ervas.json" />
+    <None Include="db\g_data\magias.json" />
     <None Include="db\g_data\racas.json" />
     <None Include="RPGbot_TemporaryKey.pfx" />
   </ItemGroup>

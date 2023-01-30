@@ -59,9 +59,9 @@ namespace RPGbot.Modules
 
 			DbHandler.SavePlayer(Context.User.Id.ToString(), player);
 
-			Embed embed = PlayerResponse.GerarValor("Vida", player, player.Vida, old_vida, qntd);
+			Embed embed = PlayerResponse.GerarValor("Vida", player, player.Vida, old_vida, qntd, Context);
 
-			await RespondAsync($"Vida do personagem alterada!", embed: embed);
+			await RespondAsync($"Vida do personagem alterada em {qntd}!");
 		}
 
 		[SlashCommand("xp", "Adiciona pontos de experiência ao personagem")]
@@ -84,7 +84,7 @@ namespace RPGbot.Modules
 
 			DbHandler.SavePlayer(Context.User.Id.ToString(), player);
 
-			Embed embed = PlayerResponse.GerarValor("XP", player, player.XP, old_xp, qntd);
+			Embed embed = PlayerResponse.GerarValor("XP", player, player.XP, old_xp, qntd, Context);
 
 			await RespondAsync($"Pontos de experiência do personagem alterados!", embed: embed);
 		}
@@ -110,13 +110,31 @@ namespace RPGbot.Modules
 
 			DbHandler.SavePlayer(Context.User.Id.ToString(), player);
 
-			Embed embed = PlayerResponse.GerarValor("Saldo", player, player.Saldo, old_saldo, qntd);
+			Embed embed = PlayerResponse.GerarValor("Saldo", player, player.Saldo, old_saldo, qntd, Context);
 
 			await RespondAsync($"Saldo do personagem alterado!", embed: embed);
 		}
 
-		[SlashCommand("additem", "Adiciona um item ao inventário do jogador")]
-		public async Task AddItem(string nome)
+		[SlashCommand("inventario", "Apresenta o inventário do personagem")]
+		public async Task Inventario()
+		{
+			Player player = new Player().GetPlayer(Context.User.Id.ToString());
+			if (player.Nome == null)
+			{
+				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
+			}
+
+			Inventory inventory = new Inventory(Context.User.Id.ToString());
+			if (inventory.Items.Count == 0)
+			{
+				await RespondAsync($"{player.Nome} não tem itens em seu inventário.", ephemeral: true); return;
+			}
+
+			await RespondAsync($"Seu inventário de personagem!", ephemeral: true, embed: PlayerResponse.GerarInventario(inventory.Items, player));
+		}
+
+		[SlashCommand("customitem", "Adiciona um item personalizado ao inventário do personagem")]
+		public async Task customitem(string nome)
 		{
 			try
 			{
@@ -134,7 +152,7 @@ namespace RPGbot.Modules
 
 				DbHandler.SaveInventory(Context.User.Id.ToString(), inventory);
 
-				await RespondAsync($"Item {nome}");
+				await RespondAsync($"Item adicionado!");
 			}
 			catch (Exception ex)
 			{
@@ -142,8 +160,8 @@ namespace RPGbot.Modules
 			}
 		}
 
-		[SlashCommand("addarma", "Adiciona um item ao inventário do jogador")]
-		public async Task AddArma(string nome)
+		[SlashCommand("arma", "Adiciona uma arma ao inventário do personagem")]
+		public async Task Arma(string nome, string dano)
 		{
 			try
 			{
@@ -157,11 +175,65 @@ namespace RPGbot.Modules
 
 				Inventory inventory = new Inventory(Context.User.Id.ToString());
 
-				inventory.Items.Add(new Item() { Name = nome });
+				inventory.Items.Add(new Item() { Name = nome, Dano = dano, Tipo = Tipo.Arma });
 
 				DbHandler.SaveInventory(Context.User.Id.ToString(), inventory);
 
-				await RespondAsync($"Item {nome}");
+				await RespondAsync($"Item adicionado!");
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.ToString());
+			}
+		}
+
+		[SlashCommand("armadura", "Adiciona uma armadura ao inventário do personagem")]
+		public async Task AddItem(string nome, int defesa)
+		{
+			try
+			{
+				Player player = new Player().GetPlayer(Context.User.Id.ToString());
+				if (player.Nome == null)
+				{
+					await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
+				}
+
+				nome = char.ToUpper(nome[0]) + nome.Substring(1).ToLower();
+
+				Inventory inventory = new Inventory(Context.User.Id.ToString());
+
+				inventory.Items.Add(new Item() { Name = nome, Defesa = defesa, Tipo = Tipo.Armadura });
+
+				DbHandler.SaveInventory(Context.User.Id.ToString(), inventory);
+
+				await RespondAsync($"Item adicionado!");
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.ToString());
+			}
+		}
+
+		[SlashCommand("item", "Adiciona um item ao inventário do personagem")]
+		public async Task Item(string nome)
+		{
+			try
+			{
+				Player player = new Player().GetPlayer(Context.User.Id.ToString());
+				if (player.Nome == null)
+				{
+					await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
+				}
+
+				nome = char.ToUpper(nome[0]) + nome.Substring(1).ToLower();
+
+				Inventory inventory = new Inventory(Context.User.Id.ToString());
+
+				inventory.Items.Add(new Item() { Name = nome, Tipo = Tipo.Item });
+
+				DbHandler.SaveInventory(Context.User.Id.ToString(), inventory);
+
+				await RespondAsync($"Item adicionado!");
 			}
 			catch (Exception ex)
 			{

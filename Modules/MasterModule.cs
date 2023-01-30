@@ -38,7 +38,7 @@ namespace RPGbot.Modules
 			Forca,
 			Destreza,
 			Inteligencia,
-			Consituicao,
+			Constituicao,
 			Sabedoria,
 			Carisma,
 			VidaMax,
@@ -47,9 +47,9 @@ namespace RPGbot.Modules
 			XP
 		}
 
-		[RequireRole("720507968663191614")]
+		//[RequireRole("Mestre")]
 		[SlashCommand("editplayer", "Editar informação do personagem")]
-		public async Task EditPlayer(Atributos atributo, string valor, IMentionable user)
+		public async Task EditPlayer(IMentionable user, Atributos atributo, [Remainder] string valor)
 		{
 			if (!(user is SocketGuildUser))
 			{
@@ -68,13 +68,13 @@ namespace RPGbot.Modules
 				await RespondAsync($"Atributo \"{atributo}\" não encontrado.", ephemeral: true); return;
 			}
 
-			playerObj[atributo] = valor;
+			playerObj[atributo.ToString()] = valor;
 
 			DbHandler.SavePlayer((user as SocketGuildUser).Id.ToString(), JsonConvert.DeserializeObject<Player>(playerObj.ToString()));
 			await RespondAsync($"Valor do atributo {atributo} alterado!", ephemeral: true);
 		}
 
-		[RequireRole("720507968663191614")]
+		[RequireRole("Mestre")]
 		[SlashCommand("mostrarficha", "Apresenta a ficha de outro personagem")]
 		public async Task MostrarFicha(IMentionable user)
 		{

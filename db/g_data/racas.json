@@ -1,0 +1,62 @@
+﻿{
+  "Anão da colina": {
+    "mname": "Anão da colina",
+    "fname": "Anã da colina"
+  },
+  "Anão da montanha": {
+    "mname": "Anão da Montanha",
+    "fname": "Anã da Montanha"
+  },
+  "Alto elfo": {
+    "mname": "Alto elfo",
+    "fname": "Alta elfa"
+  },
+  "Elfo da floresta": {
+    "mname": "Elfo da floresta",
+    "fname": "Elfo da floresta"
+  },
+  "Drow": {
+    "mname": "Drow",
+    "fname": "Drow"
+  },
+  "Meio-elfo": {
+    "mname": "Meio-elfo",
+    "fname": "Meia-elfo"
+  },
+  "Halfling pé leve": {
+    "mname": "Halfling pé leve",
+    "fname": "Halfling pé leve"
+  },
+  "Halfling robusto": {
+    "mname": "Halfling robusto",
+    "fname": "Halfling robusto"
+  },
+  "Humano": {
+    "mname": "Humano",
+    "fname": "Humana"
+  },
+  "Draconato": {
+    "mname": "Draconato",
+    "fname": "Draconata"
+  },
+  "Gnomo da floresta": {
+    "mname": "Gnomo da floresta",
+    "fname": "Gnoma da floresta"
+  },
+  "Gnomo das rochas": {
+    "mname": "Gnomo das rochas",
+    "fname": "Gnoma das rochas"
+  },
+  "Meio-orc": {
+    "mname": "Meio-orc",
+    "fname": "Meia-orc"
+  },
+  "Tiefling infernal": {
+    "mname": "Tiefling infernal",
+    "fname": "Tiefling infernal"
+  },
+  "Tiefling abissal": {
+    "mname": "Tiefling abissal",
+    "fname": "Tiefling abissal"
+  }
+}

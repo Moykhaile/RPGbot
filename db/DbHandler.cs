@@ -6,38 +6,22 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.IO;
+using RPGbot.Classes;
+using Newtonsoft.Json.Linq;
+using System.Numerics;
 
 namespace RPGbot.db
 {
 	public class DbHandler
 	{
-		static string playerPath = "../../db/c_player";
-
-		public static bool SavePlayer(string playerID, Player player)
+		public static void SavePlayer(string playerID, Player player)
 		{
-			playerPath += $"{playerID}.json";
-			if (!File.Exists(playerPath)) return false;
-
-			try
-			{
-				File.WriteAllText(playerPath, JsonSerializer.Serialize(player));
-				return true;
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.Message);
-				return false;
-			}
+			File.WriteAllText($"../../db/c_player/{playerID}.json", JsonSerializer.Serialize(player));
 		}
 
-		public static Player LoadPlayer(string playerID)
+		public static void SaveInventory(string playerID, Inventory inventory)
 		{
-			playerPath += $"{playerID}.json";
-			if (!File.Exists(playerPath)) return null;
-
-			Player player = JsonSerializer.Deserialize<Player>(File.ReadAllText(playerPath));
-
-			return player;
+			File.WriteAllText($"../../db/c_inventory/{playerID}.json", JsonSerializer.Serialize(inventory));
 		}
 	}
 }

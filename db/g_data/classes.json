@@ -2,61 +2,97 @@
   "Bárbaro": {
     "mname": "Bárbaro",
     "fname": "Bárbara",
-    "dice": 12
+    "dice": 12,
+    "saldoDice": 4,
+    "saldoDiceNum": 5,
+    "saldoDiceMod": 10
   },
   "Bardo": {
     "mname": "Bardo",
     "fname": "Barda",
-    "dice": 8
+    "dice": 8,
+    "saldoDice": 4,
+    "saldoDiceNum": 2,
+    "saldoDiceMod": 10
   },
   "Bruxo": {
     "mname": "Bruxo",
     "fname": "Bruxa",
-    "dice": 8
+    "dice": 8,
+    "saldoDice": 4,
+    "saldoDiceNum": 4,
+    "saldoDiceMod": 10
   },
   "Clérigo": {
     "mname": "Clérigo",
     "fname": "Clériga",
-    "dice": 8
+    "dice": 8,
+    "saldoDice": 4,
+    "saldoDiceNum": 5,
+    "saldoDiceMod": 10
   },
   "Druida": {
     "mname": "Druida",
     "fname": "Druidesa",
-    "dice": 8
+    "dice": 8,
+    "saldoDice": 4,
+    "saldoDiceNum": 2,
+    "saldoDiceMod": 10
   },
   "Feiticeiro": {
     "mname": "Feiticeiro",
     "fname": "Feiticeira",
-    "dice": 6
+    "dice": 6,
+    "saldoDice": 4,
+    "saldoDiceNum": 3,
+    "saldoDiceMod": 10
   },
   "Guerreiro": {
     "mname": "Guerreiro",
     "fname": "Guerreira",
-    "dice": 10
+    "dice": 10,
+    "saldoDice": 4,
+    "saldoDiceNum": 5,
+    "saldoDiceMod": 10
   },
   "Ladino": {
     "mname": "Ladino",
     "fname": "Ladina",
-    "dice": 8
+    "dice": 8,
+    "saldoDice": 4,
+    "saldoDiceNum": 4,
+    "saldoDiceMod": 10
   },
   "Mago": {
     "mname": "Mago",
     "fname": "Maga",
-    "dice": 6
+    "dice": 6,
+    "saldoDice": 4,
+    "saldoDiceNum": 4,
+    "saldoDiceMod": 10
   },
   "Monge": {
     "mname": "Monge",
     "fname": "Monja",
-    "dice": 8
+    "dice": 8,
+    "saldoDice": 4,
+    "saldoDiceN": 5,
+    "saldoDiceMod": 1
   },
   "Paladino": {
     "mname": "Paladino",
     "fname": "Paladina",
-    "dice": 10
+    "dice": 10,
+    "saldoDice": 4,
+    "saldoDiceNum": 5,
+    "saldoDiceMod": 10
   },
   "Patrulheiro": {
     "mname": "Patrulheiro",
     "fname": "Patrulheira",
-    "dice": 10
+    "dice": 10,
+    "saldoDice": 4,
+    "saldoDiceNum": 5,
+    "saldoDiceMod": 10
   }
 }

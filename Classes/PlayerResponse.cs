@@ -47,6 +47,11 @@ namespace RPGbot.Classes
 		{
 			string description = "";
 			int index = 0;
+
+			//List<Item> armas = inventory.FindAll(e => e.Tipo == Tipo.Arma);
+			//List<Item> armaduras = inventory.FindAll(e => e.Tipo == Tipo.Armadura);
+			//List<Item> itens = inventory.FindAll(e => e.Tipo == Tipo.Item);
+
 			foreach (Item item in inventory)
 			{
 				if (item.Tipo == Tipo.Item)
@@ -54,7 +59,7 @@ namespace RPGbot.Classes
 				if (item.Tipo == Tipo.Arma)
 					description += $"``[{index}] {item.Name}   {item.Dano}``\n";
 				if (item.Tipo == Tipo.Armadura)
-					description += $"``[{index}] {item.Name}   {item.Defesa}CA``\n";
+					description += $"``[{index}] {item.Name}   {item.Defesa} CA``\n";
 
 				index++;
 			}

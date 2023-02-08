@@ -5,7 +5,8 @@
     "dice": 12,
     "saldoDice": 4,
     "saldoDiceNum": 5,
-    "saldoDiceMod": 10
+    "saldoDiceMod": 10,
+    "magico": false
   },
   "Bardo": {
     "mname": "Bardo",
@@ -13,7 +14,8 @@
     "dice": 8,
     "saldoDice": 4,
     "saldoDiceNum": 2,
-    "saldoDiceMod": 10
+    "saldoDiceMod": 10,
+    "magico": true
   },
   "Bruxo": {
     "mname": "Bruxo",
@@ -21,7 +23,8 @@
     "dice": 8,
     "saldoDice": 4,
     "saldoDiceNum": 4,
-    "saldoDiceMod": 10
+    "saldoDiceMod": 10,
+    "magico": true
   },
   "Clérigo": {
     "mname": "Clérigo",
@@ -29,7 +32,8 @@
     "dice": 8,
     "saldoDice": 4,
     "saldoDiceNum": 5,
-    "saldoDiceMod": 10
+    "saldoDiceMod": 10,
+    "magico": true
   },
   "Druida": {
     "mname": "Druida",
@@ -37,7 +41,8 @@
     "dice": 8,
     "saldoDice": 4,
     "saldoDiceNum": 2,
-    "saldoDiceMod": 10
+    "saldoDiceMod": 10,
+    "magico": true
   },
   "Feiticeiro": {
     "mname": "Feiticeiro",
@@ -45,7 +50,8 @@
     "dice": 6,
     "saldoDice": 4,
     "saldoDiceNum": 3,
-    "saldoDiceMod": 10
+    "saldoDiceMod": 10,
+    "magico": true
   },
   "Guerreiro": {
     "mname": "Guerreiro",
@@ -53,7 +59,8 @@
     "dice": 10,
     "saldoDice": 4,
     "saldoDiceNum": 5,
-    "saldoDiceMod": 10
+    "saldoDiceMod": 10,
+    "magico": false
   },
   "Ladino": {
     "mname": "Ladino",
@@ -61,7 +68,8 @@
     "dice": 8,
     "saldoDice": 4,
     "saldoDiceNum": 4,
-    "saldoDiceMod": 10
+    "saldoDiceMod": 10,
+    "magico": false
   },
   "Mago": {
     "mname": "Mago",
@@ -69,7 +77,8 @@
     "dice": 6,
     "saldoDice": 4,
     "saldoDiceNum": 4,
-    "saldoDiceMod": 10
+    "saldoDiceMod": 10,
+    "magico": true
   },
   "Monge": {
     "mname": "Monge",
@@ -77,7 +86,8 @@
     "dice": 8,
     "saldoDice": 4,
     "saldoDiceN": 5,
-    "saldoDiceMod": 1
+    "saldoDiceMod": 1,
+    "magico": false
   },
   "Paladino": {
     "mname": "Paladino",
@@ -85,7 +95,8 @@
     "dice": 10,
     "saldoDice": 4,
     "saldoDiceNum": 5,
-    "saldoDiceMod": 10
+    "saldoDiceMod": 10,
+    "magico": true
   },
   "Patrulheiro": {
     "mname": "Patrulheiro",
@@ -93,6 +104,7 @@
     "dice": 10,
     "saldoDice": 4,
     "saldoDiceNum": 5,
-    "saldoDiceMod": 10
+    "saldoDiceMod": 10,
+    "magico": true
   }
 }

@@ -27,7 +27,8 @@ namespace RPGbot.Classes
 			saldoDice = _playerClass.saldoDice;
 			saldoDiceNum = _playerClass.saldoDiceNum;
 			saldoDiceMod = _playerClass.saldoDiceMod;
-
+			magico = _playerClass.magico;
+			
 			return this;
 		}
 
@@ -37,6 +38,7 @@ namespace RPGbot.Classes
 		public int saldoDice { get; set; }
 		public int saldoDiceNum { get; set; }
 		public int saldoDiceMod { get; set; }
+		public bool magico { get; set; }
 	}
 
 	public class PlayerClasses

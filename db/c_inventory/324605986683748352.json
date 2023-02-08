@@ -1,1 +1,34 @@
-{"Items":[{"Name":"Peido","Dano":null,"Defesa":2,"Tipo":1},{"Name":"Katana","Dano":"6d8","Defesa":0,"Tipo":0},{"Name":"Guarda roupas","Dano":null,"Defesa":0,"Tipo":2},{"Name":"Geladeira","Dano":null,"Defesa":0,"Tipo":2},{"Name":"Pau grande de madeira","Dano":null,"Defesa":0,"Tipo":2}]}
+{
+  "Items": [
+    {
+      "Name": "Peido",
+      "Dano": null,
+      "Defesa": 2,
+      "Tipo": 1
+    },
+    {
+      "Name": "Katana",
+      "Dano": "6d8",
+      "Defesa": 0,
+      "Tipo": 0
+    },
+    {
+      "Name": "Guarda roupas",
+      "Dano": null,
+      "Defesa": 0,
+      "Tipo": 2
+    },
+    {
+      "Name": "Geladeira",
+      "Dano": null,
+      "Defesa": 0,
+      "Tipo": 2
+    },
+    {
+      "Name": "Pau grande de madeira",
+      "Dano": null,
+      "Defesa": 0,
+      "Tipo": 2
+    }
+  ]
+}

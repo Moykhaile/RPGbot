@@ -279,6 +279,7 @@
     <None Include="db\c_player\nullPlayer.json" />
     <None Include="db\g_data\classes.json" />
     <None Include="db\g_data\ervas.json" />
+    <None Include="db\g_data\itens.json" />
     <None Include="db\g_data\magias.json" />
     <None Include="db\g_data\racas.json" />
     <None Include="RPGbot_TemporaryKey.pfx" />

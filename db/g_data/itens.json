@@ -1,0 +1,132 @@
+﻿{
+  "Acolchoada": {
+    "nome": "Acolchoada",
+    "peso": 4,
+    "dano": null,
+    "defesa": 11,
+    "tipo": "Armadura leve",
+    "ModNome": "Destreza",
+    "propriedades": "A armadura acolchoada consiste em camadas de panos acolchoados e batidos.",
+    "preco": 5
+  },
+  "Couro": {
+    "nome": "Couro",
+    "peso": 5,
+    "dano": null,
+    "defesa": 11,
+    "tipo": "Armadura leve",
+    "ModNome": "Destreza",
+    "propriedades": "O peitoral e as ombreiras da armadura de couro são feitos de couro que foi endurecido após ser fervido em óleo. O resto da armadura é feita de materiais mais macios e mais flexíveis.",
+    "preco": 10
+  },
+  "Couro Batido": {
+    "nome": "Couro Batido",
+    "peso": 6.5,
+    "dano": null,
+    "defesa": 12,
+    "tipo": "Armadura leve",
+    "ModNome": "Destreza",
+    "propriedades": "Feita de couro resistente, mas flexível, a armadura de couro batido é reforçada com rebites ou cravos.",
+    "preco": 45
+  },
+  "Gibão de Peles": {
+    "nome": "Gibão de Peles",
+    "peso": 6,
+    "dano": null,
+    "defesa": 12,
+    "tipo": "Armadura média",
+    "ModNome": "Destreza (Max +2)",
+    "propriedades": "Um gibão de peles é um armadura bruta consistindo de peles grossas. É comumente usada por tribos bárbaras, humanoides malignos e outros povos que não têm acesso às ferramentas e materiais necessários para criar uma armadura melhor.",
+    "preco": 10
+  },
+  "Camisão de Malha": {
+    "nome": "Camisão de Malha",
+    "peso": 10,
+    "dano": null,
+    "defesa": 13,
+    "tipo": "Armadura média",
+    "ModNome": "Destreza (Max +2)",
+    "propriedades": "Feito de anéis de metal intercalados, um camisão de cota de malha é usado entre as camadas de roupa. Essa armadura oferece proteção modesta para a parte superior do corpo de quem a usa e permite que o som dos anéis de metal, friccionados uns contra os outros, sejam amortecidos pelas camadas exteriores.",
+    "preco": 30
+  },
+  "Brunea": {
+    "nome": "Brunea",
+    "peso": 22.5,
+    "dano": null,
+    "defesa": 14,
+    "tipo": "Armadura média",
+    "ModNome": "Destreza (Max +2)",
+    "propriedades": "Essa armadura consiste em um casaco e calças (e talvez uma saia separada) de couro coberto com peças sobrepostas de metal, assim como as escamas de peixe. O conjunto inclui manoplas.",
+    "preco": 50
+  },
+  "Peitoral": {
+    "nome": "Peitoral",
+    "peso": 10,
+    "dano": null,
+    "defesa": 14,
+    "tipo": "Armadura média",
+    "ModNome": "Destreza (Max +2)",
+    "propriedades": "A armadura peitoral é constituída por um peitoral de metal usado com couro flexível em seu interior. Embora ele deixe as pernas e braços do usuário relativamente desprotegidos, essa armadura fornece boa proteção para seus órgãos vitais, deixando quem a usa relativamente sem restrições.",
+    "preco": 400
+  },
+  "Meia-Armadura": {
+    "nome": "Meia-Armadura",
+    "peso": 20,
+    "dano": null,
+    "defesa": 15,
+    "tipo": "Armadura média",
+    "ModNome": "Destreza (Max +2)",
+    "propriedades": "Essa armadura é composta de placas de metal moldadas que cobrem a maior parte do corpo. Ela não inclui proteção para as pernas além de caneleiras fixadas com tiras de couro.",
+    "preco": 750
+  },
+  "Cota de anéis": {
+    "nome": "Cota de anéis",
+    "peso": 20,
+    "dano": null,
+    "defesa": 15,
+    "tipo": "Armadura pesada",
+    "ModNome": null,
+    "propriedades": "Esta armadura é feita de couro com pesados anéis presos a ela. Os anéis ajudam a reforçar a armadura contra golpes de espadas e machados. A cota de anéis é inferior à cota de malha e geralmente é vestida apenas por aqueles que não podem pagar por uma armadura melhor.",
+    "preco": 30
+  },
+  "Cota de malha": {
+    "nome": "Cota de malha",
+    "peso": 27.5,
+    "dano": null,
+    "defesa": 16,
+    "tipo": "Armadura pesada",
+    "ModNome": null,
+    "propriedades": "Feita de anéis de metal entrelaçados, a cota de malha inclui uma camada de tecido acolchoado usada por baixo da malha de metal para evitar atrito e amortecer o impacto dos golpes. O conjunto inclui manoplas.",
+    "preco": 75
+  },
+  "Cota de talas": {
+    "nome": "Cota de talas",
+    "peso": 30,
+    "dano": null,
+    "defesa": 17,
+    "tipo": "Armadura pesada",
+    "ModNome": null,
+    "propriedades": "Essa armadura é feita de tiras verticais de metal, rebitadas a um suporte de couro, usadas sobre um preenchimento de pano. Cotas de malha flexíveis protegem as articulações.",
+    "preco": 200
+  },
+  "Armadura de placas": {
+    "nome": "Armadura de placas",
+    "peso": 32.5,
+    "dano": null,
+    "defesa": 18,
+    "tipo": "Armadura pesada",
+    "ModNome": null,
+    "propriedades": "A armadura de placas consiste em placas de metal moldadas para cobrir todo o corpo. Inclui luvas, botas de couro pesadas, um capacete com viseira e espessas camadas de enchimento por baixo da armadura. Fivelas e tiras de couro distribuem o peso ao longo do corpo.",
+    "preco": 1500
+  },
+  "Escudo": {
+    "nome": "Escudo",
+    "peso": 3,
+    "dano": null,
+    "defesa": 2,
+    "tipo": "Escudo",
+    "ModNome": null,
+    "propriedades": "Um escudo é feito de madeira ou metal e é usado com uma mão. Empunhar um escudo aumenta sua Classe de Armadura em 2. Você só pode se beneficiar de um escudo por vez.",
+    "preco": 10
+  }
+}

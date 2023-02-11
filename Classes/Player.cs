@@ -45,6 +45,8 @@ namespace RPGbot.Classes
 			Saldo = _player.Saldo;
 			XP = _player.XP;
 
+			Magias = _player.Magias;
+
 			return this;
 		}
 
@@ -73,5 +75,7 @@ namespace RPGbot.Classes
 		public int Vida { get; set; }
 		public int Saldo { get; set; }
 		public int XP { get; set; }
+
+		public List<string> Magias { get; set; }
 	}
 }

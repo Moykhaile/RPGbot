@@ -115,6 +115,91 @@ namespace RPGbot.Modules
 			await RespondAsync($"Saldo do personagem alterado!", embed: embed);
 		}
 
+		[SlashCommand("addmagia", "Adiciona uma magia aos conhecimentos do personagem")]
+		public async Task AddMagia(string magia)
+		{
+			Player player = new Player().GetPlayer(Context.User.Id.ToString());
+			if (player.Nome == null)
+			{
+				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
+			}
+			if (!new PlayerClass().GetClass(player.Classe).magico)
+			{
+				await RespondAsync($"A classe do seu personagem não é mágica.", ephemeral: true); return;
+			}
+
+			byte[] tempBytes;
+			tempBytes = Encoding.GetEncoding("ISO-8859-8").GetBytes(magia);
+			magia = Encoding.UTF8.GetString(tempBytes).ToLower();
+
+			string magias = File.ReadAllText($"../../db/g_data/magias.json");
+			if (JObject.Parse(magias).GetValue(magia) == null)
+			{
+				await RespondAsync($"A magia informada não existe.", ephemeral: true); return;
+			}
+
+			if (player.Magias != null)
+			{
+				if (player.Magias.Contains(magia))
+				{
+					await RespondAsync($"Seu personagem já conhece esta magia.", ephemeral: true); return;
+				}
+
+				player.Magias.Add(magia);
+			}
+			else
+				player.Magias = new List<string> { magia };
+
+			DbHandler.SavePlayer(Context.User.Id.ToString(), player);
+
+			await RespondAsync($"Magia adicionada ao personagem!");
+		}
+
+		[SlashCommand("removemagia", "Remove uma magia dos conhecimentos do personagem")]
+		public async Task RemoveMagia(int indice)
+		{
+			Player player = new Player().GetPlayer(Context.User.Id.ToString());
+			if (player.Nome == null)
+			{
+				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
+			}
+			if (!new PlayerClass().GetClass(player.Classe).magico)
+			{
+				await RespondAsync($"A classe do seu personagem não é mágica.", ephemeral: true); return;
+			}
+
+			if (player.Magias == null)
+			{
+				await RespondAsync($"O seu personagem não conhece nenhuma magia.", ephemeral: true); return;
+			}
+
+			player.Magias.RemoveAt(indice);
+
+			DbHandler.SavePlayer(Context.User.Id.ToString(), player);
+
+			await RespondAsync($"Magia removida do personagem!");
+		}
+
+		[SlashCommand("magias", "Apresenta as mágias conhecidas pelo personagem")]
+		public async Task Magias()
+		{
+			Player player = new Player().GetPlayer(Context.User.Id.ToString());
+			if (player.Nome == null)
+			{
+				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
+			}
+			if (!new PlayerClass().GetClass(player.Classe).magico)
+			{
+				await RespondAsync($"A classe do seu personagem não é mágica.", ephemeral: true); return;
+			}
+			if (player.Magias == null)
+			{
+				await RespondAsync($"O seu personagem não conhece nenhuma magia.", ephemeral: true); return;
+			}
+
+			await RespondAsync($"As magias do seu personagem!", ephemeral: true, embed: PlayerResponse.GerarMagias(player.Magias, player));
+		}
+
 		[SlashCommand("inventario", "Apresenta o inventário do personagem")]
 		public async Task Inventario()
 		{
@@ -152,7 +237,8 @@ namespace RPGbot.Modules
 
 				DbHandler.SaveInventory(Context.User.Id.ToString(), inventory);
 
-				await RespondAsync($"Item adicionado!");
+				await Context.Channel.SendMessageAsync($"Item adicionado ao inventário de {player.Nome}!");
+				await RespondAsync($"Seu inventário de personagem!", ephemeral: true, embed: PlayerResponse.GerarInventario(inventory.Items, player));
 			}
 			catch (Exception ex)
 			{
@@ -163,82 +249,64 @@ namespace RPGbot.Modules
 		[SlashCommand("arma", "Adiciona uma arma ao inventário do personagem")]
 		public async Task Arma(string nome, string dano)
 		{
-			try
+			Player player = new Player().GetPlayer(Context.User.Id.ToString());
+			if (player.Nome == null)
 			{
-				Player player = new Player().GetPlayer(Context.User.Id.ToString());
-				if (player.Nome == null)
-				{
-					await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
-				}
-
-				nome = char.ToUpper(nome[0]) + nome.Substring(1).ToLower();
-
-				Inventory inventory = new Inventory(Context.User.Id.ToString());
-
-				inventory.Items.Add(new Item() { Name = nome, Dano = dano, Tipo = Tipo.Arma });
-
-				DbHandler.SaveInventory(Context.User.Id.ToString(), inventory);
-
-				await RespondAsync($"Item adicionado!");
+				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.ToString());
-			}
+
+			nome = char.ToUpper(nome[0]) + nome.Substring(1).ToLower();
+
+			Inventory inventory = new Inventory(Context.User.Id.ToString());
+
+			inventory.Items.Add(new Item() { Name = nome, Dano = dano, Tipo = Tipo.Arma });
+
+			DbHandler.SaveInventory(Context.User.Id.ToString(), inventory);
+
+			await Context.Channel.SendMessageAsync($"Item adicionado ao inventário de {player.Nome}!");
+			await RespondAsync($"Seu inventário de personagem!", ephemeral: true, embed: PlayerResponse.GerarInventario(inventory.Items, player));
 		}
 
 		[SlashCommand("armadura", "Adiciona uma armadura ao inventário do personagem")]
 		public async Task AddItem(string nome, int defesa)
 		{
-			try
+			Player player = new Player().GetPlayer(Context.User.Id.ToString());
+			if (player.Nome == null)
 			{
-				Player player = new Player().GetPlayer(Context.User.Id.ToString());
-				if (player.Nome == null)
-				{
-					await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
-				}
-
-				nome = char.ToUpper(nome[0]) + nome.Substring(1).ToLower();
-
-				Inventory inventory = new Inventory(Context.User.Id.ToString());
-
-				inventory.Items.Add(new Item() { Name = nome, Defesa = defesa, Tipo = Tipo.Armadura });
-
-				DbHandler.SaveInventory(Context.User.Id.ToString(), inventory);
-
-				await RespondAsync($"Item adicionado!");
+				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.ToString());
-			}
+
+			nome = char.ToUpper(nome[0]) + nome.Substring(1).ToLower();
+
+			Inventory inventory = new Inventory(Context.User.Id.ToString());
+
+			inventory.Items.Add(new Item() { Name = nome, Defesa = defesa, Tipo = Tipo.Armadura });
+
+			DbHandler.SaveInventory(Context.User.Id.ToString(), inventory);
+
+			await Context.Channel.SendMessageAsync($"Item adicionado ao inventário de {player.Nome}!");
+			await RespondAsync($"Seu inventário de personagem!", ephemeral: true, embed: PlayerResponse.GerarInventario(inventory.Items, player));
 		}
 
 		[SlashCommand("item", "Adiciona um item ao inventário do personagem")]
 		public async Task Item(string nome)
 		{
-			try
+			Player player = new Player().GetPlayer(Context.User.Id.ToString());
+			if (player.Nome == null)
 			{
-				Player player = new Player().GetPlayer(Context.User.Id.ToString());
-				if (player.Nome == null)
-				{
-					await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
-				}
-
-				nome = char.ToUpper(nome[0]) + nome.Substring(1).ToLower();
-
-				Inventory inventory = new Inventory(Context.User.Id.ToString());
-
-				inventory.Items.Add(new Item() { Name = nome, Tipo = Tipo.Item });
-
-				DbHandler.SaveInventory(Context.User.Id.ToString(), inventory);
-
-				await RespondAsync($"Item adicionado!");
+				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.ToString());
-			}
+
+			nome = char.ToUpper(nome[0]) + nome.Substring(1).ToLower();
+
+			Inventory inventory = new Inventory(Context.User.Id.ToString());
+
+			inventory.Items.Add(new Item() { Name = nome, Tipo = Tipo.Item });
+
+			DbHandler.SaveInventory(Context.User.Id.ToString(), inventory);
+
+			await Context.Channel.SendMessageAsync($"Item adicionado ao inventário de {player.Nome}!");
+			await RespondAsync($"Seu inventário de personagem!", ephemeral: true, embed: PlayerResponse.GerarInventario(inventory.Items, player));
 		}
 	}
 }

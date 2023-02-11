@@ -85,9 +85,9 @@ namespace RPGbot.Modules
 			.WithSelectMenu(sexualidadeMenu)
 			.WithSelectMenu(posicaoMenu);
 
-			await RespondAsync("Vamos criar o seu personagem!");
+			await Context.Channel.SendMessageAsync($"{Context.User.Username} está criando um personagem!");
 
-			RestUserMessage selectMenuMsg = await Context.Channel.SendMessageAsync($"Escolha as informações respectivas do seu novo personagem e aperte o botão.", components: component.Build());
+			await RespondAsync($"Vamos criar o seu personagem!\n\nEscolha as informações respectivas do seu novo personagem e aperte o botão.", components: component.Build(), ephemeral: true);
 
 			var modalButton = new ButtonBuilder()
 			{
@@ -147,6 +147,16 @@ namespace RPGbot.Modules
 		[ComponentInteraction("modalButton")]
 		public async Task HandleModalButton()
 		{
+			Player player = new Player().GetPlayer(Context.User.Id.ToString());
+			if (player.Nome != null)
+			{
+				await RespondAsync($"Você já tem um personagem! {player.Nome} já existe.", ephemeral: true); return;
+			}
+			if (player.Classe == null || player.Raca == null || player.Sexualidade == null || player.Genero == null || player.Posicao == null)
+			{
+				await RespondAsync($"Responda a todas os menus acima!", ephemeral: true); return;
+			}
+
 			await RespondWithModalAsync<AddModal>("addmodal");
 		}
 
@@ -177,16 +187,31 @@ namespace RPGbot.Modules
 			player.Inteligencia = jogarDadosAtributos();
 			player.Carisma = jogarDadosAtributos();
 
+			PlayerClass playerClass = new PlayerClass().GetClass(player.Classe);
 
-			PlayerClass playerClass = new PlayerClass();
-
-			player.Vida = jogarDadosVida(playerClass.GetClass(player.Classe).Dice);
+			player.Vida = jogarDadosVida(playerClass.Dice);
 			player.VidaMax = player.Vida;
+
+			player.Saldo = jogarDadosSaldo(playerClass.saldoDice, playerClass.saldoDiceNum, playerClass.saldoDiceMod);
 
 			return player;
 		}
 
 		Random rnd = new Random();
+		int jogarDadosSaldo(int dice, int num, int mod)
+		{
+			var resultados = new List<int> { };
+			for (int i = 0; i < num; i++)
+			{
+				resultados.Add(rnd.Next(1, dice + 1));
+			}
+
+			int resultado = 0;
+			foreach (var item in resultados)
+				resultado += item;
+
+			return resultado * mod;
+		}
 		int jogarDadosVida(int y)
 		{
 			int resultado = rnd.Next(1, y + 1);

@@ -91,5 +91,31 @@ namespace RPGbot.Modules
 
 			await RespondAsync($"Ficha de personagem de {(user as SocketGuildUser).DisplayName}!", ephemeral: true, embed: PlayerResponse.GerarFicha(player));
 		}
+
+		[RequireRole("Mestre")]
+		[SlashCommand("mostrarmagias", "Apresenta as magias de outro personagem")]
+		public async Task MostrarMagias(IMentionable user)
+		{
+			if (!(user is SocketGuildUser))
+			{
+				await RespondAsync($"Usuário inválido.", ephemeral: true); return;
+			}
+
+			Player player = new Player().GetPlayer((user as SocketGuildUser).Id.ToString());
+			if (player.Nome == null)
+			{
+				await RespondAsync($"Personagem de ID \"{(user as SocketGuildUser).Id}\" não encontrado.", ephemeral: true); return;
+			}
+			if (!new PlayerClass().GetClass(player.Classe).magico)
+			{
+				await RespondAsync($"A classe deste personagem não é mágica.", ephemeral: true); return;
+			}
+			if (player.Magias == null)
+			{
+				await RespondAsync($"Este personagem não conhece nenhuma magia.", ephemeral: true); return;
+			}
+
+			await RespondAsync($"Magias de {(user as SocketGuildUser).DisplayName}", ephemeral: true, embed: PlayerResponse.GerarMagias(player.Magias, player));
+		}
 	}
 }

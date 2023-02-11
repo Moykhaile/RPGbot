@@ -1,13 +1,16 @@
 ﻿using Discord;
 using Discord.Interactions;
+using Newtonsoft.Json.Linq;
 using RPGbot.Racas;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace RPGbot.Classes
 {
@@ -45,28 +48,51 @@ namespace RPGbot.Classes
 		}
 		public static Embed GerarInventario(List<Item> inventory, Player player)
 		{
-			string description = "";
-			int index = 0;
-			foreach (Item item in inventory)
-			{
-				if (item.Tipo == Tipo.Item)
-					description += $"``[{index}] {item.Name}``\n";
-				if (item.Tipo == Tipo.Arma)
-					description += $"``[{index}] {item.Name}   {item.Dano}``\n";
-				if (item.Tipo == Tipo.Armadura)
-					description += $"``[{index}] {item.Name}   {item.Defesa}CA``\n";
+			List<Item> armas = inventory.FindAll(e => e.Tipo == Tipo.Arma);
+			List<Item> armaduras = inventory.FindAll(e => e.Tipo == Tipo.Armadura);
+			List<Item> itens = inventory.FindAll(e => e.Tipo == Tipo.Item);
 
-				index++;
-			}
-
-			Embed embed = new EmbedBuilder()
+			EmbedBuilder embed = new EmbedBuilder()
 			{
-				Author = new EmbedAuthorBuilder() { Name = player.Nome },
-				Description = description,
+				Author = new EmbedAuthorBuilder() { Name = $"{player.Nome}   -   Inventário" },
 				Footer = new EmbedFooterBuilder() { Text = $"💰 {player.Saldo}po   -   {player.Jogador}" },
 				Color = GerarCorVida(player.Vida, player.VidaMax)
-			}.Build();
-			return embed;
+			};
+
+			string armasTxt = "";
+			foreach (Item item in armas)
+				armasTxt += $"{item.Name}   {item.Dano} \n";
+			if (armasTxt != "") embed.AddField("Armas", armasTxt);
+
+			string armadurasTxt = "";
+			foreach (Item item in armaduras)
+				armadurasTxt += $"{item.Name}   {item.Defesa} CA \n";
+			if (armadurasTxt != "") embed.AddField("Armaduras", armadurasTxt);
+
+			string itensTxt = "";
+			foreach (Item item in itens)
+				itensTxt += $"{item.Name} \n";
+			if (itensTxt != "") embed.AddField("Itens", itensTxt);
+
+			return embed.Build();
+		}
+		public static Embed GerarMagias(List<string> magias, Player player)
+		{
+			string magiasJson = File.ReadAllText($"../../db/g_data/magias.json");
+
+			string magiasTxt = "";
+			for (int i = 0; i < magias.Count; i++)
+				magiasTxt += $"``[{i}]`` {JObject.Parse(magiasJson).GetValue(magias[i])["name"]} \n";
+
+			EmbedBuilder embed = new EmbedBuilder()
+			{
+				Author = new EmbedAuthorBuilder() { Name = $"{player.Nome}   -   Magias" },
+				Description = magiasTxt,
+				Footer = new EmbedFooterBuilder() { Text = $"🧙 {player.Classe}   -   {player.Jogador}" },
+				Color = GerarCorVida(player.Vida, player.VidaMax)
+			};
+
+			return embed.Build();
 		}
 		public static Embed GerarValor(string nomev, Player player, int newv, int oldv, int v, SocketInteractionContext Context)
 		{

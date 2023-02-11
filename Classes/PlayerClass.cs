@@ -24,13 +24,21 @@ namespace RPGbot.Classes
 			Fname = _playerClass.Fname;
 			Mname = _playerClass.Mname;
 			Dice = _playerClass.Dice;
-
+			saldoDice = _playerClass.saldoDice;
+			saldoDiceNum = _playerClass.saldoDiceNum;
+			saldoDiceMod = _playerClass.saldoDiceMod;
+			magico = _playerClass.magico;
+			
 			return this;
 		}
 
 		public string Fname { get; set; }
 		public string Mname { get; set; }
 		public int Dice { get; set; }
+		public int saldoDice { get; set; }
+		public int saldoDiceNum { get; set; }
+		public int saldoDiceMod { get; set; }
+		public bool magico { get; set; }
 	}
 
 	public class PlayerClasses

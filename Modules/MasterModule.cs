@@ -2,16 +2,10 @@
 using Discord.Commands;
 using Discord.Interactions;
 using Discord.WebSocket;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RPGbot.Classes;
 using RPGbot.db;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace RPGbot.Modules
@@ -93,8 +87,53 @@ namespace RPGbot.Modules
 		}
 
 		[RequireRole("Mestre")]
+		[SlashCommand("mostrarinventario", "Apresenta o inventário de outro personagem")]
+		public async Task MostrarInventario(IMentionable user)
+		{
+			Player player = new Player().GetPlayer((user as SocketGuildUser).Id.ToString());
+			if (player.Nome == null)
+			{
+				await RespondAsync($"Personagem de ID \"{(user as SocketGuildUser).Id}\" não encontrado.", ephemeral: true); return;
+			}
+
+			Inventory inventory = new Inventory((user as SocketGuildUser).Id.ToString());
+			if (inventory.Items.Count == 0)
+			{
+				await RespondAsync($"{player.Nome} não tem itens em seu inventário.", ephemeral: true); return;
+			}
+
+			await RespondAsync($"O inventário do personagem!", ephemeral: true, embed: PlayerResponse.GerarInventario(inventory.Items, player));
+		}
+
+		[RequireRole("Mestre")]
 		[SlashCommand("mostrarmagias", "Apresenta as magias de outro personagem")]
 		public async Task MostrarMagias(IMentionable user)
+		{
+			if (!(user is SocketGuildUser))
+			{
+				await RespondAsync($"Usuário inválido.", ephemeral: true); return;
+			}
+
+			Player player = new Player().GetPlayer((user as SocketGuildUser).Id.ToString());
+			if (player.Nome == null)
+			{
+				await RespondAsync($"Personagem de ID \"{(user as SocketGuildUser).Id}\" não encontrado.", ephemeral: true); return;
+			}
+			if (!new PlayerClass().GetClass(player.Classe).magico)
+			{
+				await RespondAsync($"A classe deste personagem não é mágica.", ephemeral: true); return;
+			}
+			if (player.Magias == null)
+			{
+				await RespondAsync($"Este personagem não conhece nenhuma magia.", ephemeral: true); return;
+			}
+
+			await RespondAsync($"Magias de {(user as SocketGuildUser).DisplayName}", ephemeral: true, embed: PlayerResponse.GerarMagias(player.Magias, player));
+		}
+
+		[RequireRole("Mestre")]
+		[SlashCommand("additem", "Adiciona item a base de dados do RPGbot")]
+		public async Task AddItem(IMentionable user)
 		{
 			if (!(user is SocketGuildUser))
 			{

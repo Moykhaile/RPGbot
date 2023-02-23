@@ -94,19 +94,6 @@ namespace RPGbot.Classes
 
 			return embed.Build();
 		}
-		public static Embed GerarValor(string nomev, Player player, int newv, int oldv, int v, SocketInteractionContext Context)
-		{
-			CLogger.Log(Context, nomev, new int[] { oldv, v, newv });
-
-			Embed embed = new EmbedBuilder()
-			{
-				Author = new EmbedAuthorBuilder() { Name = $"{player.Nome}" },
-				Description = $"Alterado: **{nomev}**",
-				Footer = new EmbedFooterBuilder() { Text = $"{player.Jogador}" },
-				Color = GerarCorVida(player.Vida, player.VidaMax)
-			}.Build();
-			return embed;
-		}
 
 		public static string GerarMod(int valor)
 		{

@@ -5,19 +5,30 @@ VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPGbot", "RPGbot.csproj", "{AC5B4689-441F-44BC-A279-A52CEAA18CC7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RPGbot", "RPGbot", "{E9AEB441-1A4C-4ABC-A118-6B4CE3CACA2D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AC5B4689-441F-44BC-A279-A52CEAA18CC7}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{AC5B4689-441F-44BC-A279-A52CEAA18CC7}.Debug|Any CPU.Build.0 = Debug|x86
 		{AC5B4689-441F-44BC-A279-A52CEAA18CC7}.Debug|x86.ActiveCfg = Debug|x86
 		{AC5B4689-441F-44BC-A279-A52CEAA18CC7}.Debug|x86.Build.0 = Debug|x86
+		{AC5B4689-441F-44BC-A279-A52CEAA18CC7}.Release|Any CPU.ActiveCfg = Release|x86
+		{AC5B4689-441F-44BC-A279-A52CEAA18CC7}.Release|Any CPU.Build.0 = Release|x86
 		{AC5B4689-441F-44BC-A279-A52CEAA18CC7}.Release|x86.ActiveCfg = Release|x86
 		{AC5B4689-441F-44BC-A279-A52CEAA18CC7}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AC5B4689-441F-44BC-A279-A52CEAA18CC7} = {E9AEB441-1A4C-4ABC-A118-6B4CE3CACA2D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6D2A57B0-37D8-4D68-B11C-86F59DA97512}

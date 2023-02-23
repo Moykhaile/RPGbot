@@ -19,11 +19,6 @@ namespace RPGbot.Modules
 {
 	public class PlayerModule : InteractionModuleBase<SocketInteractionContext>
 	{
-		public InteractionService Commands { get; set; }
-
-		public PlayerModule(DiscordSocketClient client) => _client = client;
-		private readonly DiscordSocketClient _client;
-
 		[SlashCommand("ficha", "Apresenta a ficha do personagem")]
 		public async Task Ficha()
 		{
@@ -33,6 +28,7 @@ namespace RPGbot.Modules
 				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
 
+			Console.WriteLine($"> {player.Nome} : /ficha");
 			await RespondAsync($"Sua ficha de personagem!", ephemeral: true, embed: PlayerResponse.GerarFicha(player));
 		}
 
@@ -59,9 +55,8 @@ namespace RPGbot.Modules
 
 			DbHandler.SavePlayer(Context.User.Id.ToString(), player);
 
-			Embed embed = PlayerResponse.GerarValor("Vida", player, player.Vida, old_vida, qntd, Context);
-
-			await RespondAsync($"Vida do personagem alterada em {qntd}!");
+			Console.WriteLine($"> {player.Nome} : /vida {qntd}");
+			await RespondAsync($"Vida do personagem alterada! Anterior: {old_vida}", embed: PlayerResponse.GerarFicha(player), ephemeral: true);
 		}
 
 		[SlashCommand("xp", "Adiciona pontos de experiência ao personagem")]
@@ -84,9 +79,8 @@ namespace RPGbot.Modules
 
 			DbHandler.SavePlayer(Context.User.Id.ToString(), player);
 
-			Embed embed = PlayerResponse.GerarValor("XP", player, player.XP, old_xp, qntd, Context);
-
-			await RespondAsync($"Pontos de experiência do personagem alterados!", embed: embed);
+			Console.WriteLine($"> {player.Nome} : /xp {qntd}");
+			await RespondAsync($"Pontos de experiência do personagem alterados! Anterior: {old_xp}", embed: PlayerResponse.GerarFicha(player), ephemeral: true);
 		}
 
 		[SlashCommand("saldo", "Adiciona dinheiro à carteira do personagem")]
@@ -110,9 +104,8 @@ namespace RPGbot.Modules
 
 			DbHandler.SavePlayer(Context.User.Id.ToString(), player);
 
-			Embed embed = PlayerResponse.GerarValor("Saldo", player, player.Saldo, old_saldo, qntd, Context);
-
-			await RespondAsync($"Saldo do personagem alterado!", embed: embed);
+			Console.WriteLine($"> {player.Nome} : /saldo {qntd}");
+			await RespondAsync($"Saldo do personagem alterado! Anterior: {old_saldo}", embed: PlayerResponse.GerarFicha(player), ephemeral: true);
 		}
 
 		[SlashCommand("addmagia", "Adiciona uma magia aos conhecimentos do personagem")]
@@ -152,7 +145,8 @@ namespace RPGbot.Modules
 
 			DbHandler.SavePlayer(Context.User.Id.ToString(), player);
 
-			await RespondAsync($"Magia adicionada ao personagem!");
+			Console.WriteLine($"> {player.Nome} : /addmagia {magia}");
+			await RespondAsync($"Magia \"{JObject.Parse(magias).GetValue(magia)["name"]}\" adicionada ao personagem!", ephemeral: true);
 		}
 
 		[SlashCommand("removemagia", "Remove uma magia dos conhecimentos do personagem")]
@@ -177,7 +171,8 @@ namespace RPGbot.Modules
 
 			DbHandler.SavePlayer(Context.User.Id.ToString(), player);
 
-			await RespondAsync($"Magia removida do personagem!");
+			Console.WriteLine($"> {player.Nome} : /removemagia {indice}");
+			await RespondAsync($"Magia removida do personagem!", ephemeral: true);
 		}
 
 		[SlashCommand("magias", "Apresenta as mágias conhecidas pelo personagem")]
@@ -197,6 +192,7 @@ namespace RPGbot.Modules
 				await RespondAsync($"O seu personagem não conhece nenhuma magia.", ephemeral: true); return;
 			}
 
+			Console.WriteLine($"> {player.Nome} : /magias");
 			await RespondAsync($"As magias do seu personagem!", ephemeral: true, embed: PlayerResponse.GerarMagias(player.Magias, player));
 		}
 
@@ -215,11 +211,12 @@ namespace RPGbot.Modules
 				await RespondAsync($"{player.Nome} não tem itens em seu inventário.", ephemeral: true); return;
 			}
 
+			Console.WriteLine($"> {player.Nome} : /inventario");
 			await RespondAsync($"Seu inventário de personagem!", ephemeral: true, embed: PlayerResponse.GerarInventario(inventory.Items, player));
 		}
 
 		[SlashCommand("customitem", "Adiciona um item personalizado ao inventário do personagem")]
-		public async Task customitem(string nome)
+		public async Task Customitem(string nome)
 		{
 			try
 			{
@@ -237,7 +234,7 @@ namespace RPGbot.Modules
 
 				DbHandler.SaveInventory(Context.User.Id.ToString(), inventory);
 
-				await Context.Channel.SendMessageAsync($"Item adicionado ao inventário de {player.Nome}!");
+				Console.WriteLine($"> {player.Nome} : /customitem {nome}");
 				await RespondAsync($"Seu inventário de personagem!", ephemeral: true, embed: PlayerResponse.GerarInventario(inventory.Items, player));
 			}
 			catch (Exception ex)
@@ -263,7 +260,7 @@ namespace RPGbot.Modules
 
 			DbHandler.SaveInventory(Context.User.Id.ToString(), inventory);
 
-			await Context.Channel.SendMessageAsync($"Item adicionado ao inventário de {player.Nome}!");
+			Console.WriteLine($"> {player.Nome} : /arma {nome} | {dano}");
 			await RespondAsync($"Seu inventário de personagem!", ephemeral: true, embed: PlayerResponse.GerarInventario(inventory.Items, player));
 		}
 
@@ -284,7 +281,7 @@ namespace RPGbot.Modules
 
 			DbHandler.SaveInventory(Context.User.Id.ToString(), inventory);
 
-			await Context.Channel.SendMessageAsync($"Item adicionado ao inventário de {player.Nome}!");
+			Console.WriteLine($"> {player.Nome} : /armadura {nome} | {defesa}");
 			await RespondAsync($"Seu inventário de personagem!", ephemeral: true, embed: PlayerResponse.GerarInventario(inventory.Items, player));
 		}
 
@@ -305,7 +302,7 @@ namespace RPGbot.Modules
 
 			DbHandler.SaveInventory(Context.User.Id.ToString(), inventory);
 
-			await Context.Channel.SendMessageAsync($"Item adicionado ao inventário de {player.Nome}!");
+			Console.WriteLine($"> {player.Nome} : /item {nome}");
 			await RespondAsync($"Seu inventário de personagem!", ephemeral: true, embed: PlayerResponse.GerarInventario(inventory.Items, player));
 		}
 	}

@@ -85,7 +85,7 @@ namespace RPGbot.Modules
 			.WithSelectMenu(sexualidadeMenu)
 			.WithSelectMenu(posicaoMenu);
 
-			await Context.Channel.SendMessageAsync($"{Context.User.Username} está criando um personagem!");
+			await Context.Channel.SendMessageAsync($"<@324605986683748352>, {Context.User.Username} está criando um personagem!");
 
 			await RespondAsync($"Vamos criar o seu personagem!\n\nEscolha as informações respectivas do seu novo personagem e aperte o botão.", components: component.Build(), ephemeral: true);
 
@@ -98,7 +98,7 @@ namespace RPGbot.Modules
 
 			var buttonComponent = new ComponentBuilder().WithButton(modalButton);
 
-			await Context.Channel.SendMessageAsync("Clique aqui quando terminar!", components: buttonComponent.Build());
+			await FollowupAsync("Clique aqui quando terminar!", components: buttonComponent.Build(), ephemeral: true);
 
 			DbHandler.SavePlayer(Context.User.Id.ToString(), player);
 		}

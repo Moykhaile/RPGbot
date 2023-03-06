@@ -1,1 +1,33 @@
-{"Nome":"Gawand D\u0027Angland","Jogador":"Gabriel Ramalho Rodrigues","Genero":"Masculino","Raca":"Meio-elfo","Classe":"Mago","Sexualidade":"Heterossexual","Posicao":"Suporte","Idade":23,"Peso":76,"Altura":178,"ImgLink":null,"Forca":16,"Destreza":13,"Inteligencia":12,"Constituicao":11,"Sabedoria":13,"Carisma":16,"VidaMax":2,"Vida":2,"Saldo":110,"XP":0,"Magias":null}
+{
+  "Id": 324605986683748352,
+  "Nome": "Fröyd Latham",
+  "Jogador": "Gabriel Ramalho Rodrigues",
+  "Genero": "Masculino",
+  "Raca": "Meio-elfo",
+  "Classe": "Clérigo",
+  "Sexualidade": "Heterossexual",
+  "Posicao": "Suporte",
+  "Idade": 19,
+  "Peso": 62,
+  "Altura": 172,
+  "ImgLink": null,
+  "Forca": 11,
+  "Destreza": 10,
+  "Inteligencia": 11,
+  "Constituicao": 12,
+  "Sabedoria": 14,
+  "Carisma": 7,
+  "VidaMax": 3,
+  "Vida": 3,
+  "Saldo": 90,
+  "XP": 354,
+  "Inventario": [
+  ],
+  "Magias": [
+    "estabilizar",
+    "curar ferimentos",
+    "palavra curativa",
+    "oracao curativa",
+    "restauracao menor"
+  ]
+}

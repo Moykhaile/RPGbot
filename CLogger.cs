@@ -1,10 +1,5 @@
 ﻿using Discord;
 using Discord.Interactions;
-using RPGbot.Classes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace RPGbot
@@ -13,17 +8,19 @@ namespace RPGbot
 	{
 		public static ulong logChannel = 1069333219004137632;
 
-		public static async Task Log(SocketInteractionContext Context, string command, int[] values)
+		public static async Task Log(string command, IInteractionContext context, IResult result)
 		{
+			string erro = $"\n\n**{result.Error}**\n{result.ErrorReason}";
+
 			Embed embed = new EmbedBuilder()
 			{
-				Author = new EmbedAuthorBuilder() { Name = $"{Context.User.Username}" },
-				Description = $"{values[0]} {(values[1] > -1 ? '+' : '-')} {Math.Abs(values[1])} = {values[2]}",
-				Footer = new EmbedFooterBuilder() { Text = $"{DateTime.Now.ToString("dd/MM/yyyy - HH:mm:ss:ff")}" },
+				Author = new EmbedAuthorBuilder() { Name = $"{context.User.Username}" },
+				Description = $"/{command}{(result.IsSuccess ? "" : erro)}",
+				Footer = new EmbedFooterBuilder() { Text = $"{(result.IsSuccess ? "✅ Sucesso na execução!" : "⛔ ERRO!")}" },
 				Color = 0x00ff00
 			}.Build();
 
-			var channel = Context.Guild.GetChannel(logChannel) as IMessageChannel;
+			var channel = await context.Guild.GetChannelAsync(logChannel) as IMessageChannel;
 
 			await channel.SendMessageAsync($"/{command}", embed: embed);
 		}

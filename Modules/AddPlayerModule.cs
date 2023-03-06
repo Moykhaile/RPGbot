@@ -22,10 +22,10 @@ namespace RPGbot.Modules
 		[SlashCommand("add", "Adiciona um personagem ao jogo. Só é permitido 1 personagem por jogador")]
 		public async Task HandleAddCommand()
 		{
-			Player player = new Player().GetPlayer(Context.User.Id.ToString());
-			if (player.Nome != null)
+			Personagem personagem = new DBpersonagem().Get(Context.User.Id.ToString());
+			if (personagem.Id != 0)
 			{
-				await RespondAsync($"Você já tem um personagem! {player.Nome} já existe.", ephemeral: true); return;
+				await RespondAsync($"Você já tem um personagem! {personagem.Nome} já existe.", ephemeral: true); return;
 			}
 
 			var classeMenu = new SelectMenuBuilder()
@@ -33,7 +33,7 @@ namespace RPGbot.Modules
 				CustomId = "classeMenu",
 				Placeholder = "Escolha sua classe"
 			};
-			foreach (PlayerClass classe in PlayerClasses.GetClasses())
+			foreach (Classe classe in new DBclasse().GetAll())
 			{
 				classeMenu.AddOption(classe.Mname, classe.Mname);
 			}
@@ -43,7 +43,7 @@ namespace RPGbot.Modules
 				CustomId = "racaMenu",
 				Placeholder = "Escolha sua raça"
 			};
-			foreach (PlayerRaca raca in PlayerRacas.GetRacas())
+			foreach (Raca raca in new DBraca().GetAll())
 			{
 				racaMenu.AddOption(raca.Mname, raca.Mname);
 			}
@@ -100,59 +100,61 @@ namespace RPGbot.Modules
 
 			await FollowupAsync("Clique aqui quando terminar!", components: buttonComponent.Build(), ephemeral: true);
 
-			DbHandler.SavePlayer(Context.User.Id.ToString(), player);
+			personagem.Id = Context.User.Id;
+
+			new DBpersonagem().Put(personagem);
 		}
 
 		[ComponentInteraction("classeMenu")]
 		public async Task HandleClasseMenu(string selected)
 		{
-			Player player = new Player().GetPlayer(Context.User.Id.ToString());
-			player.Classe = selected;
-			DbHandler.SavePlayer(Context.User.Id.ToString(), player);
+			Personagem personagem = new DBpersonagem().Get(Context.User.Id.ToString());
+			personagem.Classe = selected;
+			new DBpersonagem().Put(personagem);
 			await RespondAsync($"Classe {selected} selecionada!", ephemeral: true);
 		}
 		[ComponentInteraction("racaMenu")]
 		public async Task HandleRacaMenu(string selected)
 		{
-			Player player = new Player().GetPlayer(Context.User.Id.ToString());
-			player.Raca = selected;
-			DbHandler.SavePlayer(Context.User.Id.ToString(), player);
+			Personagem personagem = new DBpersonagem().Get(Context.User.Id.ToString());
+			personagem.Raca = selected;
+			new DBpersonagem().Put(personagem);
 			await RespondAsync($"Raça {selected} selecionada!", ephemeral: true);
 		}
 		[ComponentInteraction("generoMenu")]
 		public async Task HandleGeneroMenu(string selected)
 		{
-			Player player = new Player().GetPlayer(Context.User.Id.ToString());
-			player.Genero = selected;
-			DbHandler.SavePlayer(Context.User.Id.ToString(), player);
+			Personagem personagem = new DBpersonagem().Get(Context.User.Id.ToString());
+			personagem.Genero = selected;
+			new DBpersonagem().Put(personagem);
 			await RespondAsync($"Gênero {selected} selecionado!", ephemeral: true);
 		}
 		[ComponentInteraction("sexualidadeMenu")]
 		public async Task HandleSexualidadeMenu(string selected)
 		{
-			Player player = new Player().GetPlayer(Context.User.Id.ToString());
-			player.Sexualidade = selected;
-			DbHandler.SavePlayer(Context.User.Id.ToString(), player);
+			Personagem personagem = new DBpersonagem().Get(Context.User.Id.ToString());
+			personagem.Sexualidade = selected;
+			new DBpersonagem().Put(personagem);
 			await RespondAsync($"Sexualidade {selected} selecionada!", ephemeral: true);
 		}
 		[ComponentInteraction("posicaoMenu")]
 		public async Task HandlePosicaoMenu(string selected)
 		{
-			Player player = new Player().GetPlayer(Context.User.Id.ToString());
-			player.Posicao = selected;
-			DbHandler.SavePlayer(Context.User.Id.ToString(), player);
+			Personagem personagem = new DBpersonagem().Get(Context.User.Id.ToString());
+			personagem.Posicao = selected;
+			new DBpersonagem().Put(personagem);
 			await RespondAsync($"Posição {selected} selecionada!", ephemeral: true);
 		}
 
 		[ComponentInteraction("modalButton")]
 		public async Task HandleModalButton()
 		{
-			Player player = new Player().GetPlayer(Context.User.Id.ToString());
-			if (player.Nome != null)
+			Personagem personagem = new DBpersonagem().Get(Context.User.Id.ToString());
+			if (personagem.Nome != null)
 			{
-				await RespondAsync($"Você já tem um personagem! {player.Nome} já existe.", ephemeral: true); return;
+				await RespondAsync($"Você já tem um personagem! {personagem.Nome} já existe.", ephemeral: true); return;
 			}
-			if (player.Classe == null || player.Raca == null || player.Sexualidade == null || player.Genero == null || player.Posicao == null)
+			if (personagem.Classe == null || personagem.Raca == null || personagem.Sexualidade == null || personagem.Genero == null || personagem.Posicao == null)
 			{
 				await RespondAsync($"Responda a todas os menus acima!", ephemeral: true); return;
 			}
@@ -163,47 +165,50 @@ namespace RPGbot.Modules
 		[ModalInteraction("addmodal")]
 		public async Task HandleAddModal(AddModal modal)
 		{
-			Player player = new Player().GetPlayer(Context.User.Id.ToString());
+			Personagem personagem = new DBpersonagem().Get(Context.User.Id.ToString());
 
-			player.Jogador = modal.jogador;
-			player.Nome = modal.name;
-			player.Idade = int.Parse(modal.age);
-			player.Peso = int.Parse(modal.weight);
-			player.Altura = int.Parse(modal.height);
+			personagem.Jogador = modal.Jogador;
+			personagem.Nome = modal.Name;
+			personagem.Idade = int.Parse(modal.Age);
+			personagem.Peso = int.Parse(modal.Weight);
+			personagem.Altura = int.Parse(modal.Height);
 
-			player = generatePlayer(player);
+			personagem = GeneratePlayer(personagem);
 
-			DbHandler.SavePlayer(Context.User.Id.ToString(), player);
+			personagem.Magias = new List<string>();
+			personagem.Inventario = new List<string>();
+
+			new DBpersonagem().Put(personagem);
 
 			await RespondAsync("Personagem criado! Use ``/ficha`` para ver a ficha do seu personagem ✅");
 		}
 
-		Player generatePlayer(Player player)
+		Personagem GeneratePlayer(Personagem personagem)
 		{
-			player.Sabedoria = jogarDadosAtributos();
-			player.Forca = jogarDadosAtributos();
-			player.Destreza = jogarDadosAtributos();
-			player.Constituicao = jogarDadosAtributos();
-			player.Inteligencia = jogarDadosAtributos();
-			player.Carisma = jogarDadosAtributos();
+			personagem.Sabedoria = JogarDadosAtributos();
+			personagem.Forca = JogarDadosAtributos();
+			personagem.Destreza = JogarDadosAtributos();
+			personagem.Constituicao = JogarDadosAtributos();
+			personagem.Inteligencia = JogarDadosAtributos();
+			personagem.Carisma = JogarDadosAtributos();
 
-			PlayerClass playerClass = new PlayerClass().GetClass(player.Classe);
+			Classe playerClass = new DBclasse().Get(personagem.Classe);
 
-			player.Vida = jogarDadosVida(playerClass.Dice);
-			player.VidaMax = player.Vida;
+			personagem.Vida = JogarDadosVida(playerClass.Dice);
+			personagem.VidaMax = personagem.Vida;
 
-			player.Saldo = jogarDadosSaldo(playerClass.saldoDice, playerClass.saldoDiceNum, playerClass.saldoDiceMod);
+			personagem.Saldo = JogarDadosSaldo(playerClass.SaldoDice, playerClass.SaldoDiceNum, playerClass.SaldoDiceMod);
 
-			return player;
+			return personagem;
 		}
 
-		Random rnd = new Random();
-		int jogarDadosSaldo(int dice, int num, int mod)
+		readonly Random Rnd = new Random();
+		int JogarDadosSaldo(int dice, int num, int mod)
 		{
 			var resultados = new List<int> { };
 			for (int i = 0; i < num; i++)
 			{
-				resultados.Add(rnd.Next(1, dice + 1));
+				resultados.Add(Rnd.Next(1, dice + 1));
 			}
 
 			int resultado = 0;
@@ -212,18 +217,18 @@ namespace RPGbot.Modules
 
 			return resultado * mod;
 		}
-		int jogarDadosVida(int y)
+		int JogarDadosVida(int y)
 		{
-			int resultado = rnd.Next(1, y + 1);
+			int resultado = Rnd.Next(1, y + 1);
 
 			return resultado;
 		}
-		int jogarDadosAtributos()
+		int JogarDadosAtributos()
 		{
 			var resultados = new List<int> { };
 			for (int i = 0; i < 4; i++)
 			{
-				resultados.Add(rnd.Next(1, 7));
+				resultados.Add(Rnd.Next(1, 7));
 			}
 			resultados.Remove(resultados.Min());
 
@@ -243,21 +248,21 @@ public class AddModal : IModal
 
 	[InputLabel("Nome completo do jogador")]
 	[ModalTextInput("jogador", TextInputStyle.Short, "Seu nome...", maxLength: 100)]
-	public string jogador { get; set; }
+	public string Jogador { get; set; }
 
 	[InputLabel("Nome do personagem")]
 	[ModalTextInput("name", TextInputStyle.Short, "Nome do personagem...", maxLength: 40)]
-	public string name { get; set; }
+	public string Name { get; set; }
 
 	[InputLabel("Idade do personagem (número inteiro)")]
 	[ModalTextInput("age", TextInputStyle.Short, "Idade do personagem...", maxLength: 3)]
-	public string age { get; set; }
+	public string Age { get; set; }
 
 	[InputLabel("Peso do personagem (número inteiro em kg)")]
 	[ModalTextInput("weight", TextInputStyle.Short, "Peso do personagem...", maxLength: 3)]
-	public string weight { get; set; }
+	public string Weight { get; set; }
 
 	[InputLabel("Altura do personagem (em cm)")]
 	[ModalTextInput("height", TextInputStyle.Short, "Altura do personagem...", maxLength: 3)]
-	public string height { get; set; }
+	public string Height { get; set; }
 }

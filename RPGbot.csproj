@@ -263,26 +263,26 @@
     <None Include="config.yml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <Compile Include="Classes\Inventory.cs" />
-    <Compile Include="Classes\PlayerRaca.cs" />
+    <Compile Include="Classes\Item.cs" />
+    <Compile Include="Classes\Magia.cs" />
+    <Compile Include="Classes\Raca.cs" />
     <Compile Include="Classes\PlayerResponse.cs" />
     <Compile Include="CLogger.cs" />
     <Compile Include="db\DbHandler.cs" />
-    <Compile Include="Classes\PlayerClass.cs" />
+    <Compile Include="Classes\Classe.cs" />
     <Compile Include="InteractionHandler.cs" />
     <Compile Include="Modules\AddPlayerModule.cs" />
     <Compile Include="Modules\GlobalModule.cs" />
     <Compile Include="Modules\MasterModule.cs" />
     <Compile Include="Modules\PlayerModule.cs" />
-    <Compile Include="Classes\Player.cs" />
+    <Compile Include="Classes\Personagem.cs" />
     <Compile Include="Program.cs" />
+    <None Include="db\c_player\324605986683748352.json" />
     <None Include="db\c_player\nullPlayer.json" />
     <None Include="db\g_data\classes.json" />
-    <None Include="db\g_data\ervas.json" />
     <None Include="db\g_data\itens.json" />
     <None Include="db\g_data\magias.json" />
     <None Include="db\g_data\racas.json" />
-    <None Include="RPGbot_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".git\config" />
@@ -328,7 +328,6 @@
     <Folder Include=".git\refs\tags\" />
     <Folder Include=".vs\RPGbot-Cs\FileContentIndex\merges\" />
     <Folder Include=".vs\RPGbot\v17\" />
-    <Folder Include="db\c_inventory\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8">

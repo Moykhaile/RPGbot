@@ -2,6 +2,7 @@
 using Discord.Interactions;
 using Discord.WebSocket;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -35,18 +36,19 @@ namespace RPGbot
 			_commands.ComponentCommandExecuted += ComponentCommandExecuted;
 		}
 
-		private Task ComponentCommandExecuted(ComponentCommandInfo arg1, Discord.IInteractionContext arg2, IResult arg3)
+		private Task ComponentCommandExecuted(ComponentCommandInfo arg1, IInteractionContext arg2, IResult arg3)
 		{
 			return Task.CompletedTask;
 		}
 
-		private Task ContextCommandExecuted(ContextCommandInfo arg1, Discord.IInteractionContext arg2, IResult arg3)
+		private Task ContextCommandExecuted(ContextCommandInfo arg1, IInteractionContext arg2, IResult arg3)
 		{
 			return Task.CompletedTask;
 		}
 
-		private Task SlashCommandExecuted(SlashCommandInfo arg1, Discord.IInteractionContext arg2, IResult arg3)
+		private Task SlashCommandExecuted(SlashCommandInfo arg1, IInteractionContext arg2, IResult arg3)
 		{
+			_ = CLogger.Log(arg1.Name, arg2, arg3);
 			return Task.CompletedTask;
 		}
 		private async Task HandleInteraction(SocketInteraction arg)

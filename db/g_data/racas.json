@@ -1,62 +1,62 @@
-﻿{
-  "Anão da colina": {
-    "mname": "Anão da colina",
-    "fname": "Anã da colina"
+﻿[
+  {
+    "Mname": "Anão da colina",
+    "Fname": "Anã da colina"
   },
-  "Anão da montanha": {
-    "mname": "Anão da Montanha",
-    "fname": "Anã da Montanha"
+  {
+    "Mname": "Anão da Montanha",
+    "Fname": "Anã da Montanha"
   },
-  "Alto elfo": {
-    "mname": "Alto elfo",
-    "fname": "Alta elfa"
+  {
+    "Mname": "Alto elfo",
+    "Fname": "Alta elfa"
   },
-  "Elfo da floresta": {
-    "mname": "Elfo da floresta",
-    "fname": "Elfo da floresta"
+  {
+    "Mname": "Elfo da floresta",
+    "Fname": "Elfo da floresta"
   },
-  "Drow": {
-    "mname": "Drow",
-    "fname": "Drow"
+  {
+    "Mname": "Drow",
+    "Fname": "Drow"
   },
-  "Meio-elfo": {
-    "mname": "Meio-elfo",
-    "fname": "Meia-elfo"
+  {
+    "Mname": "Meio-elfo",
+    "Fname": "Meia-elfo"
   },
-  "Halfling pé leve": {
-    "mname": "Halfling pé leve",
-    "fname": "Halfling pé leve"
+  {
+    "Mname": "Halfling pé leve",
+    "Fname": "Halfling pé leve"
   },
-  "Halfling robusto": {
-    "mname": "Halfling robusto",
-    "fname": "Halfling robusto"
+  {
+    "Mname": "Halfling robusto",
+    "Fname": "Halfling robusto"
   },
-  "Humano": {
-    "mname": "Humano",
-    "fname": "Humana"
+  {
+    "Mname": "Humano",
+    "Fname": "Humana"
   },
-  "Draconato": {
-    "mname": "Draconato",
-    "fname": "Draconata"
+  {
+    "Mname": "Draconato",
+    "Fname": "Draconata"
   },
-  "Gnomo da floresta": {
-    "mname": "Gnomo da floresta",
-    "fname": "Gnoma da floresta"
+  {
+    "Mname": "Gnomo da floresta",
+    "Fname": "Gnoma da floresta"
   },
-  "Gnomo das rochas": {
-    "mname": "Gnomo das rochas",
-    "fname": "Gnoma das rochas"
+  {
+    "Mname": "Gnomo das rochas",
+    "Fname": "Gnoma das rochas"
   },
-  "Meio-orc": {
-    "mname": "Meio-orc",
-    "fname": "Meia-orc"
+  {
+    "Mname": "Meio-orc",
+    "Fname": "Meia-orc"
   },
-  "Tiefling infernal": {
-    "mname": "Tiefling infernal",
-    "fname": "Tiefling infernal"
+  {
+    "Mname": "Tiefling infernal",
+    "Fname": "Tiefling infernal"
   },
-  "Tiefling abissal": {
-    "mname": "Tiefling abissal",
-    "fname": "Tiefling abissal"
+  {
+    "Mname": "Tiefling abissal",
+    "Fname": "Tiefling abissal"
   }
-}
+]

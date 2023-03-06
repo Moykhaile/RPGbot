@@ -1,96 +1,170 @@
 ﻿using Discord;
-using Discord.Interactions;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using RPGbot.db;
 using RPGbot.Racas;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Numerics;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+using System.Globalization;
 using System.IO;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace RPGbot.Classes
 {
 	public class PlayerResponse
 	{
-		public static Embed GerarFicha(Player player)
+		public static Embed GerarFicha(Personagem personagem)
 		{
-			PlayerClass classePlayer = new PlayerClass().GetClass(player.Classe);
-			PlayerRaca racaPlayer = new PlayerRaca().GetRaca(player.Raca);
+			Classe classePlayer = new DBclasse().Get(personagem.Classe);
+			Raca racaPlayer = new DBraca().Get(personagem.Raca);
 
 			Embed embed = new EmbedBuilder()
 			{
-				Author = new EmbedAuthorBuilder() { Name = $"{player.Nome}   {player.Vida}/{player.VidaMax}hp" },
-				Description = $"{(player.Genero == "Feminino" ? racaPlayer.Fname : racaPlayer.Mname)} - {(player.Genero == "Feminino" ? classePlayer.Fname : classePlayer.Mname)}       {player.Posicao}   -   {player.XP}/{niveisXP[GerarNivel(player.XP) - 1]}xp",
-				Footer = new EmbedFooterBuilder() { Text = $"💰 {player.Saldo}po   -   {player.Jogador}" },
+				Author = new EmbedAuthorBuilder() { Name = $"{personagem.Nome}   {personagem.Vida}/{personagem.VidaMax}hp" },
+				Description = $"{(personagem.Genero == "Feminino" ? racaPlayer.Fname : racaPlayer.Mname)} - {(personagem.Genero == "Feminino" ? classePlayer.Fname : classePlayer.Mname)}       {personagem.Posicao}   -   {personagem.XP}/{niveisXP[GerarNivel(personagem.XP) - 1]}xp",
+				Footer = new EmbedFooterBuilder() { Text = $"💰 {GerarSaldo(personagem.Saldo)}   -   {personagem.Jogador}" },
 				Fields = new List<EmbedFieldBuilder>()
 				{
 					new EmbedFieldBuilder()
 					{
 						Name = "Atributos",
-						Value = $"```FOR {GerarMod(player.Forca)}   DES {GerarMod(player.Destreza)}\nINT {GerarMod(player.Inteligencia)}   CON {GerarMod(player.Constituicao)}\nSAB {GerarMod(player.Sabedoria)}   CAR {GerarMod(player.Carisma)}```",
+						Value = $"```FOR {GerarMod(personagem.Forca)}   DES {GerarMod(personagem.Destreza)}\nINT {GerarMod(personagem.Inteligencia)}   CON {GerarMod(personagem.Constituicao)}\nSAB {GerarMod(personagem.Sabedoria)}   CAR {GerarMod(personagem.Carisma)}```",
 						IsInline = true
 					},
 					new EmbedFieldBuilder()
 					{
-						Name = $"Nível {GerarNivel(player.XP)}",
-						Value = $"{player.Peso}kg   {player.Altura}cm\n{player.Idade} anos de idade\n{player.Genero} - {player.Sexualidade}",
+						Name = $"Nível {GerarNivel(personagem.XP)}",
+						Value = $"{personagem.Peso}kg   {personagem.Altura}cm\n{personagem.Idade} anos de idade\n{personagem.Genero} - {personagem.Sexualidade}",
 						IsInline = true
 					}
 				},
-				Color = GerarCorVida(player.Vida, player.VidaMax)
+				Color = GerarCorVida(personagem.Vida, personagem.VidaMax)
 			}.Build();
 
 			return embed;
 		}
-		public static Embed GerarInventario(List<Item> inventory, Player player)
+		public static float pesoMod = 7.5f;
+		public static Embed GerarInventario(Personagem personagem)
 		{
-			List<Item> armas = inventory.FindAll(e => e.Tipo == Tipo.Arma);
-			List<Item> armaduras = inventory.FindAll(e => e.Tipo == Tipo.Armadura);
-			List<Item> itens = inventory.FindAll(e => e.Tipo == Tipo.Item);
+			List<string> inventarioStrings = personagem.Inventario;
+
+			string itensTxt = "";
+			string armasTxt = "";
+			string armadurasTxt = "";
+			int CAsomado = 0;
+			List<Item> itemList = JsonConvert.DeserializeObject<List<Item>>(File.ReadAllText("../../db/g_data/itens.json"));
+			for (int i = 0; i < inventarioStrings.Count; i++)
+			{
+				foreach (Item item in itemList)
+				{
+					if (FormatID(item.Name) == FormatID(inventarioStrings[i]))
+					{
+						if (item.Dano == string.Empty)
+							if (item.Defesa == 0)
+								itensTxt += $"• {item.Name}   {item.Peso}kg\n";
+							else
+							{
+								armadurasTxt += $"• {item.Name}   {item.Peso}kg   {item.Defesa} CA\n";
+								CAsomado += item.Defesa;
+							}
+						else
+							armasTxt += $"• {item.Name}   {item.Peso}kg   {item.Dano}\n";
+					}
+				}
+			}
 
 			EmbedBuilder embed = new EmbedBuilder()
 			{
-				Author = new EmbedAuthorBuilder() { Name = $"{player.Nome}   -   Inventário" },
-				Footer = new EmbedFooterBuilder() { Text = $"💰 {player.Saldo}po   -   {player.Jogador}" },
-				Color = GerarCorVida(player.Vida, player.VidaMax)
+				Author = new EmbedAuthorBuilder() { Name = $"{personagem.Nome}   -   Inventário {GerarPesoInventario(personagem)}/{personagem.Forca * pesoMod}kg" },
+				Footer = new EmbedFooterBuilder() { Text = $"💰 {GerarSaldo(personagem.Saldo)}   -   {personagem.Jogador}" },
+				Color = GerarCorVida(personagem.Vida, personagem.VidaMax)
 			};
 
-			string armasTxt = "";
-			foreach (Item item in armas)
-				armasTxt += $"{item.Name}   {item.Dano} \n";
 			if (armasTxt != "") embed.AddField("Armas", armasTxt);
-
-			string armadurasTxt = "";
-			foreach (Item item in armaduras)
-				armadurasTxt += $"{item.Name}   {item.Defesa} CA \n";
-			if (armadurasTxt != "") embed.AddField("Armaduras", armadurasTxt);
-
-			string itensTxt = "";
-			foreach (Item item in itens)
-				itensTxt += $"{item.Name} \n";
+			if (armadurasTxt != "") embed.AddField($"Armaduras   {CAsomado} CA total", armadurasTxt);
 			if (itensTxt != "") embed.AddField("Itens", itensTxt);
 
 			return embed.Build();
 		}
-		public static Embed GerarMagias(List<string> magias, Player player)
+		public static Embed GerarMagias(List<string> magias, Personagem personagem)
 		{
-			string magiasJson = File.ReadAllText($"../../db/g_data/magias.json");
-
 			string magiasTxt = "";
 			for (int i = 0; i < magias.Count; i++)
-				magiasTxt += $"``[{i}]`` {JObject.Parse(magiasJson).GetValue(magias[i])["name"]} \n";
+				magiasTxt += $"• {new DBmagia().Get(magias[i]).Name} \n";
+
+			Classe classePlayer = new DBclasse().Get(personagem.Classe);
 
 			EmbedBuilder embed = new EmbedBuilder()
 			{
-				Author = new EmbedAuthorBuilder() { Name = $"{player.Nome}   -   Magias" },
+				Author = new EmbedAuthorBuilder() { Name = $"{personagem.Nome}" },
+				Title = $"Magias   {magias.Count}/{niveisMagias[GerarNivel(personagem.XP) - 1]}",
 				Description = magiasTxt,
-				Footer = new EmbedFooterBuilder() { Text = $"🧙 {player.Classe}   -   {player.Jogador}" },
-				Color = GerarCorVida(player.Vida, player.VidaMax)
+				Footer = new EmbedFooterBuilder() { Text = $"🧙 {(personagem.Genero == "Feminino" ? classePlayer.Fname : classePlayer.Mname)}   -   {personagem.Jogador}" },
+				Color = GerarCorVida(personagem.Vida, personagem.VidaMax)
 			};
+
+			return embed.Build();
+		}
+
+		public static Embed GerarMagia(string nome)
+		{
+			Magia magia = new DBmagia().Get(nome);
+
+			EmbedBuilder embed = new EmbedBuilder()
+			{
+				Title = magia.Name,
+				Description = magia.Description,
+				Footer = new EmbedFooterBuilder() { Text = "" },
+				Fields =
+				{
+					new EmbedFieldBuilder()
+					{
+						Name = "Lançamento",
+						Value = magia.Casting
+					},
+					new EmbedFieldBuilder()
+					{
+						Name = "Alcance",
+						Value = magia.Range
+					},
+					new EmbedFieldBuilder()
+					{
+						Name = "Componentes",
+						Value = magia.Components
+					},
+					new EmbedFieldBuilder()
+					{
+						Name = "Duração",
+						Value = magia.Duration
+					}
+				}
+			};
+
+			return embed.Build();
+		}
+		public static Embed GerarItem(string nome)
+		{
+			string itensstring = File.ReadAllText("../../db/g_data/itens.json");
+			List<Item> itemList = JsonConvert.DeserializeObject<List<Item>>(itensstring);
+			if (itemList.Find(e => FormatID(e.Name) == nome) == null)
+			{
+				return null;
+			}
+
+			Item item = itemList.Find(e => FormatID(e.Name) == nome);
+
+			string modificador = item.ModNome != string.Empty ? $"\n*Modificador: {item.ModNome}*" : "";
+			string danodefesa = item.Dano != string.Empty ? $"*{item.Dano}*" : item.Defesa != 0 ? $"*{item.Defesa} CA*" : "";
+
+			EmbedBuilder embed = new EmbedBuilder()
+				.WithTitle(item.Name)
+				.WithDescription($"{item.Peso}kg   |   {item.Preco}po {modificador}")
+				.WithFooter(new EmbedFooterBuilder() { Text = $"{item.Tipo}" });
+			embed.Color = item.Dano != string.Empty ? new Color(0xED4245) : item.Defesa != 0 ? new Color(0x57F287) : new Color(0x3498DB);
+
+			if (danodefesa != string.Empty)
+				embed.AddField(danodefesa, item.Propriedades);
 
 			return embed.Build();
 		}
@@ -132,6 +206,11 @@ namespace RPGbot.Classes
 		{
 			300,900,2700,6500,14000,23000,34000,48000,64000,85000,100000,120000,140000,165000,195000,225000,265000,305000,355000
 		};
+		public static int[] niveisMagias = new int[]
+		{
+			4,5,6,7,8,9,10,11,12,14,15,15,16,18,19,19,20,22,22,22
+		};
+
 
 		public static int GerarNivel(int xp)
 		{
@@ -146,6 +225,35 @@ namespace RPGbot.Classes
 			}
 
 			return nivel;
+		}
+
+		public static string GerarSaldo(float saldo)
+		{
+			return string.Format("{0:F2}", saldo);
+		}
+
+		public static float GerarPesoInventario(Personagem personagem)
+		{
+			if (personagem.Inventario == null || personagem.Inventario.Count <= 0)
+				return 0;
+
+			float peso = 0;
+			foreach (string item in personagem.Inventario)
+			{
+				peso += new DBitem().Get(item).Peso;
+			}
+
+			return peso;
+		}
+
+		public static string FormatID(string text)
+		{
+			if (string.IsNullOrWhiteSpace(text))
+				return text;
+
+			text = text.Normalize(NormalizationForm.FormD);
+			var chars = text.Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark).ToArray();
+			return Regex.Replace(new string(chars).Normalize(NormalizationForm.FormC).ToLower(), @"\s*\(([^\)]+)\)", "");
 		}
 	}
 }

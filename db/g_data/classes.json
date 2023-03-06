@@ -1,110 +1,110 @@
-﻿{
-  "Bárbaro": {
-    "mname": "Bárbaro",
-    "fname": "Bárbara",
-    "dice": 12,
-    "saldoDice": 4,
-    "saldoDiceNum": 5,
-    "saldoDiceMod": 10,
-    "magico": false
+﻿[
+  {
+    "Mname": "Bárbaro",
+    "Fname": "Bárbara",
+    "Dice": 12,
+    "SaldoDice": 4,
+    "SaldoDiceNum": 5,
+    "SaldoDiceMod": 10,
+    "Magico": false
   },
-  "Bardo": {
-    "mname": "Bardo",
-    "fname": "Barda",
-    "dice": 8,
-    "saldoDice": 4,
-    "saldoDiceNum": 2,
-    "saldoDiceMod": 10,
-    "magico": true
+  {
+    "Mname": "Bardo",
+    "Fname": "Barda",
+    "Dice": 8,
+    "SaldoDice": 4,
+    "SaldoDiceNum": 2,
+    "SaldoDiceMod": 10,
+    "Magico": true
   },
-  "Bruxo": {
-    "mname": "Bruxo",
-    "fname": "Bruxa",
-    "dice": 8,
-    "saldoDice": 4,
-    "saldoDiceNum": 4,
-    "saldoDiceMod": 10,
-    "magico": true
+  {
+    "Mname": "Bruxo",
+    "Fname": "Bruxa",
+    "Dice": 8,
+    "SaldoDice": 4,
+    "SaldoDiceNum": 4,
+    "SaldoDiceMod": 10,
+    "Magico": true
   },
-  "Clérigo": {
-    "mname": "Clérigo",
-    "fname": "Clériga",
-    "dice": 8,
-    "saldoDice": 4,
-    "saldoDiceNum": 5,
-    "saldoDiceMod": 10,
-    "magico": true
+  {
+    "Mname": "Clérigo",
+    "Fname": "Clériga",
+    "Dice": 8,
+    "SaldoDice": 4,
+    "SaldoDiceNum": 5,
+    "SaldoDiceMod": 10,
+    "Magico": true
   },
-  "Druida": {
-    "mname": "Druida",
-    "fname": "Druidesa",
-    "dice": 8,
-    "saldoDice": 4,
-    "saldoDiceNum": 2,
-    "saldoDiceMod": 10,
-    "magico": true
+  {
+    "Mname": "Druida",
+    "Fname": "Druidesa",
+    "Dice": 8,
+    "SaldoDice": 4,
+    "SaldoDiceNum": 2,
+    "SaldoDiceMod": 10,
+    "Magico": true
   },
-  "Feiticeiro": {
-    "mname": "Feiticeiro",
-    "fname": "Feiticeira",
-    "dice": 6,
-    "saldoDice": 4,
-    "saldoDiceNum": 3,
-    "saldoDiceMod": 10,
-    "magico": true
+  {
+    "Mname": "Feiticeiro",
+    "Fname": "Feiticeira",
+    "Dice": 6,
+    "SaldoDice": 4,
+    "SaldoDiceNum": 3,
+    "SaldoDiceMod": 10,
+    "Magico": true
   },
-  "Guerreiro": {
-    "mname": "Guerreiro",
-    "fname": "Guerreira",
-    "dice": 10,
-    "saldoDice": 4,
-    "saldoDiceNum": 5,
-    "saldoDiceMod": 10,
-    "magico": false
+  {
+    "Mname": "Guerreiro",
+    "Fname": "Guerreira",
+    "Dice": 10,
+    "SaldoDice": 4,
+    "SaldoDiceNum": 5,
+    "SaldoDiceMod": 10,
+    "Magico": false
   },
-  "Ladino": {
-    "mname": "Ladino",
-    "fname": "Ladina",
-    "dice": 8,
-    "saldoDice": 4,
-    "saldoDiceNum": 4,
-    "saldoDiceMod": 10,
-    "magico": false
+  {
+    "Mname": "Ladino",
+    "Fname": "Ladina",
+    "Dice": 8,
+    "SaldoDice": 4,
+    "SaldoDiceNum": 4,
+    "SaldoDiceMod": 10,
+    "Magico": false
   },
-  "Mago": {
-    "mname": "Mago",
-    "fname": "Maga",
-    "dice": 6,
-    "saldoDice": 4,
-    "saldoDiceNum": 4,
-    "saldoDiceMod": 10,
-    "magico": true
+  {
+    "Mname": "Mago",
+    "Fname": "Maga",
+    "Dice": 6,
+    "SaldoDice": 4,
+    "SaldoDiceNum": 4,
+    "SaldoDiceMod": 10,
+    "Magico": true
   },
-  "Monge": {
-    "mname": "Monge",
-    "fname": "Monja",
-    "dice": 8,
-    "saldoDice": 4,
+  {
+    "Mname": "Monge",
+    "Fname": "Monja",
+    "Dice": 8,
+    "SaldoDice": 4,
     "saldoDiceN": 5,
-    "saldoDiceMod": 1,
-    "magico": false
+    "SaldoDiceMod": 1,
+    "Magico": false
   },
-  "Paladino": {
-    "mname": "Paladino",
-    "fname": "Paladina",
-    "dice": 10,
-    "saldoDice": 4,
-    "saldoDiceNum": 5,
-    "saldoDiceMod": 10,
-    "magico": true
+  {
+    "Mname": "Paladino",
+    "Fname": "Paladina",
+    "Dice": 10,
+    "SaldoDice": 4,
+    "SaldoDiceNum": 5,
+    "SaldoDiceMod": 10,
+    "Magico": true
   },
-  "Patrulheiro": {
-    "mname": "Patrulheiro",
-    "fname": "Patrulheira",
-    "dice": 10,
-    "saldoDice": 4,
-    "saldoDiceNum": 5,
-    "saldoDiceMod": 10,
-    "magico": true
+  {
+    "Mname": "Patrulheiro",
+    "Fname": "Patrulheira",
+    "Dice": 10,
+    "SaldoDice": 4,
+    "SaldoDiceNum": 5,
+    "SaldoDiceMod": 10,
+    "Magico": true
   }
-}
+]

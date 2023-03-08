@@ -10,7 +10,9 @@
 *.userosscache
 *.sln.docstates
 
+.tmp.drivedownload/
 .tmp.driveupload/
+
 config.yml
 
 # User-specific files (MonoDevelop/Xamarin Studio)

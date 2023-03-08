@@ -28,14 +28,8 @@ namespace RPGbot.Modules
 		[SlashCommand("vida", "Adiciona ou remove vida do personagem")]
 		public async Task Vida([MaxValue(999), MinValue(-999)] int qntd)
 		{
-			if (qntd > 999 || qntd < -999 || qntd == 0)
-			{
-				await RespondAsync($"Valor inválido. Tente novamente com um número entre -999 e 999.", ephemeral: true);
-				return;
-			}
-
 			Personagem personagem = new DBpersonagem().Get(Context.User.Id.ToString());
-			if (personagem == null || personagem.Id == 0)
+			if (personagem == null)
 			{
 				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
@@ -52,16 +46,12 @@ namespace RPGbot.Modules
 		}
 
 		[SlashCommand("xp", "Adiciona pontos de experiência ao personagem")]
-		public async Task XP([MaxValue(999), MinValue(1)] int qntd)
+		public async Task XP([MaxValue(19999), MinValue(1)] int qntd)
 		{
 			qntd = Math.Abs(qntd);
-			if (qntd > 9999 || qntd == 0)
-			{
-				await RespondAsync($"Valor inválido. Tente novamente com um número entre 0 e 9999.", ephemeral: true); return;
-			}
 
 			Personagem personagem = new DBpersonagem().Get(Context.User.Id.ToString());
-			if (personagem == null || personagem.Id == 0)
+			if (personagem == null)
 			{
 				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
@@ -78,7 +68,7 @@ namespace RPGbot.Modules
 		public async Task Saldo([MaxValue(9999), MinValue(-9999)] float qntd)
 		{
 			Personagem personagem = new DBpersonagem().Get(Context.User.Id.ToString());
-			if (personagem == null || personagem.Id == 0)
+			if (personagem == null)
 			{
 				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
@@ -96,7 +86,7 @@ namespace RPGbot.Modules
 		public async Task AddMagia(string magia)
 		{
 			Personagem personagem = new DBpersonagem().Get(Context.User.Id.ToString());
-			if (personagem == null || personagem.Id == 0)
+			if (personagem == null)
 			{
 				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
@@ -132,7 +122,7 @@ namespace RPGbot.Modules
 		public async Task RemoverMagia(string magia)
 		{
 			Personagem personagem = new DBpersonagem().Get(Context.User.Id.ToString());
-			if (personagem == null || personagem.Id == 0)
+			if (personagem == null)
 			{
 				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
@@ -163,7 +153,7 @@ namespace RPGbot.Modules
 		public async Task Magias()
 		{
 			Personagem personagem = new DBpersonagem().Get(Context.User.Id.ToString());
-			if (personagem == null || personagem.Id == 0)
+			if (personagem == null)
 			{
 				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
@@ -183,7 +173,7 @@ namespace RPGbot.Modules
 		public async Task VerMagia(string magia)
 		{
 			Personagem personagem = new DBpersonagem().Get(Context.User.Id.ToString());
-			if (personagem == null || personagem.Id == 0)
+			if (personagem == null)
 			{
 				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
@@ -203,7 +193,7 @@ namespace RPGbot.Modules
 		public async Task Inventario()
 		{
 			Personagem personagem = new DBpersonagem().Get(Context.User.Id.ToString());
-			if (personagem == null || personagem.Id == 0)
+			if (personagem == null)
 			{
 				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
@@ -220,7 +210,7 @@ namespace RPGbot.Modules
 		public async Task AddItem(string nome, [Optional(), DefaultParameterValue(1), MinValue(1)] int quantidade)
 		{
 			Personagem personagem = new DBpersonagem().Get(Context.User.Id.ToString());
-			if (personagem == null || personagem.Id == 0)
+			if (personagem == null)
 			{
 				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
@@ -248,7 +238,7 @@ namespace RPGbot.Modules
 		public async Task RemoverItem(string nome)
 		{
 			Personagem personagem = new DBpersonagem().Get(Context.User.Id.ToString());
-			if (personagem == null || personagem.Id == 0)
+			if (personagem == null)
 			{
 				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
@@ -278,7 +268,7 @@ namespace RPGbot.Modules
 			try
 			{
 				Personagem personagem = new DBpersonagem().Get(Context.User.Id.ToString());
-				if (personagem == null || personagem.Id == 0)
+				if (personagem == null)
 				{
 					await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 				}

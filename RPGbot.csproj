@@ -272,13 +272,13 @@
     <Compile Include="Classes\Classe.cs" />
     <Compile Include="InteractionHandler.cs" />
     <Compile Include="Modules\AddPlayerModule.cs" />
+    <Compile Include="Modules\DbModule.cs" />
     <Compile Include="Modules\GlobalModule.cs" />
     <Compile Include="Modules\MasterModule.cs" />
     <Compile Include="Modules\PlayerModule.cs" />
     <Compile Include="Classes\Personagem.cs" />
     <Compile Include="Program.cs" />
     <None Include="db\c_player\324605986683748352.json" />
-    <None Include="db\c_player\nullPlayer.json" />
     <None Include="db\g_data\classes.json" />
     <None Include="db\g_data\itens.json" />
     <None Include="db\g_data\magias.json" />

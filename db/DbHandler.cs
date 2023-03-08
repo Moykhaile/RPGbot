@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Encodings.Web;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Text.Unicode;
 
 namespace RPGbot.db
@@ -40,7 +39,7 @@ namespace RPGbot.db
 
 		public Personagem Get(string id)
 		{
-			Personagem personagem = JsonSerializer.Deserialize<Personagem>(File.ReadAllText($"../../db/c_player/nullPlayer.json"));
+			Personagem personagem = null;
 			if (File.Exists($"../../db/c_player/{id}.json"))
 			{
 				personagem = JsonSerializer.Deserialize<Personagem>(File.ReadAllText($"../../db/c_player/{id}.json"));
@@ -69,6 +68,11 @@ namespace RPGbot.db
 
 	public class DBclasse : IDB<Classe>
 	{
+		readonly JsonSerializerOptions options = new JsonSerializerOptions
+		{
+			Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+		};
+
 		public List<Classe> GetAll()
 		{
 			string classesPath = File.ReadAllText($"../../db/g_data/classes.json");
@@ -88,13 +92,46 @@ namespace RPGbot.db
 			return classes.Find(e => PlayerResponse.FormatID(e.Mname) == classe);
 		}
 
-		public void Post(Classe classe, string id) { }
-		public void Put(Classe classe) { }
-		public void Delete(Classe classe) { }
+		public void Post(Classe classe, string id)
+		{
+			string classesPath = File.ReadAllText($"../../db/g_data/classes.json");
+
+			List<Classe> classes = JsonSerializer.Deserialize<List<Classe>>(classesPath);
+			classes.Add(classe);
+
+			File.WriteAllText($"../../db/g_data/classes.json", JsonSerializer.Serialize(classe, options));
+		}
+		public void Put(Classe classe)
+		{
+			string classesPath = File.ReadAllText($"../../db/g_data/classes.json");
+
+			List<Classe> classes = JsonSerializer.Deserialize<List<Classe>>(classesPath);
+
+			int index = classes.FindIndex(e => e.Mname == classe.Mname);
+
+			classes[index] = classe;
+
+			File.WriteAllText($"../../db/g_data/classes.json", JsonSerializer.Serialize(classe, options));
+		}
+		public void Delete(Classe classe)
+		{
+			string classesPath = File.ReadAllText($"../../db/g_data/classes.json");
+
+			List<Classe> classes = JsonSerializer.Deserialize<List<Classe>>(classesPath);
+
+			classes.Remove(classe);
+
+			File.WriteAllText($"../../db/g_data/classes.json", JsonSerializer.Serialize(classe, options));
+		}
 	}
 
 	public class DBraca : IDB<Raca>
 	{
+		readonly JsonSerializerOptions options = new JsonSerializerOptions
+		{
+			Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+		};
+
 		public List<Raca> GetAll()
 		{
 			string racasPath = File.ReadAllText($"../../db/g_data/racas.json");
@@ -109,28 +146,63 @@ namespace RPGbot.db
 
 			string racasPath = File.ReadAllText($"../../db/g_data/racas.json");
 
-			List<Raca> classes = JsonSerializer.Deserialize<List<Raca>>(racasPath);
+			List<Raca> racas = JsonSerializer.Deserialize<List<Raca>>(racasPath);
 
-			return classes.Find(e => PlayerResponse.FormatID(e.Mname) == raca);
+			return racas.Find(e => PlayerResponse.FormatID(e.Mname) == raca);
 		}
 
-		public void Post(Raca raca, string id) { }
-		public void Put(Raca raca) { }
-		public void Delete(Raca raca) { }
+		public void Post(Raca raca, string id)
+		{
+			string racasPath = File.ReadAllText($"../../db/g_data/racas.json");
+
+			List<Raca> racas = JsonSerializer.Deserialize<List<Raca>>(racasPath);
+			racas.Add(raca);
+
+			File.WriteAllText($"../../db/g_data/racas.json", JsonSerializer.Serialize(raca, options));
+		}
+		public void Put(Raca raca)
+		{
+			string racasPath = File.ReadAllText($"../../db/g_data/racas.json");
+
+			List<Raca> racas = JsonSerializer.Deserialize<List<Raca>>(racasPath);
+
+			int index = racas.FindIndex(e => e.Mname == raca.Mname);
+
+			racas[index] = raca;
+
+			File.WriteAllText($"../../db/g_data/racas.json", JsonSerializer.Serialize(raca, options));
+		}
+		public void Delete(Raca raca)
+		{
+			string racasPath = File.ReadAllText($"../../db/g_data/racas.json");
+
+			List<Raca> racas = JsonSerializer.Deserialize<List<Raca>>(racasPath);
+
+			racas.Remove(raca);
+
+			File.WriteAllText($"../../db/g_data/racas.json", JsonSerializer.Serialize(racas, options));
+		}
 	}
 
 	public class DBitem : IDB<Item>
 	{
-		public List<Item> GetAll() { return null; }
+		public List<Item> GetAll()
+		{
+			string itensPath = File.ReadAllText($"../../db/g_data/itens.json");
+
+			List<Item> itens = JsonSerializer.Deserialize<List<Item>>(itensPath);
+
+			return itens;
+		}
 		public Item Get(string item)
 		{
 			item = PlayerResponse.FormatID(item);
 
 			string itensPath = File.ReadAllText($"../../db/g_data/itens.json");
 
-			List<Item> classes = JsonSerializer.Deserialize<List<Item>>(itensPath);
+			List<Item> itens = JsonSerializer.Deserialize<List<Item>>(itensPath);
 
-			return classes.Find(e => PlayerResponse.FormatID(e.Name) == item);
+			return itens.Find(e => PlayerResponse.FormatID(e.Name) == item);
 		}
 		public void Post(Item item, string id)
 		{
@@ -140,8 +212,26 @@ namespace RPGbot.db
 			itemList.Add(item);
 			File.WriteAllText("../../db/g_data/itens.json", JsonSerializer.Serialize(itemList));
 		}
-		public void Put(Item item) { }
-		public void Delete(Item item) { }
+		public void Put(Item item)
+		{
+			string itensstring = File.ReadAllText("../../db/g_data/itens.json");
+			List<Item> itemList = JsonSerializer.Deserialize<List<Item>>(itensstring);
+
+			int index = itemList.FindIndex(e => e.Name == item.Name);
+
+			itemList[index] = item;
+
+			File.WriteAllText("../../db/g_data/itens.json", JsonSerializer.Serialize(itemList));
+		}
+		public void Delete(Item item)
+		{
+			string itensstring = File.ReadAllText("../../db/g_data/itens.json");
+			List<Item> itemList = JsonSerializer.Deserialize<List<Item>>(itensstring);
+
+			itemList.Remove(item);
+
+			File.WriteAllText("../../db/g_data/itens.json", JsonSerializer.Serialize(itemList));
+		}
 	}
 
 	public class DBmagia : IDB<Magia>
@@ -165,7 +255,24 @@ namespace RPGbot.db
 			magiaList.Add(magia);
 			File.WriteAllText("../../db/g_data/magias.json", JsonSerializer.Serialize(magiaList));
 		}
-		public void Put(Magia magia) { }
-		public void Delete(Magia magia) { }
+		public void Put(Magia magia)
+		{
+			string magiasPath = File.ReadAllText("../../db/g_data/magias.json");
+			List<Magia> magiaList = JsonSerializer.Deserialize<List<Magia>>(magiasPath);
+
+			int index = magiaList.FindIndex(e => e.Name == magia.Name);
+
+			magiaList[index] = magia;
+
+			File.WriteAllText("../../db/g_data/magias.json", JsonSerializer.Serialize(magiaList));
+		}
+		public void Delete(Magia magia)
+		{
+			string magiasPath = File.ReadAllText("../../db/g_data/magias.json");
+			List<Magia> magiaList = JsonSerializer.Deserialize<List<Magia>>(magiasPath);
+
+			magiaList.Remove(magia);
+			File.WriteAllText("../../db/g_data/magias.json", JsonSerializer.Serialize(magiaList));
+		}
 	}
 }

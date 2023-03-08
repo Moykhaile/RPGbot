@@ -978,5 +978,65 @@
     "ModNome": "",
     "Propriedades": "",
     "Preco": 5.0
+  },
+  {
+    "Name": "Pistola",
+    "Peso": 1.5,
+    "Dano": "1d10 perfurante",
+    "Defesa": 0,
+    "Tipo": "Armas Marciais à Distância",
+    "ModNome": "",
+    "Propriedades": "Munição (distância 9/27), recarga",
+    "Preco": 250.0
+  },
+  {
+    "Name": "Mosquete",
+    "Peso": 5.0,
+    "Dano": "1d12 perfurante",
+    "Defesa": 0,
+    "Tipo": "Armas Marciais à Distância",
+    "ModNome": "",
+    "Propriedades": "Munição (distância 12/36), recarga, duas mãos",
+    "Preco": 500.0
+  },
+  {
+    "Name": "Balas (10)",
+    "Peso": 1.0,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Munição",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 3.0
+  },
+  {
+    "Name": "Bomba",
+    "Peso": 0.5,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Explosivo",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 150.0
+  },
+  {
+    "Name": "Barril de pólvora",
+    "Peso": 10.0,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Explosivo",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 250.0
+  },
+  {
+    "Name": "Chifre de pólvora",
+    "Peso": 1.0,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Explosivo",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 35.0
   }
 ]

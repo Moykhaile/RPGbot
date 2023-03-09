@@ -14,7 +14,7 @@ namespace RPGbot
 
 			Embed embed = new EmbedBuilder()
 			{
-				Author = new EmbedAuthorBuilder() { Name = $"{context.User.Username}" },
+				Author = new EmbedAuthorBuilder() { Name = $"{context.User.Username}", IconUrl = $"{context.User.GetAvatarUrl()}" },
 				Description = $"/{command}{(result.IsSuccess ? "" : erro)}",
 				Footer = new EmbedFooterBuilder() { Text = $"{(result.IsSuccess ? "✅ Sucesso na execução!" : "⛔ ERRO!")}" },
 				Color = 0x00ff00

@@ -8,7 +8,6 @@ using RPGbot.Classes;
 using RPGbot.db;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace RPGbot.Modules
@@ -41,7 +40,7 @@ namespace RPGbot.Modules
 
 		//[RequireRole("Mestre")]
 		[SlashCommand("editplayer", "Editar informação do personagem")]
-		public async Task EditPlayer(IMentionable user, Atributos atributo, [Remainder] string valor)
+		public async Task EditPlayer(IMentionable user, Atributos atributo, string valor)
 		{
 			if (!(user is SocketGuildUser))
 			{

@@ -1,17 +1,13 @@
 ﻿using Discord;
 using Discord.Interactions;
-using Discord.WebSocket;
+using RPGbot.Classes;
+using RPGbot.db;
+using RPGbot.Racas;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using RPGbot.Classes;
-using System.Windows.Forms;
-using RPGbot.Racas;
-using Discord.Rest;
-using Microsoft.Extensions.Options;
-using RPGbot.db;
 
 namespace RPGbot.Modules
 {

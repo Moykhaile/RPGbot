@@ -188,91 +188,147 @@ namespace RPGbot.db
 	{
 		public List<Item> GetAll()
 		{
-			string itensPath = File.ReadAllText($"../../db/g_data/itens.json");
+			string jsonstring = File.ReadAllText($"../../db/g_data/itens.json");
 
-			List<Item> itens = JsonSerializer.Deserialize<List<Item>>(itensPath);
+			List<Item> list = JsonSerializer.Deserialize<List<Item>>(jsonstring);
 
-			return itens;
+			return list;
 		}
-		public Item Get(string item)
+		public Item Get(string nome)
 		{
-			item = PlayerResponse.FormatID(item);
+			nome = PlayerResponse.FormatID(nome);
 
-			string itensPath = File.ReadAllText($"../../db/g_data/itens.json");
+			string jsonstring = File.ReadAllText($"../../db/g_data/itens.json");
 
-			List<Item> itens = JsonSerializer.Deserialize<List<Item>>(itensPath);
+			List<Item> list = JsonSerializer.Deserialize<List<Item>>(jsonstring);
 
-			return itens.Find(e => PlayerResponse.FormatID(e.Name) == item);
+			return list.Find(e => PlayerResponse.FormatID(e.Name) == nome);
 		}
-		public void Post(Item item, string id)
+		public void Post(Item obj, string id)
 		{
-			string itensstring = File.ReadAllText("../../db/g_data/itens.json");
-			List<Item> itemList = JsonSerializer.Deserialize<List<Item>>(itensstring);
+			string jsonstring = File.ReadAllText("../../db/g_data/itens.json");
+			List<Item> list = JsonSerializer.Deserialize<List<Item>>(jsonstring);
 
-			itemList.Add(item);
-			File.WriteAllText("../../db/g_data/itens.json", JsonSerializer.Serialize(itemList));
+			list.Add(obj);
+			File.WriteAllText("../../db/g_data/itens.json", JsonSerializer.Serialize(list));
 		}
-		public void Put(Item item)
+		public void Put(Item obj)
 		{
-			string itensstring = File.ReadAllText("../../db/g_data/itens.json");
-			List<Item> itemList = JsonSerializer.Deserialize<List<Item>>(itensstring);
+			string jsonstring = File.ReadAllText("../../db/g_data/itens.json");
+			List<Item> list = JsonSerializer.Deserialize<List<Item>>(jsonstring);
 
-			int index = itemList.FindIndex(e => e.Name == item.Name);
+			int index = list.FindIndex(e => e.Name == obj.Name);
 
-			itemList[index] = item;
+			list[index] = obj;
 
-			File.WriteAllText("../../db/g_data/itens.json", JsonSerializer.Serialize(itemList));
+			File.WriteAllText("../../db/g_data/itens.json", JsonSerializer.Serialize(list));
 		}
-		public void Delete(Item item)
+		public void Delete(Item obj)
 		{
-			string itensstring = File.ReadAllText("../../db/g_data/itens.json");
-			List<Item> itemList = JsonSerializer.Deserialize<List<Item>>(itensstring);
+			string jsonstring = File.ReadAllText("../../db/g_data/itens.json");
+			List<Item> list = JsonSerializer.Deserialize<List<Item>>(jsonstring);
 
-			itemList.Remove(item);
+			list.Remove(obj);
 
-			File.WriteAllText("../../db/g_data/itens.json", JsonSerializer.Serialize(itemList));
+			File.WriteAllText("../../db/g_data/itens.json", JsonSerializer.Serialize(list));
 		}
 	}
 
 	public class DBmagia : IDB<Magia>
 	{
-		public List<Magia> GetAll() { return null; }
-		public Magia Get(string magia)
+		public List<Magia> GetAll()
 		{
-			magia = PlayerResponse.FormatID(magia);
+			string jsonstring = File.ReadAllText($"../../db/g_data/magias.json");
 
-			string magiasPath = File.ReadAllText($"../../db/g_data/magias.json");
+			List<Magia> list = JsonSerializer.Deserialize<List<Magia>>(jsonstring);
 
-			List<Magia> magias = JsonSerializer.Deserialize<List<Magia>>(magiasPath);
-
-			return magias.Find(e => PlayerResponse.FormatID(e.Name) == magia);
+			return list;
 		}
-		public void Post(Magia magia, string id)
+		public Magia Get(string nome)
 		{
-			string magiasPath = File.ReadAllText("../../db/g_data/magias.json");
-			List<Magia> magiaList = JsonSerializer.Deserialize<List<Magia>>(magiasPath);
+			nome = PlayerResponse.FormatID(nome);
 
-			magiaList.Add(magia);
+			string jsonstring = File.ReadAllText($"../../db/g_data/magias.json");
+
+			List<Magia> list = JsonSerializer.Deserialize<List<Magia>>(jsonstring);
+
+			return list.Find(e => PlayerResponse.FormatID(e.Name) == nome);
+		}
+		public void Post(Magia obj, string id)
+		{
+			string jsonstring = File.ReadAllText("../../db/g_data/magias.json");
+			List<Magia> magiaList = JsonSerializer.Deserialize<List<Magia>>(jsonstring);
+
+			magiaList.Add(obj);
 			File.WriteAllText("../../db/g_data/magias.json", JsonSerializer.Serialize(magiaList));
 		}
-		public void Put(Magia magia)
+		public void Put(Magia obj)
 		{
-			string magiasPath = File.ReadAllText("../../db/g_data/magias.json");
-			List<Magia> magiaList = JsonSerializer.Deserialize<List<Magia>>(magiasPath);
+			string jsonstring = File.ReadAllText("../../db/g_data/magias.json");
+			List<Magia> magiaList = JsonSerializer.Deserialize<List<Magia>>(jsonstring);
 
-			int index = magiaList.FindIndex(e => e.Name == magia.Name);
+			int index = magiaList.FindIndex(e => e.Name == obj.Name);
 
-			magiaList[index] = magia;
+			magiaList[index] = obj;
 
 			File.WriteAllText("../../db/g_data/magias.json", JsonSerializer.Serialize(magiaList));
 		}
-		public void Delete(Magia magia)
+		public void Delete(Magia obj)
 		{
-			string magiasPath = File.ReadAllText("../../db/g_data/magias.json");
-			List<Magia> magiaList = JsonSerializer.Deserialize<List<Magia>>(magiasPath);
+			string jsonstring = File.ReadAllText("../../db/g_data/magias.json");
+			List<Magia> magiaList = JsonSerializer.Deserialize<List<Magia>>(jsonstring);
 
-			magiaList.Remove(magia);
+			magiaList.Remove(obj);
 			File.WriteAllText("../../db/g_data/magias.json", JsonSerializer.Serialize(magiaList));
+		}
+	}
+
+	public class DBpericia : IDB<Pericia>
+	{
+		public List<Pericia> GetAll()
+		{
+			string jsonstring = File.ReadAllText($"../../db/g_data/pericias.json");
+
+			List<Pericia> list = JsonSerializer.Deserialize<List<Pericia>>(jsonstring);
+
+			return list;
+		}
+		public Pericia Get(string nome)
+		{
+			nome = PlayerResponse.FormatID(nome);
+
+			string jsonstring = File.ReadAllText($"../../db/g_data/pericias.json");
+
+			List<Pericia> list = JsonSerializer.Deserialize<List<Pericia>>(jsonstring);
+
+			return list.Find(e => PlayerResponse.FormatID(e.Nome) == nome);
+		}
+		public void Post(Pericia obj, string id)
+		{
+			string jsonstring = File.ReadAllText("../../db/g_data/pericias.json");
+			List<Pericia> magiaList = JsonSerializer.Deserialize<List<Pericia>>(jsonstring);
+
+			magiaList.Add(obj);
+			File.WriteAllText("../../db/g_data/pericias.json", JsonSerializer.Serialize(magiaList));
+		}
+		public void Put(Pericia obj)
+		{
+			string jsonstring = File.ReadAllText("../../db/g_data/pericias.json");
+			List<Pericia> magiaList = JsonSerializer.Deserialize<List<Pericia>>(jsonstring);
+
+			int index = magiaList.FindIndex(e => e.Nome == obj.Nome);
+
+			magiaList[index] = obj;
+
+			File.WriteAllText("../../db/g_data/pericias.json", JsonSerializer.Serialize(magiaList));
+		}
+		public void Delete(Pericia obj)
+		{
+			string jsonstring = File.ReadAllText("../../db/g_data/pericias.json");
+			List<Pericia> magiaList = JsonSerializer.Deserialize<List<Pericia>>(jsonstring);
+
+			magiaList.Remove(obj);
+			File.WriteAllText("../../db/g_data/pericias.json", JsonSerializer.Serialize(magiaList));
 		}
 	}
 }

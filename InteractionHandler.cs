@@ -48,7 +48,7 @@ namespace RPGbot
 
 		private Task SlashCommandExecuted(SlashCommandInfo arg1, IInteractionContext arg2, IResult arg3)
 		{
-			_ = CLogger.Log(arg1.Name, arg2, arg3);
+			_ = CLogger.Log(arg1.Name, arg2, ((ISlashCommandInteraction)arg2.Interaction).Data.Options, arg3);
 			return Task.CompletedTask;
 		}
 		private async Task HandleInteraction(SocketInteraction arg)

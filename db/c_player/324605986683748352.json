@@ -19,9 +19,14 @@
   "Carisma": 7,
   "VidaMax": 3,
   "Vida": 3,
-  "Saldo": 90,
+  "Saldo": 20,
   "XP": 354,
   "Inventario": [
+    "maça",
+    "brunea",
+    "machadinha",
+    "escudo",
+    "mochila"
   ],
   "Magias": [
     "estabilizar",
@@ -29,5 +34,8 @@
     "palavra curativa",
     "oracao curativa",
     "restauracao menor"
+  ],
+  "Pericias": [
+
   ]
 }

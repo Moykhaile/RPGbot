@@ -265,6 +265,7 @@
     </None>
     <Compile Include="Classes\Item.cs" />
     <Compile Include="Classes\Magia.cs" />
+    <Compile Include="Classes\Pericia.cs" />
     <Compile Include="Classes\Raca.cs" />
     <Compile Include="Classes\PlayerResponse.cs" />
     <Compile Include="CLogger.cs" />
@@ -282,6 +283,7 @@
     <None Include="db\g_data\classes.json" />
     <None Include="db\g_data\itens.json" />
     <None Include="db\g_data\magias.json" />
+    <None Include="db\g_data\pericias.json" />
     <None Include="db\g_data\racas.json" />
   </ItemGroup>
   <ItemGroup>

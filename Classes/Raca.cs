@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 
 namespace RPGbot.Racas
 {
@@ -9,7 +6,6 @@ namespace RPGbot.Racas
 	{
 		public string Mname { get; set; }
 		public string Fname { get; set; }
-		public string Habilidade1 { get; set; }
-		public string Habilidade2 { get; set; }
+		public List<string> Habilidades { get; set; }
 	}
 }

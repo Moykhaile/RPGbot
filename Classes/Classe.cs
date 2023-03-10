@@ -1,4 +1,6 @@
-﻿namespace RPGbot.Classes
+﻿using System.Collections.Generic;
+
+namespace RPGbot.Classes
 {
 	public class Classe
 	{
@@ -9,5 +11,6 @@
 		public int SaldoDiceNum { get; set; }
 		public int SaldoDiceMod { get; set; }
 		public bool Magico { get; set; }
+		public List<int> Magias { get; set; }
 	}
 }

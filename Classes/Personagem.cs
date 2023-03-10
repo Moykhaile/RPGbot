@@ -34,5 +34,6 @@ namespace RPGbot.Classes
 
 		public List<string> Inventario { get; set; }
 		public List<string> Magias { get; set; }
+		public List<string> Pericias { get; set; }
 	}
 }

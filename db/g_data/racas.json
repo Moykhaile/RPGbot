@@ -1,62 +1,121 @@
 ﻿[
   {
     "Mname": "Anão da colina",
-    "Fname": "Anã da colina"
+    "Fname": "Anã da colina",
+    "Habilidades": [
+      "Constituição",
+      "Sabedoria"
+    ]
   },
   {
     "Mname": "Anão da Montanha",
-    "Fname": "Anã da Montanha"
+    "Fname": "Anã da Montanha",
+    "Habilidades": [
+      "Constituição",
+      "Força"
+    ]
   },
   {
     "Mname": "Alto elfo",
-    "Fname": "Alta elfa"
+    "Fname": "Alta elfa",
+    "Habilidades": [
+      "Destreza",
+      "Inteligência"
+    ]
   },
   {
     "Mname": "Elfo da floresta",
-    "Fname": "Elfo da floresta"
+    "Fname": "Elfo da floresta",
+    "Habilidades": [
+      "Destreza",
+      "Sabedoria"
+    ]
   },
   {
     "Mname": "Drow",
-    "Fname": "Drow"
+    "Fname": "Drow",
+    "Habilidades": [
+      "Destreza",
+      "Carisma"
+    ]
   },
   {
     "Mname": "Meio-elfo",
-    "Fname": "Meia-elfo"
+    "Fname": "Meia-elfo",
+    "Habilidades": [
+      "Carisma",
+      "Destreza"
+    ]
   },
   {
     "Mname": "Halfling pé leve",
-    "Fname": "Halfling pé leve"
+    "Fname": "Halfling pé leve",
+    "Habilidades": [
+      "Destreza",
+      "Carisma"
+    ]
   },
   {
     "Mname": "Halfling robusto",
-    "Fname": "Halfling robusto"
+    "Fname": "Halfling robusto",
+    "Habilidades": [
+      "Destreza",
+      "Constituição"
+    ]
   },
   {
     "Mname": "Humano",
-    "Fname": "Humana"
+    "Fname": "Humana",
+    "Habilidades": [
+      "Todos"
+    ]
   },
   {
     "Mname": "Draconato",
-    "Fname": "Draconata"
+    "Fname": "Draconata",
+    "Habilidades": [
+      "Força",
+      "Carisma"
+    ]
   },
   {
     "Mname": "Gnomo da floresta",
-    "Fname": "Gnoma da floresta"
+    "Fname": "Gnoma da floresta",
+    "Habilidades": [
+      "Inteligência",
+      "Destreza"
+    ]
   },
   {
     "Mname": "Gnomo das rochas",
-    "Fname": "Gnoma das rochas"
+    "Fname": "Gnoma das rochas",
+    "Habilidades": [
+      "Inteligência",
+      "Constituição"
+    ]
   },
   {
     "Mname": "Meio-orc",
-    "Fname": "Meia-orc"
+    "Fname": "Meia-orc",
+    "Habilidades": [
+      "Força",
+      "Constituição"
+    ]
   },
   {
     "Mname": "Tiefling infernal",
-    "Fname": "Tiefling infernal"
+    "Fname": "Tiefling infernal",
+    "Habilidades": [
+      "Carisma",
+      "Inteligência"
+    ]
   },
   {
     "Mname": "Tiefling abissal",
-    "Fname": "Tiefling abissal"
+    "Fname": "Tiefling abissal",
+    "Habilidades": [
+      "Carisma",
+      "Inteligência"
+    ]
   }
 ]

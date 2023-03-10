@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System;
 using System.Threading.Tasks;
 using System.IO;
+using System.ComponentModel;
 
 namespace RPGbot.Modules
 {
@@ -114,6 +115,17 @@ namespace RPGbot.Modules
 			new DBmagia().Post(magia, magia.Name);
 
 			await RespondAsync($"Magia ``{magia.Name}`` adicionada à base");
+		}
+
+		[RequireRole("Mestre")]
+		[SlashCommand("dbaddpericia", "Adiciona perícia à base de dados do RPGbot")]
+		public async Task AddPericia(string nome, PlayerResponse.Atributos atributo, string descricao)
+		{
+			Pericia pericia = new Pericia() { Nome = nome, Atributo = atributo, Descricao = descricao };
+
+			new DBpericia().Post(pericia, pericia.Nome);
+
+			await RespondAsync($"Perícia ``{pericia.Nome}`` adicionada à base");
 		}
 	}
 }

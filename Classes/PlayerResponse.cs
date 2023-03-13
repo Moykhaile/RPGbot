@@ -309,9 +309,9 @@ namespace RPGbot.Classes
 			if (string.IsNullOrWhiteSpace(text))
 				return text;
 
-			text = text.Normalize(NormalizationForm.FormD);
+			text = Regex.Replace(text.Normalize(NormalizationForm.FormD), @"[-/^\s]", "");
 			var chars = text.Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark).ToArray();
-			return Regex.Replace(new string(chars).Normalize(NormalizationForm.FormC).ToLower(), @"\s*\(([^\)]+)\)", "");
+			return Regex.Replace(new string(chars).Normalize(NormalizationForm.FormC).ToLower(), @"\s*\((^\)]+)\)", "");
 		}
 	}
 }

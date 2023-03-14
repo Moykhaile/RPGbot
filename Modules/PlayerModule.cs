@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Interactions;
+using Discord.WebSocket;
 using Newtonsoft.Json;
 using RPGbot.Classes;
 using RPGbot.db;
@@ -22,7 +23,44 @@ namespace RPGbot.Modules
 				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
 
-			await RespondAsync($"Sua ficha de personagem!", ephemeral: true, embed: PlayerResponse.GerarFicha(personagem));
+			var periciasBtn = new ButtonBuilder()
+			{
+				CustomId = "periciasBtn",
+				Label = "Ver perícias",
+				Style = ButtonStyle.Success
+			};
+
+			var buttonComponent = new ComponentBuilder().WithButton(periciasBtn);
+
+			await RespondAsync($"Sua ficha de personagem!", ephemeral: true, components: buttonComponent.Build(), embed: PlayerResponse.GerarFicha(personagem));
+		}
+		[ComponentInteraction("fichaBtn")]
+		public async Task FichaButton()
+		{
+			var periciasBtn = new ButtonBuilder()
+			{
+				CustomId = "periciasBtn",
+				Label = "Ver perícias",
+				Style = ButtonStyle.Success
+			};
+
+			var buttonComponent = new ComponentBuilder().WithButton(periciasBtn);
+
+			await Context.Interaction.RespondAsync("Sua ficha de personagem!", ephemeral: true, components: buttonComponent.Build(), embed: PlayerResponse.GerarFicha(new DBpersonagem().Get(Context.User.Id.ToString())));
+		}
+		[ComponentInteraction("periciasBtn")]
+		public async Task PericiasButton()
+		{
+			var fichaBtn = new ButtonBuilder()
+			{
+				CustomId = "fichaBtn",
+				Label = "Ver ficha",
+				Style = ButtonStyle.Primary
+			};
+
+			var buttonComponent = new ComponentBuilder().WithButton(fichaBtn);
+
+			await Context.Interaction.RespondAsync("Suas perícias de personagem!", ephemeral: true, components: buttonComponent.Build(), embed: PlayerResponse.GerarPericias(new DBpersonagem().Get(Context.User.Id.ToString())));
 		}
 
 		[SlashCommand("vida", "Adiciona ou remove vida do personagem")]

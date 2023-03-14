@@ -1,15 +1,12 @@
 ﻿using Discord;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using RPGbot.db;
 using RPGbot.Racas;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Security.Permissions;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -22,15 +19,10 @@ namespace RPGbot.Classes
 			Classe classePlayer = new DBclasse().Get(personagem.Classe);
 			Raca racaPlayer = new DBraca().Get(personagem.Raca);
 
-			string txt = "";
-			if (personagem.Pericias != null)
-				foreach (string pericia in personagem.Pericias)
-					txt += $"- {new DBpericia().Get(pericia).Nome}\n";
-
 			EmbedBuilder embed = new EmbedBuilder()
 			{
 				Author = new EmbedAuthorBuilder() { Name = $"{personagem.Nome}   {personagem.Vida}/{personagem.VidaMax}hp" },
-				Description = $"{(personagem.Genero == "Feminino" ? classePlayer.Fname : classePlayer.Mname)} - {personagem.Posicao}       {(personagem.Genero == "Feminino" ? racaPlayer.Fname : racaPlayer.Mname)}   -   {personagem.XP}/{niveisXP[GerarNivel(personagem.XP) - 1]}xp{(txt != "" ? $"```md\n" + txt + "```" : "")}",
+				Description = $"{(personagem.Genero == "Feminino" ? classePlayer.Fname : classePlayer.Mname)} - {personagem.Posicao}       {(personagem.Genero == "Feminino" ? racaPlayer.Fname : racaPlayer.Mname)}   -   {personagem.XP}/{niveisXP[GerarNivel(personagem.XP) - 1]}xp",
 				Footer = new EmbedFooterBuilder() { Text = $"💰 {GerarSaldo(personagem.Saldo)}   -   {personagem.Jogador}" },
 				Fields = new List<EmbedFieldBuilder>()
 				{
@@ -55,6 +47,24 @@ namespace RPGbot.Classes
 
 			return embed.Build();
 		}
+		public static Embed GerarPericias(Personagem personagem)
+		{
+			string txt = "```md\n> Perícias do personagem";
+			if (personagem.Pericias != null)
+				foreach (string pericia in personagem.Pericias)
+					txt += $"- {new DBpericia().Get(pericia).Nome}\n";
+
+			EmbedBuilder embed = new EmbedBuilder()
+			{
+				Author = new EmbedAuthorBuilder() { Name = $"{personagem.Nome}   {personagem.Vida}/{personagem.VidaMax}hp" },
+				Description = $"{txt}```",
+				Footer = new EmbedFooterBuilder() { Text = $"🌟 Nível {GerarNivel(personagem.XP)}   -   {personagem.Jogador}" },
+				Color = GerarCorVida(personagem.Vida, personagem.VidaMax)
+			};
+
+			return embed.Build();
+		}
+
 		public static float pesoMod = 7.5f;
 		public static Embed GerarInventario(Personagem personagem)
 		{

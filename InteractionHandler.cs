@@ -38,6 +38,7 @@ namespace RPGbot
 
 		private Task ComponentCommandExecuted(ComponentCommandInfo arg1, IInteractionContext arg2, IResult arg3)
 		{
+			_ = CLogger.Log(arg1.Name, arg2, arg3);
 			return Task.CompletedTask;
 		}
 

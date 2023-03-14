@@ -157,6 +157,23 @@ namespace RPGbot.Modules
 
 			await RespondAsync($"Ficha de personagem de {(user as SocketGuildUser).DisplayName}!", ephemeral: true, embed: PlayerResponse.GerarFicha(personagem));
 		}
+		[RequireRole("Mestre")]
+		[SlashCommand("mostrarpericias", "Apresenta as perícias de outro personagem")]
+		public async Task MostrarPericias(IMentionable user)
+		{
+			if (!(user is SocketGuildUser))
+			{
+				await RespondAsync($"Usuário inválido.", ephemeral: true); return;
+			}
+
+			Personagem personagem = new DBpersonagem().Get((user as SocketGuildUser).Id.ToString());
+			if (personagem == null)
+			{
+				await RespondAsync($"Personagem de ID \"{(user as SocketGuildUser).Id}\" não encontrado.", ephemeral: true); return;
+			}
+
+			await RespondAsync($"Ficha de personagem de {(user as SocketGuildUser).DisplayName}!", ephemeral: true, embed: PlayerResponse.GerarPericias(personagem));
+		}
 
 		[RequireRole("Mestre")]
 		[SlashCommand("mostrarinventario", "Apresenta o inventário de outro personagem")]
@@ -222,11 +239,12 @@ namespace RPGbot.Modules
 			{
 				if (personagem.Id != 0)
 				{
-					embed.AddField(
-						$"{personagem.Nome}",
-						$"```❤️ {personagem.Vida}/{personagem.VidaMax}\n🌟 {personagem.XP}/{PlayerResponse.niveisXP[PlayerResponse.GerarNivel(personagem.XP) - 1]} lvl {PlayerResponse.GerarNivel(personagem.XP)}\n💰 {personagem.Saldo}```",
-						inline: true
-					);
+					if (personagem.Id != Context.User.Id)
+						embed.AddField(
+							$"{personagem.Nome}",
+							$"```❤️ {personagem.Vida}/{personagem.VidaMax}\n🌟 {personagem.XP}/{PlayerResponse.niveisXP[PlayerResponse.GerarNivel(personagem.XP) - 1]} lvl {PlayerResponse.GerarNivel(personagem.XP)}\n💰 {personagem.Saldo}```",
+							inline: true
+						);
 				}
 			}
 

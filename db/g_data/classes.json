@@ -6,7 +6,8 @@
     "SaldoDice": 4,
     "SaldoDiceNum": 5,
     "SaldoDiceMod": 10,
-    "Magico": false
+    "Magico": false,
+    "Magias": []
   },
   {
     "Mname": "Bardo",
@@ -15,7 +16,29 @@
     "SaldoDice": 4,
     "SaldoDiceNum": 2,
     "SaldoDiceMod": 10,
-    "Magico": true
+    "Magico": true,
+    "Magias": [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      14,
+      15,
+      15,
+      16,
+      18,
+      19,
+      19,
+      20,
+      22,
+      22,
+      22
+    ]
   },
   {
     "Mname": "Bruxo",
@@ -24,7 +47,29 @@
     "SaldoDice": 4,
     "SaldoDiceNum": 4,
     "SaldoDiceMod": 10,
-    "Magico": true
+    "Magico": true,
+    "Magias": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      10,
+      11,
+      11,
+      12,
+      12,
+      13,
+      13,
+      14,
+      14,
+      15,
+      15
+    ]
   },
   {
     "Mname": "Clérigo",
@@ -33,7 +78,29 @@
     "SaldoDice": 4,
     "SaldoDiceNum": 5,
     "SaldoDiceMod": 10,
-    "Magico": true
+    "Magico": true,
+    "Magias": [
+      2,
+      3,
+      6,
+      7,
+      9,
+      10,
+      11,
+      12,
+      14,
+      15,
+      16,
+      16,
+      17,
+      17,
+      18,
+      18,
+      19,
+      20,
+      21,
+      22
+    ]
   },
   {
     "Mname": "Druida",
@@ -42,7 +109,29 @@
     "SaldoDice": 4,
     "SaldoDiceNum": 2,
     "SaldoDiceMod": 10,
-    "Magico": true
+    "Magico": true,
+    "Magias": [
+      2,
+      3,
+      6,
+      7,
+      9,
+      10,
+      11,
+      12,
+      14,
+      15,
+      16,
+      16,
+      17,
+      17,
+      18,
+      18,
+      19,
+      20,
+      21,
+      22
+    ]
   },
   {
     "Mname": "Feiticeiro",
@@ -51,7 +140,29 @@
     "SaldoDice": 4,
     "SaldoDiceNum": 3,
     "SaldoDiceMod": 10,
-    "Magico": true
+    "Magico": true,
+    "Magias": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      12,
+      13,
+      13,
+      14,
+      14,
+      15,
+      15,
+      15,
+      15
+    ]
   },
   {
     "Mname": "Guerreiro",
@@ -60,7 +171,8 @@
     "SaldoDice": 4,
     "SaldoDiceNum": 5,
     "SaldoDiceMod": 10,
-    "Magico": false
+    "Magico": false,
+    "Magias": []
   },
   {
     "Mname": "Ladino",
@@ -69,7 +181,8 @@
     "SaldoDice": 4,
     "SaldoDiceNum": 4,
     "SaldoDiceMod": 10,
-    "Magico": false
+    "Magico": false,
+    "Magias": []
   },
   {
     "Mname": "Mago",
@@ -78,7 +191,29 @@
     "SaldoDice": 4,
     "SaldoDiceNum": 4,
     "SaldoDiceMod": 10,
-    "Magico": true
+    "Magico": true,
+    "Magias": [
+      2,
+      3,
+      6,
+      7,
+      9,
+      10,
+      11,
+      12,
+      14,
+      15,
+      16,
+      16,
+      17,
+      17,
+      18,
+      18,
+      19,
+      20,
+      21,
+      22
+    ]
   },
   {
     "Mname": "Monge",
@@ -87,7 +222,8 @@
     "SaldoDice": 4,
     "saldoDiceN": 5,
     "SaldoDiceMod": 1,
-    "Magico": false
+    "Magico": false,
+    "Magias": []
   },
   {
     "Mname": "Paladino",
@@ -96,7 +232,29 @@
     "SaldoDice": 4,
     "SaldoDiceNum": 5,
     "SaldoDiceMod": 10,
-    "Magico": true
+    "Magico": true,
+    "Magias": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      12,
+      13,
+      13,
+      14,
+      14,
+      15,
+      15,
+      15,
+      15
+    ]
   },
   {
     "Mname": "Patrulheiro",
@@ -105,6 +263,28 @@
     "SaldoDice": 4,
     "SaldoDiceNum": 5,
     "SaldoDiceMod": 10,
-    "Magico": true
+    "Magico": true,
+    "Magias": [
+      0,
+      2,
+      3,
+      3,
+      4,
+      4,
+      5,
+      5,
+      6,
+      6,
+      7,
+      7,
+      8,
+      8,
+      9,
+      9,
+      10,
+      10,
+      11,
+      11
+    ]
   }
 ]

@@ -14,7 +14,7 @@ namespace RPGbot.Modules
 {
 	public class MasterModule : InteractionModuleBase<SocketInteractionContext>
 	{
-		public enum Atributos
+		public enum Dados
 		{
 			Nome,
 			Jogador,
@@ -40,7 +40,7 @@ namespace RPGbot.Modules
 
 		//[RequireRole("Mestre")]
 		[SlashCommand("editplayer", "Editar informação do personagem")]
-		public async Task EditPlayer(IMentionable user, Atributos atributo, string valor)
+		public async Task EditPlayer(IMentionable user, Dados atributo, string valor)
 		{
 			if (!(user is SocketGuildUser))
 			{
@@ -157,6 +157,23 @@ namespace RPGbot.Modules
 
 			await RespondAsync($"Ficha de personagem de {(user as SocketGuildUser).DisplayName}!", ephemeral: true, embed: PlayerResponse.GerarFicha(personagem));
 		}
+		[RequireRole("Mestre")]
+		[SlashCommand("mostrarpericias", "Apresenta as perícias de outro personagem")]
+		public async Task MostrarPericias(IMentionable user)
+		{
+			if (!(user is SocketGuildUser))
+			{
+				await RespondAsync($"Usuário inválido.", ephemeral: true); return;
+			}
+
+			Personagem personagem = new DBpersonagem().Get((user as SocketGuildUser).Id.ToString());
+			if (personagem == null)
+			{
+				await RespondAsync($"Personagem de ID \"{(user as SocketGuildUser).Id}\" não encontrado.", ephemeral: true); return;
+			}
+
+			await RespondAsync($"Ficha de personagem de {(user as SocketGuildUser).DisplayName}!", ephemeral: true, embed: PlayerResponse.GerarPericias(personagem));
+		}
 
 		[RequireRole("Mestre")]
 		[SlashCommand("mostrarinventario", "Apresenta o inventário de outro personagem")]
@@ -173,7 +190,12 @@ namespace RPGbot.Modules
 				await RespondAsync($"Personagem de ID \"{(user as SocketGuildUser).Id}\" não encontrado.", ephemeral: true); return;
 			}
 
-			await RespondAsync($"Sua ficha de personagem!", ephemeral: true, embed: PlayerResponse.GerarFicha(personagem));
+			if (personagem.Inventario == null)
+			{
+				await RespondAsync($"{personagem.Nome} não tem itens em seu inventário.", ephemeral: true); return;
+			}
+
+			await RespondAsync($"Inventário de {(user as SocketGuildUser).DisplayName}!", ephemeral: true, embed: PlayerResponse.GerarInventario(personagem));
 		}
 
 		[RequireRole("Mestre")]
@@ -194,12 +216,12 @@ namespace RPGbot.Modules
 			{
 				await RespondAsync($"A classe do seu personagem não é mágica.", ephemeral: true); return;
 			}
-			if (personagem.Magias == null || personagem.Magias.Count <= 0)
+			if (personagem.Magias == null)
 			{
 				await RespondAsync($"{personagem.Nome} não conhece nenhuma magia.", ephemeral: true); return;
 			}
 
-			await RespondAsync($"As magias do seu personagem!", ephemeral: true, embed: PlayerResponse.GerarMagias(personagem.Magias, personagem));
+			await RespondAsync($"As magias de {(user as SocketGuildUser).DisplayName}!", ephemeral: true, embed: PlayerResponse.GerarMagias(personagem.Magias, personagem));
 		}
 
 		[RequireRole("Mestre")]
@@ -217,10 +239,12 @@ namespace RPGbot.Modules
 			{
 				if (personagem.Id != 0)
 				{
-					embed.AddField(
-						$"{personagem.Nome}",
-						$"```❤️ {personagem.Vida}/{personagem.VidaMax}\n🌟 {personagem.XP}/{PlayerResponse.niveisXP[PlayerResponse.GerarNivel(personagem.XP) - 1]} lvl {PlayerResponse.GerarNivel(personagem.XP)}\n💰 {personagem.Saldo}```"
-					);
+					if (personagem.Id != Context.User.Id)
+						embed.AddField(
+							$"{personagem.Nome}",
+							$"```❤️ {personagem.Vida}/{personagem.VidaMax}\n🌟 {personagem.XP}/{PlayerResponse.niveisXP[PlayerResponse.GerarNivel(personagem.XP) - 1]} lvl {PlayerResponse.GerarNivel(personagem.XP)}\n💰 {personagem.Saldo}```",
+							inline: true
+						);
 				}
 			}
 

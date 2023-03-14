@@ -6,7 +6,6 @@ using RPGbot.Racas;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace RPGbot.Modules
@@ -182,9 +181,11 @@ namespace RPGbot.Modules
 			personagem.Altura = int.Parse(modal.Height);
 
 			personagem = GeneratePlayer(personagem);
+			personagem = GerarDadosRaca(personagem);
 
 			personagem.Magias = new List<string>();
 			personagem.Inventario = new List<string>();
+			personagem.Pericias = new List<string>();
 
 			new DBpersonagem().Put(personagem);
 
@@ -193,11 +194,11 @@ namespace RPGbot.Modules
 
 		Personagem GeneratePlayer(Personagem personagem)
 		{
-			personagem.Sabedoria = JogarDadosAtributos();
 			personagem.Forca = JogarDadosAtributos();
 			personagem.Destreza = JogarDadosAtributos();
-			personagem.Constituicao = JogarDadosAtributos();
 			personagem.Inteligencia = JogarDadosAtributos();
+			personagem.Constituicao = JogarDadosAtributos();
+			personagem.Sabedoria = JogarDadosAtributos();
 			personagem.Carisma = JogarDadosAtributos();
 
 			Classe playerClass = new DBclasse().Get(personagem.Classe);
@@ -206,6 +207,32 @@ namespace RPGbot.Modules
 			personagem.VidaMax = personagem.Vida;
 
 			personagem.Saldo = JogarDadosSaldo(playerClass.SaldoDice, playerClass.SaldoDiceNum, playerClass.SaldoDiceMod);
+
+			return personagem;
+		}
+
+		Personagem GerarDadosRaca(Personagem personagem)
+		{
+			List<string> habilidades = new DBraca().Get(personagem.Raca).Habilidades;
+
+			if (habilidades[0] == "Todos")
+			{
+				personagem.Forca++;
+				personagem.Destreza++;
+				personagem.Inteligencia++;
+				personagem.Constituicao++;
+				personagem.Sabedoria++;
+				personagem.Carisma++;
+			}
+			else
+			{
+				personagem.Forca += habilidades[0] == "Força" ? 2 : habilidades[1] == "Força" ? 1 : 0;
+				personagem.Destreza += habilidades[0] == "Destreza" ? 2 : habilidades[1] == "Destreza" ? 1 : 0;
+				personagem.Inteligencia += habilidades[0] == "Inteligência" ? 2 : habilidades[1] == "Inteligência" ? 1 : 0;
+				personagem.Constituicao += habilidades[0] == "Constituição" ? 2 : habilidades[1] == "Constituição" ? 1 : 0;
+				personagem.Sabedoria += habilidades[0] == "Sabedoria" ? 2 : habilidades[1] == "Sabedoria" ? 1 : 0;
+				personagem.Carisma += habilidades[0] == "Carisma" ? 2 : habilidades[1] == "Carisma" ? 1 : 0;
+			}
 
 			return personagem;
 		}
@@ -243,7 +270,7 @@ namespace RPGbot.Modules
 			int resultado = 0;
 			foreach (var item in resultados)
 				resultado += item;
-
+			Console.WriteLine(resultado);
 			return resultado;
 		}
 		//4d6dl1

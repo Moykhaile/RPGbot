@@ -41,7 +41,7 @@
   },
   {
     "Name": "Azagaia",
-    "Peso": 5.0,
+    "Peso": 1.0,
     "Dano": "1d6 perfurante",
     "Defesa": 0,
     "Tipo": "Armas Simples Corpo-a-Corpo",
@@ -970,7 +970,7 @@
     "Preco": 25.0
   },
   {
-    "Name": "Kit de primeiro-socorros",
+    "Name": "Kit de primeiros-socorros",
     "Peso": 1.5,
     "Dano": "",
     "Defesa": 0,
@@ -1038,5 +1038,515 @@
     "ModNome": "",
     "Propriedades": "",
     "Preco": 35.0
+  },
+  {
+    "Name": "Lâmpada",
+    "Peso": 0.5,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 0.5
+  },
+  {
+    "Name": "Lanterna coberta",
+    "Peso": 1.0,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 5.0
+  },
+  {
+    "Name": "Lanterna furta-fogo",
+    "Peso": 1.0,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 10.0
+  },
+  {
+    "Name": "Lente de aumento",
+    "Peso": 0.0,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 100.0
+  },
+  {
+    "Name": "Livro",
+    "Peso": 2.5,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 25.0
+  },
+  {
+    "Name": "Luneta",
+    "Peso": 0.5,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 1000.0
+  },
+  {
+    "Name": "Manto",
+    "Peso": 2.0,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 1.0
+  },
+  {
+    "Name": "Marreta",
+    "Peso": 5.0,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 2.0
+  },
+  {
+    "Name": "Martelo",
+    "Peso": 1.5,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 1.0
+  },
+  {
+    "Name": "Mochila",
+    "Peso": 2.5,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Mochila",
+    "ModNome": "",
+    "Propriedades": "+15kg",
+    "Preco": 2.0
+  },
+  {
+    "Name": "Balas de Funda (20)",
+    "Peso": 0.75,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Munição",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 0.04
+  },
+  {
+    "Name": "Flechas (20)",
+    "Peso": 0.5,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Munição",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 1.0
+  },
+  {
+    "Name": "Virotes (20)",
+    "Peso": 0.75,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Munição",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 1.0
+  },
+  {
+    "Name": "Zarabatana (50)",
+    "Peso": 0.5,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Munição",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 1.0
+  },
+  {
+    "Name": "Óleo (frasco)",
+    "Peso": 0.5,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 1.0
+  },
+  {
+    "Name": "Pá",
+    "Peso": 2.5,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 2.0
+  },
+  {
+    "Name": "Panela de ferro",
+    "Peso": 5.0,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 2.0
+  },
+  {
+    "Name": "Papel (uma folha)",
+    "Peso": 0.0,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 0.2
+  },
+  {
+    "Name": "Parafina",
+    "Peso": 0.0,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 0.5
+  },
+  {
+    "Name": "Pé de cabra",
+    "Peso": 2.5,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 2.0
+  },
+  {
+    "Name": "Pedra de amolar",
+    "Peso": 0.0,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 0.01
+  },
+  {
+    "Name": "Perfume (frasco)",
+    "Peso": 0.0,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 5.0
+  },
+  {
+    "Name": "Pergaminho (uma folha)",
+    "Peso": 0.0,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 0.1
+  },
+  {
+    "Name": "Picareta de minerador",
+    "Peso": 5.0,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 2.0
+  },
+  {
+    "Name": "Píton",
+    "Peso": 0.0,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 0.05
+  },
+  {
+    "Name": "Poção de cura",
+    "Peso": 0.25,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Um personagem que beber o líquido vermelho mágico deste frasco recupera 2d4+2 pontos de vida. Beber ou administrar uma poção exige uma ação.",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 50.0
+  },
+  {
+    "Name": "Porta mapas",
+    "Peso": 0.5,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 1.0
+  },
+  {
+    "Name": "Porta virotes",
+    "Peso": 0.5,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 1.0
+  },
+  {
+    "Name": "Pregos de ferro (10)",
+    "Peso": 2.5,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 1.0
+  },
+  {
+    "Name": "Rações de viagem (1 dia)",
+    "Peso": 1.0,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Comida",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 0.5
+  },
+  {
+    "Name": "Robes",
+    "Peso": 2.0,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Roupas",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 1.0
+  },
+  {
+    "Name": "Roldana e polia",
+    "Peso": 2.5,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 1.0
+  },
+  {
+    "Name": "Roupas comuns",
+    "Peso": 1.5,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Roupas",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 0.5
+  },
+  {
+    "Name": "Roupas de viajante",
+    "Peso": 2.0,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Roupas",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 2.0
+  },
+  {
+    "Name": "Roupas de entretenimento",
+    "Peso": 2.0,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Roupas",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 5.0
+  },
+  {
+    "Name": "Roupas finas",
+    "Peso": 3.0,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Roupas",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 15.0
+  },
+  {
+    "Name": "Sabão",
+    "Peso": 0.0,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 0.02
+  },
+  {
+    "Name": "Saco",
+    "Peso": 0.25,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 0.01
+  },
+  {
+    "Name": "Saco de dormir",
+    "Peso": 3.5,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 1.0
+  },
+  {
+    "Name": "Amuleto",
+    "Peso": 0.5,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Símbolo sagrado",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 5.0
+  },
+  {
+    "Name": "Emblema",
+    "Peso": 0.0,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Símbolo sagrado",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 5.0
+  },
+  {
+    "Name": "Relicário",
+    "Peso": 1.0,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Símbolo sagrado",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 5.0
+  },
+  {
+    "Name": "Sinete",
+    "Peso": 0.0,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 5.0
+  },
+  {
+    "Name": "Sino",
+    "Peso": 0.0,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 1.0
+  },
+  {
+    "Name": "Tenda para duas pessoas",
+    "Peso": 10.0,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 2.0
+  },
+  {
+    "Name": "Tocha",
+    "Peso": 0.5,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 0.01
+  },
+  {
+    "Name": "Tinta (frasco de 300ml)",
+    "Peso": 0.0,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 10.0
+  },
+  {
+    "Name": "Vara (3 metros)",
+    "Peso": 3.5,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 0.05
+  },
+  {
+    "Name": "Vela",
+    "Peso": 0.0,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 0.01
+  },
+  {
+    "Name": "Veneno básico (frasco)",
+    "Peso": 0.0,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Você pode usar o veneno contido nesse vidro para cobrir a lâmina de uma arma cortante ou perfurante ou até três peças de munição. Aplicar o veneno leva uma ação. Uma criatura atingida pela arma ou munição envenenada deve obter sucesso em um teste de resistência de Constituição CD 10 ou sofrerá 1d4 de dano de veneno. Uma vez aplicado, o veneno retém sua potência durante 1 minuto antes de secar.",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 100.0
+  },
+  {
+    "Name": "Tambor",
+    "Peso": 1.5,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Instrumento musical",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 6.0
   }
 ]

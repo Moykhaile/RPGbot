@@ -1,1 +1,33 @@
-{"Id":696441760477478922,"Nome":"Tharivol Meliamne","Jogador":"Pedro Henrique dos Santos Russo","Genero":"Masculino","Raca":"Elfo da floresta","Classe":"Patrulheiro","Sexualidade":"Heterossexual","Posicao":"Dano","Idade":127,"Peso":70,"Altura":177,"ImgLink":null,"Forca":11,"Destreza":16,"Inteligencia":11,"Constituicao":14,"Sabedoria":15,"Carisma":11,"VidaMax":6,"Vida":6,"Saldo":120,"XP":0,"Inventario":[],"Magias":[]}
+{
+    "Id": 696441760477478922,
+    "Nome": "Tharivol Meliamne",
+    "Jogador": "Pedro Henrique dos Santos Russo",
+    "Genero": "Masculino",
+    "Raca": "Elfo da floresta",
+    "Classe": "Patrulheiro",
+    "Sexualidade": "Heterossexual",
+    "Posicao": "Dano",
+    "Idade": 127,
+    "Peso": 70,
+    "Altura": 177,
+    "ImgLink": null,
+    "Forca": 11,
+    "Destreza": 16,
+    "Inteligencia": 11,
+    "Constituicao": 14,
+    "Sabedoria": 17,
+    "Carisma": 11,
+    "VidaMax": 6,
+    "Vida": 6,
+    "Saldo": 120,
+    "XP": 0,
+    "Inventario": [],
+    "Magias": [],
+    "Pericias": [
+        "percepcao",
+        "sobrevivencia",
+        "natureza",
+        "furtividade",
+        "investigacao"
+    ]
+}

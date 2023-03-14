@@ -19,8 +19,11 @@
     "Carisma": 11,
     "VidaMax": 7,
     "Vida": 7,
-    "Saldo": 30,
+    "Saldo": 0,
     "XP": 0,
-    "Inventario": [],
-    "Magias": []
+    "Inventario": [
+        "cotadeaneis"
+    ],
+    "Magias": [],
+    "Pericias": null
 }

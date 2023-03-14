@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using YamlDotNet.Core.Tokens;
 
 namespace RPGbot.Classes
 {
@@ -21,7 +22,7 @@ namespace RPGbot.Classes
 
 			EmbedBuilder embed = new EmbedBuilder()
 			{
-				Author = new EmbedAuthorBuilder() { Name = $"{personagem.Nome}   {personagem.Vida}/{personagem.VidaMax}hp" },
+				Author = new EmbedAuthorBuilder() { Name = $"{personagem.Nome}   {personagem.Vida}/{personagem.VidaMax}hp   {GerarCA(personagem)} CA" },
 				Description = $"{(personagem.Genero == "Feminino" ? classePlayer.Fname : classePlayer.Mname)} - {personagem.Posicao}       {(personagem.Genero == "Feminino" ? racaPlayer.Fname : racaPlayer.Mname)}   -   {personagem.XP}/{niveisXP[GerarNivel(personagem.XP) - 1]}xp",
 				Footer = new EmbedFooterBuilder() { Text = $"💰 {GerarSaldo(personagem.Saldo)}   -   {personagem.Jogador}" },
 				Fields = new List<EmbedFieldBuilder>()
@@ -49,7 +50,7 @@ namespace RPGbot.Classes
 		}
 		public static Embed GerarPericias(Personagem personagem)
 		{
-			string txt = "```md\n> Perícias do personagem";
+			string txt = "```md\n> Perícias do personagem\n";
 			if (personagem.Pericias != null)
 				foreach (string pericia in personagem.Pericias)
 					txt += $"- {new DBpericia().Get(pericia).Nome}\n";
@@ -76,7 +77,6 @@ namespace RPGbot.Classes
 			string armasTxt2 = "";
 			string armadurasTxt = "";
 			string armadurasTxt2 = "";
-			int CAsomado = 0;
 			List<Item> itemList = JsonConvert.DeserializeObject<List<Item>>(File.ReadAllText("../../db/g_data/itens.json"));
 			for (int i = 0; i < inventarioStrings.Count; i++)
 			{
@@ -94,10 +94,9 @@ namespace RPGbot.Classes
 							else
 							{
 								if (armadurasTxt.Length <= 950)
-									armadurasTxt += $"• {item.Name}   {item.Peso}kg   {item.Defesa} CA\n";
+									armadurasTxt += $"{(FormatID(item.Name) == personagem.Armadura || FormatID(item.Name) == personagem.Escudo ? "-   »" : "•")} {item.Name}   {item.Peso}kg   {item.Defesa} CA\n";
 								else
-									armadurasTxt2 += $"• {item.Name}   {item.Peso}kg   {item.Defesa} CA\n";
-								CAsomado += item.Defesa;
+									armadurasTxt2 += $"{(FormatID(item.Name) == personagem.Armadura || FormatID(item.Name) == personagem.Escudo ? "-   »" : "•")} {item.Name}   {item.Peso}kg   {item.Defesa} CA\n";
 							}
 						else
 							if (armasTxt.Length <= 950)
@@ -119,8 +118,8 @@ namespace RPGbot.Classes
 
 			if (armasTxt != "") embed.AddField("Armas", armasTxt);
 			if (armasTxt2 != "") embed.AddField("Armas", armasTxt2);
-			if (armadurasTxt != "") embed.AddField($"Armaduras   {CAsomado} CA total", armadurasTxt);
-			if (armadurasTxt2 != "") embed.AddField($"Armaduras   {CAsomado} CA total", armadurasTxt2);
+			if (armadurasTxt != "") embed.AddField($"Armaduras   {GerarCA(personagem)} CA", armadurasTxt);
+			if (armadurasTxt2 != "") embed.AddField($"Armaduras   {GerarCA(personagem)} CA total", armadurasTxt2);
 			if (itensTxt != "") embed.AddField("Itens", itensTxt);
 			if (itensTxt2 != "") embed.AddField("Itens", itensTxt2);
 
@@ -250,6 +249,23 @@ namespace RPGbot.Classes
 			return mochila;
 		}
 
+		public static int GerarCA(Personagem personagem)
+		{
+			if (personagem.Armadura == null || personagem.Armadura == "")
+			{
+				if (personagem.Escudo == null || personagem.Escudo == "")
+					return 10 + int.Parse(Math.Floor((float.Parse(personagem.Destreza.ToString()) - 10) / 2).ToString());
+				else
+					return 10 + int.Parse(Math.Floor((float.Parse(personagem.Destreza.ToString()) - 10) / 2).ToString()) + new DBitem().Get(personagem.Escudo).Defesa;
+			}
+			else
+			{
+				if (personagem.Escudo == null || personagem.Escudo == "")
+					return new DBitem().Get(personagem.Armadura).Defesa;
+				else
+					return new DBitem().Get(personagem.Armadura).Defesa + new DBitem().Get(personagem.Escudo).Defesa;
+			}
+		}
 		public static string GerarMod(int valor)
 		{
 			double resultado = Math.Floor((float.Parse(valor.ToString()) - 10) / 2);

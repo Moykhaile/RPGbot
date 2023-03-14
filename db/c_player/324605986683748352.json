@@ -19,14 +19,17 @@
   "Carisma": 7,
   "VidaMax": 3,
   "Vida": 3,
-  "Saldo": 20,
+  "Saldo": 15,
   "XP": 354,
+  "Armadura": "brunea",
+  "Escudo": "escudo",
   "Inventario": [
-    "maça",
+    "maca",
     "brunea",
     "machadinha",
     "escudo",
-    "mochila"
+    "mochila",
+    "kitdeprimeirossocorros"
   ],
   "Magias": [
     "estabilizar",
@@ -36,6 +39,5 @@
     "restauracao menor"
   ],
   "Pericias": [
-
   ]
 }

@@ -32,6 +32,9 @@ namespace RPGbot.Classes
 		public float Saldo { get; set; }
 		public int XP { get; set; }
 
+		public string Armadura { get; set; }
+		public string Escudo { get; set; }
+
 		public List<string> Inventario { get; set; }
 		public List<string> Magias { get; set; }
 		public List<string> Pericias { get; set; }

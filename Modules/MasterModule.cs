@@ -250,5 +250,28 @@ namespace RPGbot.Modules
 
 			await RespondAsync("Resumo:", embed: embed.Build(), ephemeral: true);
 		}
+
+		[SlashCommand("exaustar", "Adiciona ou remove exaustão do personagem")]
+		public async Task Exaustar(IMentionable user, [MinValue(-5), MaxValue(5)] int qntd)
+		{
+			if (!(user is SocketGuildUser))
+			{
+				await RespondAsync($"Usuário inválido.", ephemeral: true); return;
+			}
+
+			Personagem personagem = new DBpersonagem().Get((user as SocketGuildUser).Id.ToString());
+			if (personagem == null)
+			{
+				await RespondAsync($"Personagem de ID \"{(user as SocketGuildUser).Id}\" não encontrado.", ephemeral: true); return;
+			}
+
+			personagem.Exaustão += qntd;
+			if (personagem.Exaustão > 5) personagem.Exaustão = 5;
+			if (personagem.Exaustão < 0) personagem.Exaustão = 0;
+
+			new DBpersonagem().Put(personagem);
+
+			await RespondAsync($"Exaustão alterada para {personagem.Nome}!", embed: PlayerResponse.GerarFicha(personagem), ephemeral: true);
+		}
 	}
 }

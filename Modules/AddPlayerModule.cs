@@ -186,6 +186,7 @@ namespace RPGbot.Modules
 			personagem.Magias = new List<string>();
 			personagem.Inventario = new List<string>();
 			personagem.Pericias = new List<string>();
+			personagem.Exaustão = 0;
 
 			new DBpersonagem().Put(personagem);
 

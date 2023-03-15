@@ -39,7 +39,7 @@ namespace RPGbot.Classes
 					new EmbedFieldBuilder()
 					{
 						Name = $"Nível {GerarNivel(personagem.XP)}",
-						Value = $"{personagem.Peso}kg   {personagem.Altura}cm\n{personagem.Idade} anos de idade\n{personagem.Genero} - {personagem.Sexualidade}",
+						Value = $"{personagem.Peso}kg   {personagem.Altura}cm\n{personagem.Idade} anos de idade\n{personagem.Genero} - {personagem.Sexualidade}\n**{(personagem.Exaustão > 0 ? $"Exaustão {GerarExaustão(personagem.Exaustão)}" : "Descansado")}**",
 						IsInline = true
 					}
 				},
@@ -87,22 +87,22 @@ namespace RPGbot.Classes
 						if (item.Dano == string.Empty)
 							if (item.Defesa == 0)
 								if (itensTxt.Length <= 950)
-									itensTxt += $"• {item.Name}   {(item.Propriedades != "" ? $"{item.Propriedades}   " : "")}{item.Peso}kg\n";
+									itensTxt += $"* {item.Name}   {(item.Propriedades != "" ? $"{item.Propriedades}   " : "")}{item.Peso}kg\n";
 								else
-									itensTxt2 += $"• {item.Name}   {(item.Propriedades != "" ? $"{item.Propriedades}   " : "")}{item.Peso}kg\n";
+									itensTxt2 += $"* {item.Name}   {(item.Propriedades != "" ? $"{item.Propriedades}   " : "")}{item.Peso}kg\n";
 
 							else
 							{
 								if (armadurasTxt.Length <= 950)
-									armadurasTxt += $"{(FormatID(item.Name) == personagem.Armadura || FormatID(item.Name) == personagem.Escudo ? "-   »" : "•")} {item.Name}   {item.Peso}kg   {item.Defesa} CA\n";
+									armadurasTxt += $"{(FormatID(item.Name) == personagem.Armadura || FormatID(item.Name) == personagem.Escudo ? ">" : "*")} {item.Name}   {item.Peso}kg   {item.Defesa} CA\n";
 								else
-									armadurasTxt2 += $"{(FormatID(item.Name) == personagem.Armadura || FormatID(item.Name) == personagem.Escudo ? "-   »" : "•")} {item.Name}   {item.Peso}kg   {item.Defesa} CA\n";
+									armadurasTxt2 += $"{(FormatID(item.Name) == personagem.Armadura || FormatID(item.Name) == personagem.Escudo ? ">" : "*")} {item.Name}   {item.Peso}kg   {item.Defesa} CA\n";
 							}
 						else
 							if (armasTxt.Length <= 950)
-							armasTxt += $"• {item.Name}   {item.Peso}kg   {item.Dano}\n";
+							armasTxt += $"* {item.Name}   {item.Peso}kg   {item.Dano}\n";
 						else
-							armasTxt2 += $"• {item.Name}   {item.Peso}kg   {item.Dano}\n";
+							armasTxt2 += $"* {item.Name}   {item.Peso}kg   {item.Dano}\n";
 					}
 				}
 			}
@@ -116,12 +116,12 @@ namespace RPGbot.Classes
 				Color = GerarCorVida(personagem.Vida, personagem.VidaMax)
 			};
 
-			if (armasTxt != "") embed.AddField("Armas", armasTxt);
-			if (armasTxt2 != "") embed.AddField("Armas", armasTxt2);
-			if (armadurasTxt != "") embed.AddField($"Armaduras   {GerarCA(personagem)} CA", armadurasTxt);
-			if (armadurasTxt2 != "") embed.AddField($"Armaduras   {GerarCA(personagem)} CA total", armadurasTxt2);
-			if (itensTxt != "") embed.AddField("Itens", itensTxt);
-			if (itensTxt2 != "") embed.AddField("Itens", itensTxt2);
+			if (armasTxt != "") embed.AddField("Armas", $"```md\n{armasTxt}```");
+			if (armasTxt2 != "") embed.AddField("Armas", $"```md\n{armasTxt2}```");
+			if (armadurasTxt != "") embed.AddField($"Armaduras   {GerarCA(personagem)} CA", $"```md\n{armadurasTxt}```");
+			if (armadurasTxt2 != "") embed.AddField($"Armaduras   {GerarCA(personagem)} CA total", $"```md\n{armadurasTxt2}```");
+			if (itensTxt != "") embed.AddField("Itens", $"```md\n{itensTxt}```");
+			if (itensTxt2 != "") embed.AddField("Itens", $"```md\n{itensTxt2}```");
 
 			return embed.Build();
 		}
@@ -249,6 +249,15 @@ namespace RPGbot.Classes
 			return mochila;
 		}
 
+		public static string GerarExaustão(int valor)
+		{
+			string resultado = "";
+			for (int i = 0; i < valor; i++) resultado += " ● ";
+			if (valor != 5)
+				for (int i = valor; i < 5; i++) resultado += " ○ ";
+
+			return resultado;
+		}
 		public static int GerarCA(Personagem personagem)
 		{
 			if (personagem.Armadura == null || personagem.Armadura == "")

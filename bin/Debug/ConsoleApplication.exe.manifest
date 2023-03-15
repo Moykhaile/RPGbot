@@ -641,13 +641,13 @@
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name=".gitignore" size="6408">
+  <file name=".gitignore" size="6432">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>KLRHcZd8nIlFbkUucRhh+oB+SVSpPUICURlIJIaNrqE=</dsig:DigestValue>
+      <dsig:DigestValue>vGLfjoySf5mQ/I/HpL54vep7J0JFC2Jyb76AA3TEOFw=</dsig:DigestValue>
     </hash>
   </file>
   <file name="ConsoleApplication.exe.config" size="2882">

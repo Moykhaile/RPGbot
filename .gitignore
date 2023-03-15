@@ -13,7 +13,8 @@
 .tmp.drivedownload/
 .tmp.driveupload/
 
-*.yml
+config.yml
+bin/Debug/config.yml
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

@@ -13,7 +13,7 @@
 .tmp.drivedownload/
 .tmp.driveupload/
 
-config.yml
+*.yml
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -22,7 +22,7 @@ config.yml
 mono_crash.*
 
 # Build results
-[Dd]ebug/
+# [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/

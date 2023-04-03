@@ -201,7 +201,7 @@ namespace RPGbot.db
 			string jsonstring = File.ReadAllText($"../../db/g_data/itens.json");
 
 			List<Item> list = JsonSerializer.Deserialize<List<Item>>(jsonstring);
-
+			
 			return list.Find(e => PlayerResponse.FormatID(e.Name) == nome);
 		}
 		public void Post(Item obj, string id)

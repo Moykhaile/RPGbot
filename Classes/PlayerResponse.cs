@@ -9,7 +9,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using YamlDotNet.Core.Tokens;
 
 namespace RPGbot.Classes
 {
@@ -23,7 +22,7 @@ namespace RPGbot.Classes
 			EmbedBuilder embed = new EmbedBuilder()
 			{
 				Author = new EmbedAuthorBuilder() { Name = $"{personagem.Nome}   {personagem.Vida}/{personagem.VidaMax}hp   {GerarCA(personagem)} CA" },
-				Description = $"{(personagem.Genero == "Feminino" ? classePlayer.Fname : classePlayer.Mname)} - {personagem.Posicao}       {(personagem.Genero == "Feminino" ? racaPlayer.Fname : racaPlayer.Mname)}   -   {personagem.XP}/{niveisXP[GerarNivel(personagem.XP) - 1]}xp",
+				Description = $"{(personagem.Genero == "Feminino" ? classePlayer.Fname : classePlayer.Mname)}   -   {personagem.Posicao}       {(personagem.Genero == "Feminino" ? racaPlayer.Fname : racaPlayer.Mname)}   -   {personagem.XP}/{niveisXP[GerarNivel(personagem.XP) - 1]}xp",
 				Footer = new EmbedFooterBuilder() { Text = $"💰 {GerarSaldo(personagem.Saldo)}   -   {personagem.Jogador}" },
 				Fields = new List<EmbedFieldBuilder>()
 				{
@@ -107,11 +106,11 @@ namespace RPGbot.Classes
 				}
 			}
 
-			float pesoInv = personagem.Forca * pesoMod + personagem.Saldo * 0.01f + GetMochila(personagem.Inventario);
+			float pesoInv = personagem.Forca * pesoMod + GetMochila(personagem.Inventario);
 
 			EmbedBuilder embed = new EmbedBuilder()
 			{
-				Author = new EmbedAuthorBuilder() { Name = $"{personagem.Nome}   -   Inventário {GerarPesoInventario(personagem)}/{pesoInv}kg" },
+				Author = new EmbedAuthorBuilder() { Name = $"{personagem.Nome}   -   Inventário {GerarPesoInventario(personagem)}/{pesoInv.ToString("N2")}kg" },
 				Footer = new EmbedFooterBuilder() { Text = $"💰 {GerarSaldo(personagem.Saldo)}   -   {personagem.Jogador}" },
 				Color = GerarCorVida(personagem.Vida, personagem.VidaMax)
 			};
@@ -209,7 +208,7 @@ namespace RPGbot.Classes
 				return null;
 			}
 
-			Item item = itemList.Find(e => FormatID(e.Name) == nome);
+			Item item = new DBitem().Get(nome);
 
 			string modificador = item.ModNome != string.Empty ? $"\n*Modificador: {item.ModNome}*" : "";
 			string danodefesa = item.Dano != string.Empty ? $"*{item.Dano}*" : item.Defesa != 0 ? $"*{item.Defesa} CA*" : "";
@@ -336,7 +335,7 @@ namespace RPGbot.Classes
 				peso += new DBitem().Get(item).Peso;
 			}
 
-			return peso;
+			return peso + personagem.Saldo * 0.01f;
 		}
 
 		public static string FormatID(string text)
@@ -346,7 +345,7 @@ namespace RPGbot.Classes
 
 			text = Regex.Replace(text.Normalize(NormalizationForm.FormD), @"[-/^\s]", "");
 			var chars = text.Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark).ToArray();
-			return Regex.Replace(new string(chars).Normalize(NormalizationForm.FormC).ToLower(), @"\s*\((^\)]+)\)", "");
+			return Regex.Replace(new string(chars).Normalize(NormalizationForm.FormC).ToLower(), @"\s*\([^\)]+\)", "");
 		}
 	}
 }

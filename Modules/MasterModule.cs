@@ -38,7 +38,7 @@ namespace RPGbot.Modules
 			XP
 		}
 
-		//[RequireRole("Mestre")]
+		[RequireRole("Mestre")]
 		[SlashCommand("editplayer", "Editar informação do personagem")]
 		public async Task EditPlayer(IMentionable user, Dados atributo, string valor)
 		{

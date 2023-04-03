@@ -278,6 +278,7 @@
     <Compile Include="Modules\MasterModule.cs" />
     <Compile Include="Modules\PlayerModule.cs" />
     <Compile Include="Classes\Personagem.cs" />
+    <Compile Include="Modules\RemovePlayerModule.cs" />
     <Compile Include="Program.cs" />
     <None Include="db\c_player\324605986683748352.json" />
     <None Include="db\g_data\classes.json" />

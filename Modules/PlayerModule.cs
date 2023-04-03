@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Interactions;
-using Discord.WebSocket;
 using Newtonsoft.Json;
 using RPGbot.Classes;
 using RPGbot.db;
@@ -392,12 +391,12 @@ namespace RPGbot.Modules
 		[SlashCommand("veritem", "Apresenta as informações do item como dano, peso, preço, etc.")]
 		public async Task VerItem(string nome)
 		{
-			nome = PlayerResponse.FormatID(nome);
+			//nome = PlayerResponse.FormatID(nome);
 
 			Embed embed = PlayerResponse.GerarItem(nome);
 			if (embed == null)
 			{
-				await RespondAsync($"Item {nome} não existe!", ephemeral: true); return;
+				await RespondAsync($"Item {PlayerResponse.FormatID(nome)} não existe!", ephemeral: true); return;
 			}
 
 			await RespondAsync($"Item:", embed: embed, ephemeral: true);

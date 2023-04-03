@@ -1548,5 +1548,35 @@
     "ModNome": "",
     "Propriedades": "",
     "Preco": 6.0
+  },
+  {
+    "Name": "Trombeta",
+    "Peso": 1.0,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Instrumento musical",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 3.0
+  },
+  {
+    "Name": "Relógio de bolso",
+    "Peso": 0.1,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Item",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 25.0
+  },
+  {
+    "Name": "Bota maltratada",
+    "Peso": 0.5,
+    "Dano": "",
+    "Defesa": 0,
+    "Tipo": "Roupa",
+    "ModNome": "",
+    "Propriedades": "",
+    "Preco": 0.0
   }
 ]

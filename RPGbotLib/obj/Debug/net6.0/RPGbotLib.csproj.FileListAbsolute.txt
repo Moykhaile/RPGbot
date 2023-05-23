@@ -1,0 +1,12 @@
+C:\Dev\cs\RPGbot\RPGbotLib\bin\Debug\net6.0\RPGbotLib.deps.json
+C:\Dev\cs\RPGbot\RPGbotLib\bin\Debug\net6.0\RPGbotLib.dll
+C:\Dev\cs\RPGbot\RPGbotLib\bin\Debug\net6.0\RPGbotLib.pdb
+C:\Dev\cs\RPGbot\RPGbotLib\obj\Debug\net6.0\RPGbotLib.csproj.AssemblyReference.cache
+C:\Dev\cs\RPGbot\RPGbotLib\obj\Debug\net6.0\RPGbotLib.GeneratedMSBuildEditorConfig.editorconfig
+C:\Dev\cs\RPGbot\RPGbotLib\obj\Debug\net6.0\RPGbotLib.AssemblyInfoInputs.cache
+C:\Dev\cs\RPGbot\RPGbotLib\obj\Debug\net6.0\RPGbotLib.AssemblyInfo.cs
+C:\Dev\cs\RPGbot\RPGbotLib\obj\Debug\net6.0\RPGbotLib.csproj.CoreCompileInputs.cache
+C:\Dev\cs\RPGbot\RPGbotLib\obj\Debug\net6.0\RPGbotLib.dll
+C:\Dev\cs\RPGbot\RPGbotLib\obj\Debug\net6.0\refint\RPGbotLib.dll
+C:\Dev\cs\RPGbot\RPGbotLib\obj\Debug\net6.0\RPGbotLib.pdb
+C:\Dev\cs\RPGbot\RPGbotLib\obj\Debug\net6.0\ref\RPGbotLib.dll

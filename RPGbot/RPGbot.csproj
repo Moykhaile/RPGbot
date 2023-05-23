@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Discord.Net" Version="3.10.0" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="6.0.0-preview1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0-preview.4.23259.5" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Yaml" Version="2.0.0-preview2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0-preview.4.23259.5" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0-preview.4.23259.5" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RPGbotAPI\RPGbotAPI.csproj" />
+    <ProjectReference Include="..\RPGbotLib\RPGbotLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="config.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

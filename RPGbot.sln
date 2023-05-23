@@ -1,36 +1,44 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.4.33205.214
+VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPGbot", "RPGbot.csproj", "{AC5B4689-441F-44BC-A279-A52CEAA18CC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGbot", "RPGbot\RPGbot.csproj", "{F428B953-73E5-4E53-A53A-4F439935E650}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RPGbot", "RPGbot", "{E9AEB441-1A4C-4ABC-A118-6B4CE3CACA2D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RPGbot", "RPGbot", "{B566B727-C363-4810-A15A-72F7FE59B223}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPGbotAPI", "RPGbotAPI\RPGbotAPI.csproj", "{3E40E153-645E-41FA-A2FD-214C9FEE525C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPGbotLib", "RPGbotLib\RPGbotLib.csproj", "{75C7F910-0FEE-476D-ADAC-58B8CAF72268}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
-		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
-		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AC5B4689-441F-44BC-A279-A52CEAA18CC7}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{AC5B4689-441F-44BC-A279-A52CEAA18CC7}.Debug|Any CPU.Build.0 = Debug|x86
-		{AC5B4689-441F-44BC-A279-A52CEAA18CC7}.Debug|x86.ActiveCfg = Debug|x86
-		{AC5B4689-441F-44BC-A279-A52CEAA18CC7}.Debug|x86.Build.0 = Debug|x86
-		{AC5B4689-441F-44BC-A279-A52CEAA18CC7}.Release|Any CPU.ActiveCfg = Release|x86
-		{AC5B4689-441F-44BC-A279-A52CEAA18CC7}.Release|Any CPU.Build.0 = Release|x86
-		{AC5B4689-441F-44BC-A279-A52CEAA18CC7}.Release|x86.ActiveCfg = Release|x86
-		{AC5B4689-441F-44BC-A279-A52CEAA18CC7}.Release|x86.Build.0 = Release|x86
+		{F428B953-73E5-4E53-A53A-4F439935E650}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F428B953-73E5-4E53-A53A-4F439935E650}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F428B953-73E5-4E53-A53A-4F439935E650}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F428B953-73E5-4E53-A53A-4F439935E650}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E40E153-645E-41FA-A2FD-214C9FEE525C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E40E153-645E-41FA-A2FD-214C9FEE525C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E40E153-645E-41FA-A2FD-214C9FEE525C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E40E153-645E-41FA-A2FD-214C9FEE525C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75C7F910-0FEE-476D-ADAC-58B8CAF72268}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75C7F910-0FEE-476D-ADAC-58B8CAF72268}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75C7F910-0FEE-476D-ADAC-58B8CAF72268}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75C7F910-0FEE-476D-ADAC-58B8CAF72268}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{AC5B4689-441F-44BC-A279-A52CEAA18CC7} = {E9AEB441-1A4C-4ABC-A118-6B4CE3CACA2D}
+		{F428B953-73E5-4E53-A53A-4F439935E650} = {B566B727-C363-4810-A15A-72F7FE59B223}
+		{3E40E153-645E-41FA-A2FD-214C9FEE525C} = {B566B727-C363-4810-A15A-72F7FE59B223}
+		{75C7F910-0FEE-476D-ADAC-58B8CAF72268} = {B566B727-C363-4810-A15A-72F7FE59B223}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {6D2A57B0-37D8-4D68-B11C-86F59DA97512}
+		SolutionGuid = {AFA26A59-6EE3-4E7B-9826-20B0CE62B56E}
 	EndGlobalSection
 EndGlobal

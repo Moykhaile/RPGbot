@@ -10,6 +10,7 @@ namespace RPGbot
 
 		public static async Task Log(string command, IInteractionContext context, IReadOnlyCollection<IApplicationCommandInteractionDataOption> applicationCommandInteractionOption, IResult result)
 		{
+			Console.WriteLine(result.ErrorReason);
 			string erro = $"\n\n**{result.Error}**\n{result.ErrorReason}";
 			string args = "";
 			foreach (var arg in applicationCommandInteractionOption)
@@ -32,6 +33,7 @@ namespace RPGbot
 		}
 		public static async Task Log(string command, IInteractionContext context, IResult result)
 		{
+			Console.WriteLine(result.ErrorReason);
 			string erro = $"\n\n**{result.Error}**\n{result.ErrorReason}";
 
 			var user = (context.User as SocketGuildUser);

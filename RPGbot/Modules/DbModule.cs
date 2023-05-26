@@ -1,4 +1,5 @@
-﻿using Discord.Interactions;
+﻿using Discord;
+using Discord.Interactions;
 using RPGbotAPI.Controllers;
 using RPGbotAPI.Models;
 using RPGbotAPI.Services;
@@ -14,67 +15,32 @@ namespace RPGbot.Modules
 
 		[RequireRole("Mestre")]
 		[SlashCommand("dbadditem", "Adiciona item à base de dados do RPGbot")]
-		public async Task AddItem(string Name, string Tipo, float Preco, float Peso)
+		public async Task AddItem(string Nome, float Preço, float Peso)
 		{
-			Item item = new()
+			var tipoMenu = new SelectMenuBuilder()
 			{
-				Name = Name,
-				Peso = Peso,
-				Dano = string.Empty,
-				Defesa = 0,
-				Tipo = Tipo,
-				ModNome = string.Empty,
-				Propriedades = string.Empty,
-				Preco = Preco
+				CustomId = "tipoMenu",
+				Placeholder = "Escolha o tipo de item"
 			};
 
-			await itensController.Post(item);
-
-			await RespondAsync($"Item '{item.Name}' adicionado à base de dados!");
-		}
-
-		[RequireRole("Mestre")]
-		[SlashCommand("dbaddarma", "Adiciona arma à base de dados do RPGbot")]
-		public async Task AddArma(string Name, string Tipo, float Preco, string Dano, float Peso, string Propriedades)
-		{
-			Item item = new()
+			TiposDeItem[] tiposDeItens = Enum.GetValues<TiposDeItem>();
+			foreach (var tipoDeItem in tiposDeItens)
 			{
-				Name = Name,
-				Peso = Peso,
-				Dano = Dano,
-				Defesa = 0,
-				Tipo = Tipo,
-				ModNome = string.Empty,
-				Propriedades = Propriedades,
-				Preco = Preco
-			};
+				tipoMenu.AddOption(tipoDeItem.ToString(), tipoDeItem.ToString());
+			}
 
-			await itensController.Post(item);
-
-			await RespondAsync($"Item '{Name}' adicionado à base de dados!");
-		}
-
-		[RequireRole("Mestre")]
-		[SlashCommand("dbaddarmadura", "Adiciona armadura à base de dados do RPGbot")]
-		public async Task AddArmadura(string Name, string Tipo, float Preco, int Defesa, string ModNome, float Peso, string Propriedades)
-		{
-			if (ModNome == ".") ModNome = "";
+			var component = new ComponentBuilder().WithSelectMenu(tipoMenu);
 
 			Item item = new()
 			{
-				Name = Name,
-				Peso = Peso,
-				Dano = string.Empty,
-				Defesa = Defesa,
-				Tipo = Tipo,
-				ModNome = ModNome,
-				Propriedades = Propriedades,
-				Preco = Preco
+				Id = Utilities.FormatID(Nome),
+				Name = Nome,
+				Preco = Preço,
+				Peso = Peso
 			};
-
 			await itensController.Post(item);
 
-			await RespondAsync($"Item '{item.Name}' adicionado à base de dados!");
+			await RespondAsync($"Adicionando um item à base de dados!", components: component.Build(), ephemeral: true);
 		}
 
 		[RequireRole("Mestre")]
@@ -97,6 +63,120 @@ namespace RPGbot.Modules
 			await periciasController.Post(pericia);
 
 			await RespondAsync($"Perícia ``{pericia.Nome}`` adicionada à base");
+		}
+
+		[ComponentInteraction("tipoMenu")]
+		public async Task HandleTipoMenu(string selected)
+		{
+			Console.WriteLine(selected);
+			switch (selected)
+			{
+				case "Item":
+					await RespondWithModalAsync<ItemModal>("itemModal");
+					break;
+				case "Arma":
+					await RespondWithModalAsync<ArmaModal>("armaModal");
+					break;
+				case "Armadura":
+					await RespondWithModalAsync<ArmaduraModal>("armaduraModal");
+					break;
+			}
+		}
+
+		[ModalInteraction("itemModal")]
+		public async Task HandleItemModal(ItemModal modal)
+		{
+			Item item = itensController.Get(Utilities.FormatID(modal.Name)).Result;
+			item.Id = Utilities.FormatID(modal.Name);
+			item.Tipo = modal.Tipo;
+
+			await itensController.Put(item.Id!, item);
+
+			await RespondAsync($"Item ``{item.Name}`` adicionado à base de dados!", ephemeral: true);
+		}
+		[ModalInteraction("armaModal")]
+		public async Task HandleArmaModal(ArmaModal modal)
+		{
+			Item item = itensController.Get(Utilities.FormatID(modal.Name)).Result;
+			item.Id = Utilities.FormatID(modal.Name);
+			item.Tipo = modal.Tipo;
+			item.Propriedades = modal.Propriedades;
+			item.Dano = modal.Atributo;
+
+			await itensController.Put(item.Id!, item);
+
+			await RespondAsync($"Arma ``{item.Name}`` adicionado à base de dados!", ephemeral: true);
+		}
+		[ModalInteraction("armaduraModal")]
+		public async Task HandleArmaduraModal(ArmaduraModal modal)
+		{
+			Item item = itensController.Get(Utilities.FormatID(modal.Name)).Result;
+			item.Id = Utilities.FormatID(modal.Name);
+			item.Tipo = modal.Tipo;
+			item.Propriedades = modal.Propriedades;
+			item.Defesa = int.Parse(modal.Atributo);
+
+			await itensController.Put(item.Id!, item);
+
+			await RespondAsync($"Armadura ``{item.Name}`` adicionado à base de dados!", ephemeral: true);
+		}
+
+		enum TiposDeItem { Item, Arma, Armadura }
+		public class ItemModal : IModal
+		{
+			public string Title => "Adicione um item!";
+
+			[InputLabel("Insira o nome")]
+			[ModalTextInput("nome", TextInputStyle.Short, "Adaga...", maxLength: 50)]
+			public string Name { get; set; } = string.Empty;
+
+			[InputLabel("Categoria do item")]
+			[ModalTextInput("tipo", TextInputStyle.Short, "Arma Simples Corpo-a-Corpo...", maxLength: 30)]
+			public string Tipo { get; set; } = string.Empty;
+		}
+		public class ArmaModal : IModal
+		{
+			public string Title => "Adicione uma arma!";
+
+			[InputLabel("Insira o nome")]
+			[ModalTextInput("nome", TextInputStyle.Short, "Adaga...", maxLength: 50)]
+			public string Name { get; set; } = string.Empty;
+
+			[InputLabel("Categoria do item")]
+			[ModalTextInput("tipo", TextInputStyle.Short, "Arma Simples Corpo-a-Corpo...", maxLength: 30)]
+			public string Tipo { get; set; } = string.Empty;
+
+			[InputLabel("Propriedades ou descrição do item")]
+			[ModalTextInput("propriedades", TextInputStyle.Paragraph, "Acuidade, leve, arremesso (distância 6/18)...", maxLength: 150)]
+			public string Propriedades { get; set; } = string.Empty;
+
+			[InputLabel("Atributo do item (dano, defesa)")]
+			[ModalTextInput("atributo", TextInputStyle.Short, "1d4 perfurante...", maxLength: 30)]
+			public string Atributo { get; set; } = string.Empty;
+		}
+		public class ArmaduraModal : IModal
+		{
+			public string Title => "Adicione uma armadura!";
+
+			[InputLabel("Insira o nome")]
+			[ModalTextInput("nome", TextInputStyle.Short, "Adaga...", maxLength: 50)]
+			public string Name { get; set; } = string.Empty;
+
+			[InputLabel("Categoria do item")]
+			[ModalTextInput("tipo", TextInputStyle.Short, "Arma Simples Corpo-a-Corpo...", maxLength: 30)]
+			public string Tipo { get; set; } = string.Empty;
+
+			[InputLabel("Propriedades ou descrição do item")]
+			[ModalTextInput("propriedades", TextInputStyle.Paragraph, "Acuidade, leve, arremesso (distância 6/18)...", maxLength: 150)]
+			public string Propriedades { get; set; } = string.Empty;
+
+			[InputLabel("Atributo do item (dano, defesa)")]
+			[ModalTextInput("atributo", TextInputStyle.Short, "1d4 perfurante...", maxLength: 30)]
+			public string Atributo { get; set; } = string.Empty;
+
+			[InputLabel("Nome do atributo modificador do item (se houver)")]
+			[ModalTextInput("modNome", TextInputStyle.Short, "Destreza...", maxLength: 15)]
+			public string ModNome { get; set; } = string.Empty;
 		}
 	}
 }

@@ -286,6 +286,7 @@ namespace RPGbot.Modules
 		}
 		//4d6dl1
 	}
+
 	public class AddModal : IModal
 	{
 		public string Title => "Crie seu personagem!";

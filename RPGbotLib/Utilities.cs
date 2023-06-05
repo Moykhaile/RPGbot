@@ -8,6 +8,8 @@ namespace RPGbotLib
 	{
 		public enum Atributos { Força, Destreza, Constituição, Inteligência, Sabedoria, Carisma }
 
+		public enum PetGenero { Feminino, Masculino }
+
 		public static string FormatID(string text)
 		{
 			if (string.IsNullOrWhiteSpace(text))

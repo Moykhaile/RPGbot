@@ -5,6 +5,7 @@ using RPGbot.Classes;
 using RPGbotAPI.Controllers;
 using RPGbotAPI.Models;
 using RPGbotAPI.Services;
+using System.Reflection;
 
 namespace RPGbot.Modules
 {
@@ -35,13 +36,11 @@ namespace RPGbot.Modules
 		}
 
 		readonly PersonagensController personagensController = new(new PersonagemService("Personagens"));
-		readonly ClassesController classesController = new(new ClasseService("Classes"));
 
-		[RequireRole("Mestre")]
 		[SlashCommand("editplayer", "Editar informação do personagem")]
 		public async Task EditPlayer(IMentionable user, Dados atributo, string valor)
 		{
-			/*if (user is not SocketGuildUser)
+			if (user is not SocketGuildUser)
 			{
 				await RespondAsync($"Usuário inválido.", ephemeral: true); return;
 			}
@@ -49,14 +48,17 @@ namespace RPGbot.Modules
 			Personagem personagem = personagensController.Get(((SocketGuildUser)user).Id).Result;
 			if (personagem == null)
 			{
-				await RespondAsync($"Personagem de ID \"{((SocketGuildUser)user).Id}\" não encontrado.", ephemeral: true); return;
+				await RespondAsync($"Personagem de ID ``{((SocketGuildUser)user).Id}`` não encontrado.", ephemeral: true); return;
 			}
 
-			playerObj[atributo.ToString()] = valor;
+			PropertyInfo propertyInfo = personagem.GetType().GetProperty(atributo.ToString())!;
+			if (propertyInfo == null) { await RespondAsync($"Propriedade ``{atributo}`` não encontrada no personagem {personagem.Nome}!", ephemeral: true); return; }
 
-			personagensController.Put(, playerObj);
-			await RespondAsync($"Valor do atributo {atributo} alterado!", ephemeral: true);*/
-			await RespondAsync("Comando indisponível!");
+			propertyInfo.SetValue(personagem, Convert.ChangeType(valor, propertyInfo.PropertyType), null);
+
+			await personagensController.Put(personagem._Id, personagem);
+
+			await RespondAsync($"Propriedade ``{atributo}`` do personagem ``{personagem.Nome}`` alterada.", ephemeral: true);
 		}
 
 		[RequireRole("Mestre")]
@@ -71,7 +73,7 @@ namespace RPGbot.Modules
 			Personagem personagem = personagensController.Get(((SocketGuildUser)user).Id).Result;
 			if (personagem == null)
 			{
-				await RespondAsync($"Personagem de ID \"{((SocketGuildUser)user).Id}\" não encontrado.", ephemeral: true); return;
+				await RespondAsync($"Personagem de ID ``{((SocketGuildUser)user).Id}`` não encontrado.", ephemeral: true); return;
 			}
 
 			int old_vida = personagem.Vida;
@@ -99,7 +101,7 @@ namespace RPGbot.Modules
 			Personagem personagem = personagensController.Get(((SocketGuildUser)user).Id).Result;
 			if (personagem == null)
 			{
-				await RespondAsync($"Personagem de ID \"{((SocketGuildUser)user).Id}\" não encontrado.", ephemeral: true); return;
+				await RespondAsync($"Personagem de ID ``{((SocketGuildUser)user).Id}`` não encontrado.", ephemeral: true); return;
 			}
 
 			int old_xp = personagem.XP;
@@ -122,7 +124,7 @@ namespace RPGbot.Modules
 			Personagem personagem = personagensController.Get(((SocketGuildUser)user).Id).Result;
 			if (personagem == null)
 			{
-				await RespondAsync($"Personagem de ID \"{((SocketGuildUser)user).Id}\" não encontrado.", ephemeral: true); return;
+				await RespondAsync($"Personagem de ID ``{((SocketGuildUser)user).Id}`` não encontrado.", ephemeral: true); return;
 			}
 
 			float old_saldo = personagem.Saldo;
@@ -146,9 +148,9 @@ namespace RPGbot.Modules
 			Personagem personagem = personagensController.Get(((SocketGuildUser)user).Id).Result;
 			if (personagem == null)
 			{
-				await RespondAsync($"Personagem de ID \"{((SocketGuildUser)user).Id}\" não encontrado.", ephemeral: true); return;
+				await RespondAsync($"Personagem de ID ``{((SocketGuildUser)user).Id}`` não encontrado.", ephemeral: true); return;
 			}
-				
+
 			await RespondAsync($"Ficha de personagem de {((SocketGuildUser)user).DisplayName}!", ephemeral: true, embed: RPGbotUtilities.GerarFicha(personagem));
 		}
 		[RequireRole("Mestre")]
@@ -163,7 +165,7 @@ namespace RPGbot.Modules
 			Personagem personagem = personagensController.Get(((SocketGuildUser)user).Id).Result;
 			if (personagem == null)
 			{
-				await RespondAsync($"Personagem de ID \"{((SocketGuildUser)user).Id}\" não encontrado.", ephemeral: true); return;
+				await RespondAsync($"Personagem de ID ``{((SocketGuildUser)user).Id}`` não encontrado.", ephemeral: true); return;
 			}
 
 			await RespondAsync($"Ficha de personagem de {((SocketGuildUser)user).DisplayName}!", ephemeral: true, embed: RPGbotUtilities.GerarPericias(personagem));
@@ -181,7 +183,7 @@ namespace RPGbot.Modules
 			Personagem personagem = personagensController.Get(((SocketGuildUser)user).Id).Result;
 			if (personagem == null)
 			{
-				await RespondAsync($"Personagem de ID \"{((SocketGuildUser)user).Id}\" não encontrado.", ephemeral: true); return;
+				await RespondAsync($"Personagem de ID ``{((SocketGuildUser)user).Id}`` não encontrado.", ephemeral: true); return;
 			}
 
 			if (personagem.Inventario == null)
@@ -204,9 +206,9 @@ namespace RPGbot.Modules
 			Personagem personagem = personagensController.Get(((SocketGuildUser)user).Id).Result;
 			if (personagem == null)
 			{
-				await RespondAsync($"Personagem de ID \"{((SocketGuildUser)user).Id}\" não encontrado.", ephemeral: true); return;
+				await RespondAsync($"Personagem de ID ``{((SocketGuildUser)user).Id}`` não encontrado.", ephemeral: true); return;
 			}
-			if (!classesController.Get(personagem.Classe).Result.Magico)
+			if (!personagem.Classe!.Magico)
 			{
 				await RespondAsync($"A classe do seu personagem não é mágica.", ephemeral: true); return;
 			}
@@ -236,7 +238,7 @@ namespace RPGbot.Modules
 					if (personagem._Id != Context.User.Id)
 						embed.AddField(
 							$"{personagem.Nome}",
-							$"```❤️ {personagem.Vida}/{personagem.VidaMax}\n🌟 {personagem.XP}/{RPGbotUtilities.niveisXP[RPGbotUtilities.GerarNivel(personagem.XP) - 1]} lvl {RPGbotUtilities.GerarNivel(personagem.XP)}\n💰 {personagem.Saldo}```",
+							$"```❤️ {personagem.Vida}/{personagem.VidaMax}\n🌟 {personagem.XP}/{RPGbotUtilities.NiveisXP[RPGbotUtilities.GerarNivel(personagem.XP) - 1]} lvl {RPGbotUtilities.GerarNivel(personagem.XP)}\n💰 {personagem.Saldo}```",
 							inline: true
 						);
 				}
@@ -245,6 +247,7 @@ namespace RPGbot.Modules
 			await RespondAsync("Resumo:", embed: embed.Build(), ephemeral: true);
 		}
 
+		[RequireRole("Mestre")]
 		[SlashCommand("exaustar", "Adiciona ou remove exaustão do personagem")]
 		public async Task Exaustar(IMentionable user, [MinValue(-5), MaxValue(5)] int qntd)
 		{
@@ -256,7 +259,7 @@ namespace RPGbot.Modules
 			Personagem personagem = personagensController.Get(((SocketGuildUser)user).Id).Result;
 			if (personagem == null)
 			{
-				await RespondAsync($"Personagem de ID \"{((SocketGuildUser)user).Id}\" não encontrado.", ephemeral: true); return;
+				await RespondAsync($"Personagem de ID ``{((SocketGuildUser)user).Id}`` não encontrado.", ephemeral: true); return;
 			}
 
 			personagem.Exaustão += qntd;
@@ -266,6 +269,30 @@ namespace RPGbot.Modules
 			await personagensController.Put(personagem._Id, personagem);
 
 			await RespondAsync($"Exaustão alterada para {personagem.Nome}!", embed: RPGbotUtilities.GerarFicha(personagem), ephemeral: true);
+		}
+
+		[RequireRole("Mestre")]
+		[SlashCommand("mostrarpets", "Apresenta os pets de um personagem")]
+		public async Task MostrarPets(IMentionable user)
+		{
+			if (user is not SocketGuildUser)
+			{
+				await RespondAsync($"Usuário inválido.", ephemeral: true); return;
+			}
+
+			Personagem personagem = personagensController.Get(((SocketGuildUser)user).Id).Result;
+			if (personagem == null || personagem._Id == 0)
+			{
+				await RespondAsync($"Personagem de ID ``{((SocketGuildUser)user).Id}`` não encontrado.", ephemeral: true); return;
+			}
+
+			List<Pet> pets = personagem.Pets!;
+			if (pets == null || pets.Count == 0)
+			{
+				await RespondAsync($"O personagem ``{personagem.Nome}`` não tem pets.", ephemeral: true); return;
+			}
+
+			await RespondAsync($"Os pets de {personagem.Nome}", embed: RPGbotUtilities.GerarPets(personagem, true), ephemeral: true);
 		}
 	}
 }

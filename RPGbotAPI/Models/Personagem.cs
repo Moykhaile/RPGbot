@@ -10,8 +10,8 @@ namespace RPGbotAPI.Models
 		[BsonElement] public string Nome { get; set; } = string.Empty;
 		[BsonElement] public string Jogador { get; set; } = string.Empty;
 		[BsonElement] public string Genero { get; set; } = string.Empty;
-		[BsonElement] public string Raca { get; set; } = string.Empty;
-		[BsonElement] public string Classe { get; set; } = string.Empty;
+		[BsonElement] public Raca? Raca { get; set; }
+		[BsonElement] public Classe? Classe { get; set; }
 		[BsonElement] public string Sexualidade { get; set; } = string.Empty;
 		[BsonElement] public string Posicao { get; set; } = string.Empty;
 
@@ -33,13 +33,14 @@ namespace RPGbotAPI.Models
 		[BsonElement] public float Saldo { get; set; }
 		[BsonElement] public int XP { get; set; }
 
-		[BsonElement] public string? Armadura { get; set; }
-		[BsonElement] public string? Escudo { get; set; }
+		[BsonElement] public Item? Armadura { get; set; }
+		[BsonElement] public Item? Escudo { get; set; }
 
-		[BsonElement] public List<string>? Inventario { get; set; }
-		[BsonElement] public List<string>? Magias { get; set; }
-		[BsonElement] public List<string>? Pericias { get; set; }
+		[BsonElement] public List<Item>? Inventario { get; set; }
+		[BsonElement] public List<Magia>? Magias { get; set; }
+		[BsonElement] public List<Pericia>? Pericias { get; set; }
 
 		[BsonElement] public int Exaustão { get; set; }
+		[BsonElement] public List<Pet>? Pets { get; set; }
 	}
 }

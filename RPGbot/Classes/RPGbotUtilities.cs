@@ -2,6 +2,7 @@
 using RPGbotAPI.Controllers;
 using RPGbotAPI.Models;
 using RPGbotAPI.Services;
+using RPGbotLib;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -12,22 +13,16 @@ namespace RPGbot.Classes
 	{
 		public static Embed GerarFicha(Personagem personagem)
 		{
-			ClassesController classesController = new(new ClasseService("Classes"));
-			RacasController racasController = new(new RacaService("Racas"));
-
-			Classe classePlayer = classesController.Get(personagem.Classe).Result;
-			Raca racaPlayer = racasController.Get(personagem.Raca).Result;
-
 			EmbedBuilder embed = new()
 			{
 				Author = new EmbedAuthorBuilder() { Name = $"{personagem.Nome}   {personagem.Vida}/{personagem.VidaMax}hp   {GerarCA(personagem)} CA" },
-				Description = $"{(personagem.Genero == "Feminino" ? classePlayer.Fname : classePlayer.Mname)}   -   {personagem.Posicao}       {(personagem.Genero == "Feminino" ? racaPlayer.Fname : racaPlayer.Mname)}   -   {personagem.XP}/{niveisXP[GerarNivel(personagem.XP) - 1]}xp",
+				Description = $"{(personagem.Genero == "Feminino" ? personagem.Classe!.Fname : personagem.Classe!.Mname)}   -   {personagem.Posicao}       {(personagem.Genero == "Feminino" ? personagem.Raca!.Fname : personagem.Raca!.Mname)}   -   {personagem.XP}/{NiveisXP[GerarNivel(personagem.XP) - 1]}xp",
 				Footer = new EmbedFooterBuilder() { Text = $"💰 {GerarSaldo(personagem.Saldo)}   -   {personagem.Jogador}" },
 				Fields = new List<EmbedFieldBuilder>()
 				{
 					new EmbedFieldBuilder()
 					{
-						Name = $"Proficiência   +{proficiencia[GerarNivel(personagem.XP) - 1]}",
+						Name = $"Proficiência   +{Proficiencia[GerarNivel(personagem.XP) - 1]}",
 						Value = $"```" +
 						$"FOR {GerarMod(personagem.Forca)}   INT {GerarMod(personagem.Inteligencia)}\n" +
 						$"DES {GerarMod(personagem.Destreza)}   SAB {GerarMod(personagem.Sabedoria)}\n" +
@@ -48,12 +43,10 @@ namespace RPGbot.Classes
 		}
 		public static Embed GerarPericias(Personagem personagem)
 		{
-			PericiasController periciasController = new(new PericiaService("Pericias"));
-
 			string txt = "```md\n> Perícias do personagem\n";
 			if (personagem.Pericias != null)
-				foreach (string pericia in personagem.Pericias)
-					txt += $"- {periciasController.Get(pericia).Result.Nome}\n";
+				foreach (Pericia pericia in personagem.Pericias)
+					txt += $"- {pericia.Nome}\n";
 
 			EmbedBuilder embed = new()
 			{
@@ -66,12 +59,12 @@ namespace RPGbot.Classes
 			return embed.Build();
 		}
 
-		public static float pesoMod = 7.5f;
+		public static float PesoMod { get; } = 7.5f;
 		public static Embed GerarInventario(Personagem personagem)
 		{
 			ItensController itensController = new(new ItemService("Itens"));
 
-			List<string> inventarioStrings = personagem.Inventario!;
+			List<Item> inventarioStrings = personagem.Inventario!;
 
 			string itensTxt = "";
 			string itensTxt2 = "";
@@ -84,7 +77,7 @@ namespace RPGbot.Classes
 			{
 				foreach (Item item in itemList)
 				{
-					if (FormatID(item.Name) == FormatID(inventarioStrings[i]))
+					if (FormatID(item.Name) == FormatID(inventarioStrings[i].Id!))
 					{
 						if (item.Dano == string.Empty)
 							if (item.Defesa == 0)
@@ -96,9 +89,9 @@ namespace RPGbot.Classes
 							else
 							{
 								if (armadurasTxt.Length <= 950)
-									armadurasTxt += $"{(FormatID(item.Name) == personagem.Armadura || FormatID(item.Name) == personagem.Escudo ? ">" : "*")} {item.Name}   {item.Peso}kg   {item.Defesa} CA\n";
+									armadurasTxt += $"{(item == personagem.Armadura || item == personagem.Escudo ? ">" : " * ")} {item.Name}   {item.Peso}kg   {item.Defesa} CA\n";
 								else
-									armadurasTxt2 += $"{(FormatID(item.Name) == personagem.Armadura || FormatID(item.Name) == personagem.Escudo ? ">" : "*")} {item.Name}   {item.Peso}kg   {item.Defesa} CA\n";
+									armadurasTxt2 += $"{(item == personagem.Armadura || item == personagem.Escudo ? ">" : " * ")} {item.Name}   {item.Peso}kg   {item.Defesa} CA\n";
 							}
 						else
 							if (armasTxt.Length <= 950)
@@ -109,11 +102,11 @@ namespace RPGbot.Classes
 				}
 			}
 
-			float pesoInv = personagem.Forca * pesoMod + GetMochila(personagem.Inventario!);
+			float pesoInv = personagem.Forca * PesoMod + GetMochila(personagem.Inventario!);
 
 			EmbedBuilder embed = new()
 			{
-				Author = new EmbedAuthorBuilder() { Name = $"{personagem.Nome}   -   Inventário {GerarPesoInventario(personagem)}/{pesoInv:N2}kg" },
+				Author = new EmbedAuthorBuilder() { Name = $"{personagem.Nome}   -   Inventário {GerarPesoInventario(personagem):N2}/{pesoInv:N2}kg" },
 				Footer = new EmbedFooterBuilder() { Text = $"💰 {GerarSaldo(personagem.Saldo)}   -   {personagem.Jogador}" },
 				Color = GerarCorVida(personagem.Vida, personagem.VidaMax)
 			};
@@ -127,23 +120,18 @@ namespace RPGbot.Classes
 
 			return embed.Build();
 		}
-		public static Embed GerarMagias(List<string> magias, Personagem personagem)
+		public static Embed GerarMagias(List<Magia> magias, Personagem personagem)
 		{
-			MagiasController magiasController = new(new MagiaService("Magias"));
-			ClassesController classesController = new(new ClasseService("Classes"));
-
 			string magiasTxt = "";
 			for (int i = 0; i < magias.Count; i++)
-				magiasTxt += $"• {magiasController.Get(magias[i]).Result.Name} \n";
-
-			Classe classePlayer = classesController.Get(personagem.Classe).Result;
+				magiasTxt += $"• {magias[i].Name} \n";
 
 			EmbedBuilder embed = new()
 			{
 				Author = new EmbedAuthorBuilder() { Name = $"{personagem.Nome}" },
-				Title = $"Magias   {magias.Count}/{classesController.Get(personagem.Classe).Result.Magias![GerarNivel(personagem.XP) - 1]}",
+				Title = $"Magias   {magias.Count}/{personagem.Classe!.Magias![GerarNivel(personagem.XP) - 1]}",
 				Description = magiasTxt,
-				Footer = new EmbedFooterBuilder() { Text = $"🧙 {(personagem.Genero == "Feminino" ? classePlayer.Fname : classePlayer.Mname)}   -   {personagem.Jogador}" },
+				Footer = new EmbedFooterBuilder() { Text = $"🧙 {(personagem.Genero == "Feminino" ? personagem.Classe!.Fname : personagem.Classe!.Mname)}   -   {personagem.Jogador}" },
 				Color = GerarCorVida(personagem.Vida, personagem.VidaMax)
 			};
 
@@ -151,7 +139,7 @@ namespace RPGbot.Classes
 		}
 		public static Embed GerarAllPericias(List<Pericia> list)
 		{
-			list = list.OrderByDescending(x => (int)(x.Atributo)).ToList();
+			list = list.OrderByDescending(x => (int)x.Atributo).ToList();
 
 			string txt = "";
 			foreach (Pericia obj in list)
@@ -211,12 +199,11 @@ namespace RPGbot.Classes
 			ItensController itensController = new(new ItemService("Itens"));
 
 			List<Item> itemList = itensController.GetAll().Result;
-			if (itemList.Find(e => FormatID(e.Name) == nome) == null)
+			Item item = itemList.Find(x => x.Id == FormatID(nome))!;
+			if (item == null)
 			{
 				return null!;
 			}
-
-			Item item = itensController.Get(nome).Result;
 
 			string modificador = item.ModNome != string.Empty ? $"\n*Modificador: {item.ModNome}*" : "";
 			string danodefesa = item.Dano != string.Empty ? $"*{item.Dano}*" : item.Defesa != 0 ? $"*{item.Defesa} CA*" : "";
@@ -233,7 +220,144 @@ namespace RPGbot.Classes
 			return embed.Build();
 		}
 
-		public static float GetMochila(List<string> inventario)
+		public static Embed GerarPets(Personagem personagem)
+		{
+			List<Pet> pets = personagem.Pets!;
+
+			var embed = new EmbedBuilder()
+			{
+				Author = new EmbedAuthorBuilder() { Name = $"{personagem.Nome}   {personagem.Vida}/{personagem.VidaMax}hp" },
+			};
+
+			foreach (Pet pet in pets)
+			{
+				string ataques = "";
+				if (pet.Ataques != null && pet.Ataques.Count != 0)
+				{
+					ataques += "\n";
+					foreach (PetAtaque ataque in pet.Ataques!)
+					{
+						ataques += $"**{ataque.Nome}** → {ataque.Dano}\n";
+					}
+					ataques += "\n";
+				}
+				string magias = "";
+				if (pet.Magias != null && pet.Magias!.Count != 0)
+				{
+					magias += "\nMagias:";
+					foreach (Magia magia in pet.Magias!)
+					{
+						magias += $"**{magia.Name}**   →   ";
+					}
+					magias += "\n";
+				}
+				string inventario = "";
+				if (pet.Inventario != null && pet.Inventario.Count != 0)
+				{
+					inventario += $"\n**{pet.Inventario.Count} itens**\n";
+				}
+
+				embed.AddField($"{pet.Name}   (*{pet.Especie}*)   {(pet.Genero == Utilities.PetGenero.Feminino ? "♀️" : "♂️")}", $"{pet.Vida}/{pet.MaxVida}hp   -   {pet.Defesa}CA\n{GerarPesoInventario(pet):N2}/{pet.TamanhoMochila}kg\n{ataques}{magias}{inventario}", true);
+			}
+
+			return embed.Build();
+		}
+
+		public static Embed GerarPets(Personagem personagem, bool mestre)
+		{
+			if (mestre == false) return null!;
+
+			List<Pet> pets = personagem.Pets!;
+
+			var embed = new EmbedBuilder()
+			{
+				Author = new EmbedAuthorBuilder() { Name = $"{personagem.Nome}   {personagem.Vida}/{personagem.VidaMax}hp" },
+			};
+
+			foreach (Pet pet in pets)
+			{
+				string ataques = "";
+				if (pet.Ataques != null && pet.Ataques.Count != 0)
+				{
+					ataques += "\n";
+					foreach (PetAtaque ataque in pet.Ataques!)
+					{
+						ataques += $"**{ataque.Nome}** → {ataque.Dano}\n";
+					}
+					ataques += "\n";
+				}
+				string magias = "";
+				if (pet.Magias != null && pet.Magias!.Count != 0)
+				{
+					magias += "\nMagias:";
+					foreach (Magia magia in pet.Magias!)
+					{
+						magias += $"**{magia.Name}**   →   ";
+					}
+					magias += "\n";
+				}
+				string inventario = "";
+				if (pet.Inventario != null && pet.Inventario!.Count != 0)
+				{
+					List<Item> itens = pet.Inventario.OrderByDescending(x => x.Tipo).ToList();
+					inventario += "\n";
+					foreach (Item item in pet.Inventario)
+					{
+						inventario += $"{item.Name}   {item.Peso}kg   {(item.Dano != "" ? item.Dano : item.Defesa > 0 ? item.Defesa + " CA" : "")}\n";
+					}
+					inventario += "\n";
+				}
+
+				embed.AddField($"{pet.Name}   (*{pet.Especie}*)   {(pet.Genero == Utilities.PetGenero.Feminino ? "♀️" : "♂️")}", $"{pet.Vida}/{pet.MaxVida}hp   -   {pet.Defesa}CA\n{GerarPesoInventario(pet):N2}/{pet.TamanhoMochila}kg\n{ataques}{magias}{inventario}", true);
+			}
+
+			return embed.Build();
+		}
+
+		public static Embed GerarPet(Pet pet, string nomePersonagem)
+		{
+			string inventario = "";
+			pet.Inventario ??= new List<Item>();
+			List<Item> itens = pet.Inventario.OrderByDescending(x => x.Tipo).ToList();
+			foreach (Item item in pet.Inventario)
+			{
+				inventario += $"{item.Name}   {item.Peso}kg   {(item.Dano != "" ? item.Dano : item.Defesa > 0 ? item.Defesa + " CA" : "")}\n";
+			}
+
+			string ataquesTxt = "";
+			pet.Ataques ??= new List<PetAtaque>();
+			List<PetAtaque> ataques = pet.Ataques.OrderByDescending(x => x.Nome).ToList();
+			foreach (PetAtaque ataque in pet.Ataques)
+			{
+				ataquesTxt += $"{ataque.Nome}   →   {ataque.Dano}\n";
+			}
+
+			string magiasTxt = "";
+			pet.Magias ??= new List<Magia>();
+			List<Magia> magias = pet.Magias.OrderByDescending(x => x.Name).ToList();
+			foreach (Magia magia in pet.Magias)
+			{
+				magiasTxt += $"{magia.Name}\n";
+			}
+
+			var embed = new EmbedBuilder()
+			{
+				Title = pet.Name,
+				Description = $"{(pet.Genero == Utilities.PetGenero.Feminino ? "♀️" : "♂️")}   *{pet.Especie}*   {pet.Vida}/{pet.MaxVida}hp",
+				Footer = new EmbedFooterBuilder() { Text = nomePersonagem }
+			};
+
+			if (inventario != "")
+				embed.AddField($"Inventário   ({GerarPesoInventario(pet)}/{pet.TamanhoMochila}kg)", inventario, true);
+			if (ataquesTxt != "")
+				embed.AddField($"Ataques", ataquesTxt, true);
+			if (magiasTxt != "")
+				embed.AddField($"Magias", magiasTxt, true);
+
+			return embed.Build();
+		}
+
+		public static float GetMochila(List<Item> inventario)
 		{
 			float mochila = 0f;
 
@@ -244,7 +368,7 @@ namespace RPGbot.Classes
 			{
 				foreach (Item item in itemList)
 				{
-					if (FormatID(item.Name) == FormatID(inventario[i]))
+					if (FormatID(item.Name) == FormatID(inventario[i].Id!))
 					{
 						if (item.Tipo == "Mochila")
 						{
@@ -269,21 +393,19 @@ namespace RPGbot.Classes
 		}
 		public static int GerarCA(Personagem personagem)
 		{
-			ItensController itensController = new(new ItemService("Itens"));
-
-			if (personagem.Armadura == null || personagem.Armadura == "")
+			if (personagem.Armadura == null || personagem.Armadura == null)
 			{
-				if (personagem.Escudo == null || personagem.Escudo == "")
+				if (personagem.Escudo == null || personagem.Escudo == null)
 					return 10 + int.Parse(Math.Floor((float.Parse(personagem.Destreza.ToString()) - 10) / 2).ToString());
 				else
-					return 10 + int.Parse(Math.Floor((float.Parse(personagem.Destreza.ToString()) - 10) / 2).ToString()) + itensController.Get(personagem.Escudo).Result.Defesa;
+					return 10 + int.Parse(Math.Floor((float.Parse(personagem.Destreza.ToString()) - 10) / 2).ToString()) + personagem.Escudo.Defesa;
 			}
 			else
 			{
-				if (personagem.Escudo == null || personagem.Escudo == "")
-					return itensController.Get(personagem.Armadura).Result.Defesa;
+				if (personagem.Escudo == null || personagem.Escudo == null)
+					return personagem.Armadura.Defesa;
 				else
-					return itensController.Get(personagem.Armadura).Result.Defesa + itensController.Get(personagem.Escudo).Result.Defesa;
+					return personagem.Armadura.Defesa + personagem.Escudo.Defesa;
 			}
 		}
 		public static string GerarMod(int valor)
@@ -305,11 +427,11 @@ namespace RPGbot.Classes
 				vida > -4 ? vermelho : preto;
 		}
 
-		public static int[] niveisXP = new int[]
+		public static int[] NiveisXP { get; } = new int[]
 		{
 			300,900,2700,6500,14000,23000,34000,48000,64000,85000,100000,120000,140000,165000,195000,225000,265000,305000,355000
 		};
-		public static int[] proficiencia = new int[]
+		public static int[] Proficiencia { get; } = new int[]
 		{
 			2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,6,6,6,6
 		};
@@ -320,9 +442,9 @@ namespace RPGbot.Classes
 		{
 			var nivel = 1;
 
-			for (int i = 0; i < niveisXP.Length; i++)
+			for (int i = 0; i < NiveisXP.Length; i++)
 			{
-				if (niveisXP[i] < xp)
+				if (NiveisXP[i] < xp)
 				{
 					nivel += 1;
 				}
@@ -338,18 +460,26 @@ namespace RPGbot.Classes
 
 		public static float GerarPesoInventario(Personagem personagem)
 		{
-			if (personagem.Inventario == null || personagem.Inventario.Count <= 0)
-				return 0;
-
-			ItensController itensController = new(new ItemService("Itens"));
-
 			float peso = 0;
-			foreach (string item in personagem.Inventario)
-			{
-				peso += itensController.Get(item).Result.Peso;
-			}
+			if (personagem.Inventario != null && personagem.Inventario!.Count != 0)
+				foreach (Item item in personagem.Inventario)
+				{
+					peso += item.Peso;
+				}
 
 			return peso + personagem.Saldo * 0.01f;
+		}
+
+		public static float GerarPesoInventario(Pet pet)
+		{
+			float peso = 0;
+			if (pet.Inventario != null && pet.Inventario!.Count != 0)
+				foreach (Item item in pet.Inventario)
+				{
+					peso += item.Peso;
+				}
+
+			return peso;
 		}
 
 		public static string FormatID(string text)

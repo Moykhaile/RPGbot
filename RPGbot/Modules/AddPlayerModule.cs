@@ -25,7 +25,7 @@ namespace RPGbot.Modules
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
 			if (personagem != null)
 			{
-				if (personagem.Nome != null)
+				if (personagem.Nome != string.Empty)
 				{
 					await RespondAsync($"Você já tem um personagem! {personagem.Nome} já existe.", ephemeral: true); return;
 				}
@@ -97,6 +97,8 @@ namespace RPGbot.Modules
 			.WithSelectMenu(sexualidadeMenu)
 			.WithSelectMenu(posicaoMenu);
 
+			personagem._Id = Context.User.Id;
+			await personagensController.Post(personagem);
 			await Context.Channel.SendMessageAsync($"<@324605986683748352>, {Context.User.Username} está criando um personagem!");
 
 			await RespondAsync($"Vamos criar o seu personagem!\n\nEscolha as informações respectivas do seu novo personagem e aperte o botão.", components: component.Build(), ephemeral: true);
@@ -111,17 +113,13 @@ namespace RPGbot.Modules
 			var buttonComponent = new ComponentBuilder().WithButton(modalButton);
 
 			await FollowupAsync("Clique aqui quando terminar!", components: buttonComponent.Build(), ephemeral: true);
-
-			personagem._Id = Context.User.Id;
-
-			await personagensController.Put(personagem._Id, personagem);
 		}
 
 		[ComponentInteraction("classeMenu")]
 		public async Task HandleClasseMenu(string selected)
 		{
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
-			personagem.Classe = selected;
+			personagem.Classe = classesController.Get(selected).Result;
 			await personagensController.Put(personagem._Id, personagem);
 			await RespondAsync($"Classe {selected} selecionada!", ephemeral: true);
 		}
@@ -129,7 +127,7 @@ namespace RPGbot.Modules
 		public async Task HandleRacaMenu(string selected)
 		{
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
-			personagem.Raca = selected;
+			personagem.Raca = racasController.Get(selected).Result;
 			await personagensController.Put(personagem._Id, personagem);
 			await RespondAsync($"Raça {selected} selecionada!", ephemeral: true);
 		}
@@ -162,11 +160,11 @@ namespace RPGbot.Modules
 		public async Task HandleModalButton()
 		{
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
-			if (personagem.Nome != null)
+			if (personagem.Nome != string.Empty)
 			{
 				await RespondAsync($"Você já tem um personagem! {personagem.Nome} já existe.", ephemeral: true); return;
 			}
-			if (personagem.Classe == null || personagem.Raca == null || personagem.Sexualidade == null || personagem.Genero == null || personagem.Posicao == null)
+			if (personagem.Classe == null || personagem.Raca == null || personagem.Sexualidade == string.Empty || personagem.Genero == string.Empty || personagem.Posicao == string.Empty)
 			{
 				await RespondAsync($"Responda a todas os menus acima!", ephemeral: true); return;
 			}
@@ -188,9 +186,9 @@ namespace RPGbot.Modules
 			personagem = GeneratePlayer(personagem);
 			personagem = GerarDadosRaca(personagem);
 
-			personagem.Magias = new List<string>();
-			personagem.Inventario = new List<string>();
-			personagem.Pericias = new List<string>();
+			personagem.Magias = new List<Magia>();
+			personagem.Inventario = new List<Item>();
+			personagem.Pericias = new List<Pericia>();
 			personagem.Exaustão = 0;
 
 			await personagensController.Put(personagem._Id, personagem);
@@ -212,7 +210,7 @@ namespace RPGbot.Modules
 			personagem.Sabedoria = JogarDadosAtributos();
 			personagem.Carisma = JogarDadosAtributos();
 
-			Classe playerClass = classesController.Get(personagem.Classe).Result;
+			Classe playerClass = personagem.Classe!;
 
 			personagem.Vida = JogarDadosVida(playerClass.Dice);
 			personagem.VidaMax = personagem.Vida;
@@ -222,9 +220,9 @@ namespace RPGbot.Modules
 			return personagem;
 		}
 
-		Personagem GerarDadosRaca(Personagem personagem)
+		static Personagem GerarDadosRaca(Personagem personagem)
 		{
-			List<string> habilidades = racasController.Get(personagem.Raca).Result.Habilidades;
+			List<string> habilidades = personagem.Raca!.Habilidades;
 
 			if (habilidades[0] == "Todos")
 			{

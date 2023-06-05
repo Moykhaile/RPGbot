@@ -25,6 +25,8 @@ namespace RPGbotAPI
 				.AddSingleton<RacaService>();
 			builder.Services.Configure<BotInfoDatabaseSettings>(builder.Configuration.GetSection("BotInfoDatabase"))
 				.AddSingleton<BotInfoService>();
+			builder.Services.Configure<PetDatabaseSettings>(builder.Configuration.GetSection("PetsDatabase"))
+				.AddSingleton<PetService>();
 
 			// Add services to the container.
 

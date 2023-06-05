@@ -5,6 +5,7 @@ using RPGbot.Classes;
 using RPGbotAPI.Controllers;
 using RPGbotAPI.Models;
 using RPGbotAPI.Services;
+using RPGbotLib;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.InteropServices;
 
@@ -14,7 +15,6 @@ namespace RPGbot.Modules
 	{
 		readonly PersonagensController personagensController = new(new PersonagemService("Personagens"));
 		readonly PericiasController periciasController = new(new PericiaService("Pericias"));
-		readonly ClassesController classesController = new(new ClasseService("Classes"));
 		readonly MagiasController magiasController = new(new MagiaService("Magias"));
 		readonly ItensController itensController = new(new ItemService("Itens"));
 
@@ -163,62 +163,61 @@ namespace RPGbot.Modules
 		}
 
 		[SlashCommand("addmagia", "Adiciona uma magia aos conhecimentos do personagem")]
-		public async Task AddMagia(string magia)
+		public async Task AddMagia(string nome)
 		{
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
 			if (personagem == null)
 			{
 				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
-			if (!classesController.Get(personagem.Classe).Result.Magico)
+			if (!personagem.Classe!.Magico)
 			{
 				await RespondAsync($"A classe do seu personagem não é mágica.", ephemeral: true); return;
 			}
 
-			if (magiasController.Get(magia).Result == null)
+			Magia magia = magiasController.Get(nome).Result;
+
+			if (magia == null)
 			{
 				await RespondAsync($"Magia ``{magia}`` não existe!", ephemeral: true); return;
 			}
 
-			personagem.Magias ??= new List<string>();
+			personagem.Magias ??= new List<Magia>();
 
-			if (personagem.Magias.Contains(RPGbotUtilities.FormatID(magia)))
+			if (personagem.Magias.Contains(magia))
 			{
 				await RespondAsync($"Seu personagem já conhece esta magia.", ephemeral: true); return;
 			}
-			if (personagem.Magias.Count >= classesController.Get(personagem.Classe).Result.Magias![RPGbotUtilities.GerarNivel(personagem.XP) - 1])
+			if (personagem.Magias.Count >= personagem.Classe!.Magias![RPGbotUtilities.GerarNivel(personagem.XP) - 1])
 			{
 				await RespondAsync($"Seu personagem não tem experiência suficiente para aprender tantas magias! Explore o mundo e tente estudar novamente.", ephemeral: true); return;
 			}
 
-			personagem.Magias.Add(RPGbotUtilities.FormatID(magia));
+			personagem.Magias.Add(magia);
 
 			await personagensController.Put(personagem._Id, personagem);
 
-			await RespondAsync($"Magia ``{magiasController.Get(magia).Result.Name}`` adicionada ao personagem!", ephemeral: true, embed: RPGbotUtilities.GerarMagias(personagem.Magias, personagem));
+			await RespondAsync($"Magia ``{magia.Name}`` adicionada ao personagem!", ephemeral: true, embed: RPGbotUtilities.GerarMagias(personagem.Magias, personagem));
 		}
 
 		[SlashCommand("removermagia", "Remove uma magia dos conhecimentos do personagem")]
-		public async Task RemoverMagia(string magia)
+		public async Task RemoverMagia(string nome)
 		{
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
 			if (personagem == null)
 			{
 				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
-			if (!classesController.Get(personagem.Classe).Result.Magico)
+			if (!personagem.Classe!.Magico)
 			{
 				await RespondAsync($"A classe do seu personagem não é mágica.", ephemeral: true); return;
 			}
 
-			if (magiasController.Get(magia).Result == null)
-			{
-				await RespondAsync($"Magia ``{magia}`` não existe!", ephemeral: true); return;
-			}
+			personagem.Magias ??= new List<Magia>();
 
-			personagem.Magias ??= new List<string>();
+			Magia magia = personagem.Magias.Find(x => x.Id == Utilities.FormatID(nome))!;
 
-			if (!personagem.Magias.Contains(RPGbotUtilities.FormatID(magia)))
+			if (magia == null)
 			{
 				await RespondAsync($"Seu personagem não conhece esta magia.", ephemeral: true); return;
 			}
@@ -226,7 +225,7 @@ namespace RPGbot.Modules
 
 			await personagensController.Put(personagem._Id, personagem);
 
-			await RespondAsync($"Magia ``{magiasController.Get(magia).Result.Name}`` removida do personagem!", ephemeral: true);
+			await RespondAsync($"Magia ``{magia.Name}`` removida do personagem!", ephemeral: true);
 		}
 
 		[SlashCommand("magias", "Apresenta as mágias conhecidas pelo personagem")]
@@ -237,13 +236,13 @@ namespace RPGbot.Modules
 			{
 				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
-			if (!classesController.Get(personagem.Classe).Result.Magico)
+			if (!personagem.Classe!.Magico)
 			{
 				await RespondAsync($"A classe do seu personagem não é mágica.", ephemeral: true); return;
 			}
-			if (personagem.Magias == null)
+			if (personagem.Magias == null || personagem.Magias.Count == 0)
 			{
-				await RespondAsync($"O seu personagem não conhece magias.", ephemeral: true); return;
+				await RespondAsync($"O seu personagem não conhece nenhuma magia.", ephemeral: true); return;
 			}
 
 			await RespondAsync($"As magias do seu personagem!", ephemeral: true, embed: RPGbotUtilities.GerarMagias(personagem.Magias, personagem));
@@ -257,7 +256,7 @@ namespace RPGbot.Modules
 			{
 				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
-			if (!classesController.Get(personagem.Classe).Result.Magico)
+			if (!personagem.Classe!.Magico)
 			{
 				await RespondAsync($"A classe do seu personagem não é mágica.", ephemeral: true); return;
 			}
@@ -278,9 +277,9 @@ namespace RPGbot.Modules
 				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
 
-			if (personagem.Inventario == null)
+			if (personagem.Inventario == null || personagem.Inventario.Count == 0)
 			{
-				await RespondAsync($"{personagem.Nome} não tem inventário.", ephemeral: true); return;
+				await RespondAsync($"{personagem.Nome} não tem itens em seu inventário.", ephemeral: true); return;
 			}
 
 			var fichaBtn = new ButtonBuilder()
@@ -310,27 +309,29 @@ namespace RPGbot.Modules
 				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
 
-			if (itensController.Get(nome).Result == null)
+			Item item = itensController.Get(nome).Result;
+
+			if (item == null)
 			{
 				await RespondAsync($"Item ``{nome}`` não existe!", ephemeral: true); return;
 			}
-			personagem.Inventario ??= new List<string>();
+			personagem.Inventario ??= new List<Item>();
 
-			if (personagem.Forca * RPGbotUtilities.pesoMod < (RPGbotUtilities.GerarPesoInventario(personagem) + itensController.Get(nome).Result.Peso) * quantidade)
+			if (personagem.Forca * RPGbotUtilities.PesoMod < (RPGbotUtilities.GerarPesoInventario(personagem) + item.Peso) * quantidade)
 			{
 				await RespondAsync($"Você não tem espaço para carregar este item na sua mochila!", ephemeral: true); return;
 			}
 
 			for (int i = 0; i < quantidade; i++)
-				personagem.Inventario.Add(RPGbotUtilities.FormatID(nome));
+				personagem.Inventario.Add(item);
 
 			await personagensController.Put(personagem._Id, personagem);
 
-			await RespondAsync($"Item adicionado ao inventário!", ephemeral: true, embed: RPGbotUtilities.GerarInventario(personagem));
+			await RespondAsync($"Item ``{item.Name}`` adicionado ao inventário!", ephemeral: true, embed: RPGbotUtilities.GerarInventario(personagem));
 		}
 
 		[SlashCommand("removeritem", "Remove um item do inventário do personagem")]
-		public async Task RemoverItem(string nome)
+		public async Task RemoverItem(string nome, [Optional(), DefaultParameterValue(1), MinValue(1)] int quantidade)
 		{
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
 			if (personagem == null)
@@ -338,19 +339,18 @@ namespace RPGbot.Modules
 				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
 
-			if (itensController.Get(nome).Result == null)
-			{
-				await RespondAsync($"Item ``{nome}`` não existe!", ephemeral: true); return;
-			}
+			personagem.Inventario ??= new List<Item>();
 
-			personagem.Inventario ??= new List<string>();
+			Item item = personagem.Inventario.Find(x => x.Id == Utilities.FormatID(nome))!;
 
-			if (!personagem.Inventario.Contains(RPGbotUtilities.FormatID(nome)))
+			if (!personagem.Inventario.Contains(item))
 			{
 				await RespondAsync($"Seu personagem não tem este item.", ephemeral: true); return;
 			}
-			string old_item = itensController.Get(nome).Result.Name;
-			personagem.Inventario.Remove(RPGbotUtilities.FormatID(nome));
+			string old_item = item.Name;
+
+			for (int i = 0; i < quantidade; i++)
+				personagem.Inventario.Remove(personagem.Inventario.Find(x => x.Id == Utilities.FormatID(nome))!);
 
 			await personagensController.Put(personagem._Id, personagem);
 
@@ -366,17 +366,19 @@ namespace RPGbot.Modules
 				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
 
-			if (itensController.Get(nome).Result == null)
+			Item item = itensController.Get(nome).Result;
+
+			if (item == null)
 			{
 				await RespondAsync($"Item ``{nome}`` não existe!", ephemeral: true); return;
 			}
-			personagem.Inventario ??= new List<string>();
+			personagem.Inventario ??= new List<Item>();
 
-			if (personagem.Forca * RPGbotUtilities.pesoMod + RPGbotUtilities.GetMochila(personagem.Inventario) + personagem.Saldo * 0.1f < (RPGbotUtilities.GerarPesoInventario(personagem) + itensController.Get(nome).Result.Peso))
+			if (personagem.Forca * RPGbotUtilities.PesoMod + RPGbotUtilities.GetMochila(personagem.Inventario) + personagem.Saldo * 0.1f < (RPGbotUtilities.GerarPesoInventario(personagem) + item.Peso))
 			{
 				await RespondAsync($"Você não tem espaço para carregar este item na sua mochila!", ephemeral: true); return;
 			}
-			Item item = itensController.Get(nome).Result;
+
 			if (personagem.Saldo < (preço > 0 ? preço : item.Preco))
 			{
 				await RespondAsync($"Você não tem dinheiro suficiente! Você tem ``{personagem.Saldo}`` de saldo, e o item custa ``{(preço > 0 ? preço : item.Preco)}``.", ephemeral: true); return;
@@ -386,7 +388,7 @@ namespace RPGbot.Modules
 				personagem.Saldo -= preço;
 			else
 				personagem.Saldo -= item.Preco;
-			personagem.Inventario.Add(RPGbotUtilities.FormatID(nome));
+			personagem.Inventario.Add(item);
 
 			await personagensController.Put(personagem._Id, personagem);
 
@@ -396,12 +398,10 @@ namespace RPGbot.Modules
 		[SlashCommand("veritem", "Apresenta as informações do item como dano, peso, preço, etc.")]
 		public async Task VerItem(string nome)
 		{
-			//nome = PlayerResponse.FormatID(nome);
-
 			Embed embed = RPGbotUtilities.GerarItem(nome);
 			if (embed == null)
 			{
-				await RespondAsync($"Item {RPGbotUtilities.FormatID(nome)} não existe!", ephemeral: true); return;
+				await RespondAsync($"Item ``{nome}`` não existe!", ephemeral: true); return;
 			}
 
 			await RespondAsync($"Item:", embed: embed, ephemeral: true);
@@ -416,27 +416,25 @@ namespace RPGbot.Modules
 				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
 
-			if (periciasController.Get(nome).Result == null)
+			Pericia pericia = periciasController.Get(nome).Result;
+
+			if (pericia == null)
 			{
 				await RespondAsync($"Perícia ``{nome}`` não existe!", ephemeral: true); return;
 			}
 
-			personagem.Pericias ??= new List<string>();
+			personagem.Pericias ??= new List<Pericia>();
 
-			if (personagem.Pericias.Contains(RPGbotUtilities.FormatID(nome)))
+			if (personagem.Pericias.Contains(pericia))
 			{
 				await RespondAsync($"Seu personagem já tem esta perícia.", ephemeral: true); return;
 			}
-			/*if (personagem.Pericias.Count >= classesController.Get(personagem.Classe).Magias[PlayerResponse.GerarNivel(personagem.XP) - 1])
-			{
-				await RespondAsync($"Seu personagem não tem experiência suficiente para aprender tantas magias! Explore o mundo e tente estudar novamente.", ephemeral: true); return;
-			}*/
 
-			personagem.Pericias.Add(RPGbotUtilities.FormatID(nome));
+			personagem.Pericias.Add(pericia);
 
 			await personagensController.Put(personagem._Id, personagem);
 
-			await RespondAsync($"Perícia ``{periciasController.Get(nome).Result.Nome}`` adicionada ao personagem!", ephemeral: true, embed: RPGbotUtilities.GerarFicha(personagem));
+			await RespondAsync($"Perícia ``{pericia.Nome}`` adicionada ao personagem!", ephemeral: true, embed: RPGbotUtilities.GerarFicha(personagem));
 		}
 
 		[SlashCommand("removerpericia", "Remove uma perícia do personagem")]
@@ -448,22 +446,19 @@ namespace RPGbot.Modules
 				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
 
-			if (periciasController.Get(nome).Result == null)
-			{
-				await RespondAsync($"Perícia ``{nome}`` não existe!", ephemeral: true); return;
-			}
+			personagem.Pericias ??= new List<Pericia>();
 
-			personagem.Pericias ??= new List<string>();
+			Pericia pericia = personagem.Pericias.Find(x => x.Id == Utilities.FormatID(nome))!;
 
-			if (!personagem.Pericias.Contains(RPGbotUtilities.FormatID(nome)))
+			if (pericia == null)
 			{
 				await RespondAsync($"Seu personagem não tem esta perícia.", ephemeral: true); return;
 			}
-			personagem.Pericias.Remove(nome);
+			personagem.Pericias.Remove(pericia);
 
 			await personagensController.Put(personagem._Id, personagem);
 
-			await RespondAsync($"Perícia ``{periciasController.Get(nome).Result.Nome}`` removida do personagem!", ephemeral: true);
+			await RespondAsync($"Perícia ``{pericia.Nome}`` removida do personagem!", ephemeral: true);
 		}
 
 		[SlashCommand("verpericias", "Apresenta todas as perícias disponíveis")]
@@ -483,45 +478,105 @@ namespace RPGbot.Modules
 			{
 				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
-			Console.WriteLine(RPGbotUtilities.FormatID(nome));
-			if (itensController.Get(nome).Result == null)
+
+			Item item = personagem.Inventario!.Find(x => x.Id == Utilities.FormatID(nome))!;
+
+			if (!personagem.Inventario!.Contains(item))
 			{
-				await RespondAsync($"Item ``{nome}`` não existe!", ephemeral: true); return;
-			}
-			if (!personagem.Inventario!.Contains(RPGbotUtilities.FormatID(nome)))
-			{
-				await RespondAsync($"Você não tem o item ``{itensController.Get(nome).Result.Name}``!", ephemeral: true); return;
+				await RespondAsync($"Você não tem o item ``{item.Name}``!", ephemeral: true); return;
 			}
 
 			string old_item = "";
 
 			if (tipo == Equipaveis.Armadura)
 			{
-				if (itensController.Get(nome).Result.Tipo == "Escudo" || itensController.Get(nome).Result.Defesa == 0)
+				if (item.Tipo == "Escudo" || item.Defesa == 0)
 				{
-					await RespondAsync($"O item ``{itensController.Get(nome).Result.Name}`` não é uma armadura!", ephemeral: true); return;
+					await RespondAsync($"O item ``{item.Name}`` não é uma armadura!", ephemeral: true); return;
 				}
 
-				old_item = personagem.Armadura;
-				personagem.Armadura = RPGbotUtilities.FormatID(nome);
+				if (personagem.Armadura != null)
+					old_item = personagem.Armadura!.Name;
+				personagem.Armadura = item;
 			}
 			if (tipo == Equipaveis.Escudo)
 			{
-				if (itensController.Get(nome).Result.Tipo != "Escudo")
+				if (item.Tipo != "Escudo")
 				{
-					await RespondAsync($"O item ``{itensController.Get(nome).Result.Name}`` não é um escudo!", ephemeral: true); return;
+					await RespondAsync($"O item ``{item.Name}`` não é um escudo!", ephemeral: true); return;
 				}
 
-				old_item = personagem.Escudo;
-				personagem.Escudo = RPGbotUtilities.FormatID(nome);
+				if (personagem.Escudo != null)
+					old_item = personagem.Escudo!.Name;
+				personagem.Escudo = item;
 			}
 
 			await personagensController.Put(personagem._Id, personagem);
 
 			if (old_item == "")
-				await RespondAsync($"Item ``{itensController.Get(nome).Result.Name}`` equipado!", ephemeral: true, embed: RPGbotUtilities.GerarInventario(personagem));
+				await RespondAsync($"Item ``{item.Name}`` equipado!", ephemeral: true, embed: RPGbotUtilities.GerarInventario(personagem));
 			else
-				await RespondAsync($"Item ``{itensController.Get(nome).Result.Name}`` equipado, e item {itensController.Get(old_item).Result.Name} desequipado!", ephemeral: true, embed: RPGbotUtilities.GerarInventario(personagem));
+				await RespondAsync($"Item ``{item.Name}`` equipado, e item ``{old_item}`` desequipado!", ephemeral: true, embed: RPGbotUtilities.GerarInventario(personagem));
+		}
+
+		[SlashCommand("desequipar", "Desequipar um item do personagem ao inventário")]
+		public async Task Desequipar(Equipaveis tipo, string nome)
+		{
+			Personagem personagem = personagensController.Get(Context.User.Id).Result;
+			if (personagem == null)
+			{
+				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
+			}
+
+			if (tipo == Equipaveis.Armadura)
+			{
+				if (personagem.Armadura == null)
+				{
+					await RespondAsync($"Você não tem uma armadura equipada!", ephemeral: true); return;
+				}
+
+				personagem.Armadura = null;
+			}
+			if (tipo == Equipaveis.Escudo)
+			{
+				if (personagem.Escudo == null)
+				{
+					await RespondAsync($"Você não tem um escudo equipado!", ephemeral: true); return;
+				}
+
+				personagem.Escudo = null;
+			}
+
+			await personagensController.Put(personagem._Id, personagem);
+
+				await RespondAsync($"Item desequipado!", ephemeral: true, embed: RPGbotUtilities.GerarInventario(personagem));
+		}
+
+		[SlashCommand("veritens", "Mostra todos os itens disponíveis no jogo até então")]
+		public async Task VerItens()
+		{
+			List<Item> itens = itensController.GetAll().Result.ToList();
+
+			itens = itens.OrderByDescending(x => x.Tipo).ToList();
+
+			int maxlenght = 1536;
+
+			string itensTxt1 = "";
+			string itensTxt2 = "";
+			string itensTxt3 = "";
+			foreach (Item item in itens)
+			{
+				if (itensTxt1.Length < maxlenght)
+					itensTxt1 += $"{item.Name}\n";
+				else if (itensTxt2.Length < maxlenght)
+					itensTxt2 += $"{item.Name}\n";
+				else
+					itensTxt3 += $"{item.Name}\n";
+			}
+
+			await RespondAsync(itensTxt1, ephemeral: true);
+			if (itensTxt2 != "") await FollowupAsync(itensTxt2, ephemeral: true);
+			if (itensTxt3 != "") await FollowupAsync(itensTxt3, ephemeral: true);
 		}
 	}
 }

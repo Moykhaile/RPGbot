@@ -56,7 +56,7 @@ namespace RPGbot.Modules
 
 			propertyInfo.SetValue(personagem, Convert.ChangeType(valor, propertyInfo.PropertyType), null);
 
-			await personagensController.Put(personagem._Id, personagem);
+			await personagensController.Put(personagem.Id, personagem);
 
 			await RespondAsync($"Propriedade ``{atributo}`` do personagem ``{personagem.Nome}`` alterada.", ephemeral: true);
 		}
@@ -82,7 +82,7 @@ namespace RPGbot.Modules
 				personagem.Vida + qntd < -4 ? -4 :
 				personagem.Vida + qntd;
 
-			await personagensController.Put(personagem._Id, personagem);
+			await personagensController.Put(personagem.Id, personagem);
 
 			await RespondAsync($"Vida do personagem alterada! Anterior: {old_vida}", embed: RPGbotUtilities.GerarFicha(personagem), ephemeral: true);
 		}
@@ -107,7 +107,7 @@ namespace RPGbot.Modules
 			int old_xp = personagem.XP;
 			personagem.XP += qntd;
 
-			await personagensController.Put(personagem._Id, personagem);
+			await personagensController.Put(personagem.Id, personagem);
 
 			await RespondAsync($"Pontos de experiência do personagem alterados! Anterior: {old_xp}", embed: RPGbotUtilities.GerarFicha(personagem), ephemeral: true);
 		}
@@ -131,7 +131,7 @@ namespace RPGbot.Modules
 			personagem.Saldo += qntd;
 			personagem.Saldo = personagem.Saldo < 0 ? 0 : personagem.Saldo;
 
-			await personagensController.Put(personagem._Id, personagem);
+			await personagensController.Put(personagem.Id, personagem);
 
 			await RespondAsync($"Saldo do personagem alterado! Anterior: {old_saldo}", embed: RPGbotUtilities.GerarFicha(personagem), ephemeral: true);
 		}
@@ -235,9 +235,9 @@ namespace RPGbot.Modules
 			};
 			foreach (var personagem in personagens)
 			{
-				if (personagem._Id != 0)
+				if (personagem.Id != 0)
 				{
-					if (personagem._Id != Context.User.Id)
+					if (personagem.Id != Context.User.Id)
 						embed.AddField(
 							$"{personagem.Nome}",
 							$"```❤️ {personagem.Vida}/{personagem.VidaMax}\n🌟 {personagem.XP}/{RPGbotUtilities.NiveisXP[RPGbotUtilities.GerarNivel(personagem.XP) - 1]} lvl {RPGbotUtilities.GerarNivel(personagem.XP)}\n💰 {personagem.Saldo}```",
@@ -268,7 +268,7 @@ namespace RPGbot.Modules
 			if (personagem.Exaustão > 5) personagem.Exaustão = 5;
 			if (personagem.Exaustão < 0) personagem.Exaustão = 0;
 
-			await personagensController.Put(personagem._Id, personagem);
+			await personagensController.Put(personagem.Id, personagem);
 
 			await RespondAsync($"Exaustão alterada para {personagem.Nome}!", embed: RPGbotUtilities.GerarFicha(personagem), ephemeral: true);
 		}
@@ -283,7 +283,7 @@ namespace RPGbot.Modules
 			}
 
 			Personagem personagem = personagensController.Get(((SocketGuildUser)user).Id).Result;
-			if (personagem == null || personagem._Id == 0)
+			if (personagem == null || personagem.Id == 0)
 			{
 				await RespondAsync($"Personagem de ID ``{((SocketGuildUser)user).Id}`` não encontrado.", ephemeral: true); return;
 			}

@@ -19,7 +19,7 @@ namespace RPGbot.Modules
 		public async Task Pets()
 		{
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
-			if (personagem == null || personagem._Id == 0)
+			if (personagem == null || personagem.Id == 0)
 			{
 				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
@@ -37,7 +37,7 @@ namespace RPGbot.Modules
 		public async Task Pet(string NomeDoPet)
 		{
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
-			if (personagem == null || personagem._Id == 0)
+			if (personagem == null || personagem.Id == 0)
 			{
 				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
@@ -56,7 +56,7 @@ namespace RPGbot.Modules
 		public async Task AddPet(string especie, string NomeDoPet, Utilities.PetGenero genero)
 		{
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
-			if (personagem == null || personagem._Id == 0)
+			if (personagem == null || personagem.Id == 0)
 			{
 				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
@@ -76,7 +76,7 @@ namespace RPGbot.Modules
 
 			personagem.Pets.Add(pet);
 
-			await personagensController.Put(personagem._Id, personagem);
+			await personagensController.Put(personagem.Id, personagem);
 
 			await RespondAsync($"Pet ``{pet.Name}`` adicionado ao seu personagem!", embed: RPGbotUtilities.GerarPets(personagem), ephemeral: true);
 		}
@@ -85,7 +85,7 @@ namespace RPGbot.Modules
 		public async Task PetVida(string PetNome, int qntd)
 		{
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
-			if (personagem == null || personagem._Id == 0)
+			if (personagem == null || personagem.Id == 0)
 			{
 				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
@@ -105,7 +105,7 @@ namespace RPGbot.Modules
 
 			personagem.Pets[personagem.Pets.FindIndex(x => x.Id == Utilities.FormatID(PetNome))] = pet;
 
-			await personagensController.Put(personagem._Id, personagem);
+			await personagensController.Put(personagem.Id, personagem);
 
 			await RespondAsync($"Vida do pet ``{pet.Name}`` alterada de ``{old_vida}`` para ``{pet.Vida}``", embed: RPGbotUtilities.GerarPets(personagem), ephemeral: true);
 		}
@@ -113,7 +113,7 @@ namespace RPGbot.Modules
 		public async Task PetAddItem(string PetNome, string NomeDoItem, [Optional(), DefaultParameterValue(1), MinValue(1)] int Quantidade)
 		{
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
-			if (personagem == null || personagem._Id == 0)
+			if (personagem == null || personagem.Id == 0)
 			{
 				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
@@ -141,7 +141,7 @@ namespace RPGbot.Modules
 			for (int i = 0; i < Quantidade; i++)
 				pet.Inventario.Add(item);
 
-			await personagensController.Put(personagem._Id, personagem);
+			await personagensController.Put(personagem.Id, personagem);
 
 			await RespondAsync($"Item ``{item.Name}`` adicionado ao inventário do pet ``{pet.Name}``!", ephemeral: true, embed: RPGbotUtilities.GerarPets(personagem));
 		}
@@ -150,7 +150,7 @@ namespace RPGbot.Modules
 		public async Task PetRemoverItem(string PetNome, string NomeDoItem, [Optional(), DefaultParameterValue(1), MinValue(1)] int Quantidade)
 		{
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
-			if (personagem == null || personagem._Id == 0)
+			if (personagem == null || personagem.Id == 0)
 			{
 				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
 			}
@@ -175,7 +175,7 @@ namespace RPGbot.Modules
 			for (int i = 0; i < Quantidade; i++)
 				pet.Inventario.Remove(pet.Inventario.Find(x => x.Id == Utilities.FormatID(NomeDoItem))!);
 
-			await personagensController.Put(personagem._Id, personagem);
+			await personagensController.Put(personagem.Id, personagem);
 
 			await RespondAsync($"Item ``{old_item}`` removido do inventário de {pet.Name}!", ephemeral: true, embed: RPGbotUtilities.GerarPet(pet, personagem.Nome));
 		}

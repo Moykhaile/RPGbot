@@ -22,7 +22,7 @@ namespace RPGbot.Modules
 		public async Task Ficha()
 		{
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
-			if (personagem == null || personagem._Id == 0)
+			if (personagem == null || personagem.Id == 0)
 			{
 				ErrorModule.PersonagemNotFound(Context, Context.User.Id.ToString()); return;
 			}
@@ -210,7 +210,7 @@ namespace RPGbot.Modules
 				personagem.Vida + qntd < -4 ? -4 :
 				personagem.Vida + qntd;
 
-			await personagensController.Put(personagem._Id, personagem);
+			await personagensController.Put(personagem.Id, personagem);
 
 			await RespondAsync($"Vida do personagem alterada! Anterior: {old_vida}", embed: RPGbotUtilities.GerarFicha(personagem), ephemeral: true);
 		}
@@ -229,7 +229,7 @@ namespace RPGbot.Modules
 			int old_xp = personagem.XP;
 			personagem.XP += qntd;
 
-			await personagensController.Put(personagem._Id, personagem);
+			await personagensController.Put(personagem.Id, personagem);
 
 			await RespondAsync($"Pontos de experiência do personagem alterados! Anterior: {old_xp}", embed: RPGbotUtilities.GerarFicha(personagem), ephemeral: true);
 		}
@@ -247,7 +247,7 @@ namespace RPGbot.Modules
 			personagem.Saldo += qntd;
 			personagem.Saldo = personagem.Saldo < 0 ? 0 : personagem.Saldo;
 
-			await personagensController.Put(personagem._Id, personagem);
+			await personagensController.Put(personagem.Id, personagem);
 
 			await RespondAsync($"Saldo do personagem alterado! Anterior: {old_saldo}", embed: RPGbotUtilities.GerarFicha(personagem), ephemeral: true);
 		}
@@ -289,7 +289,7 @@ namespace RPGbot.Modules
 
 			personagem.Magias.Add(magia);
 
-			await personagensController.Put(personagem._Id, personagem);
+			await personagensController.Put(personagem.Id, personagem);
 
 			await RespondAsync($"Magia ``{magia}`` adicionada ao personagem!", ephemeral: true, embed: RPGbotUtilities.GerarMagias(personagem.Magias, personagem));
 		}
@@ -318,7 +318,7 @@ namespace RPGbot.Modules
 			}
 			personagem.Magias.Remove(magia);
 
-			await personagensController.Put(personagem._Id, personagem);
+			await personagensController.Put(personagem.Id, personagem);
 
 			await RespondAsync($"Magia ``{magia}`` removida do personagem!", ephemeral: true);
 		}
@@ -402,7 +402,7 @@ namespace RPGbot.Modules
 			for (int i = 0; i < quantidade; i++)
 				personagem.Inventario.Add(item);
 
-			await personagensController.Put(personagem._Id, personagem);
+			await personagensController.Put(personagem.Id, personagem);
 
 			await RespondAsync($"Item ``{item.Name}`` adicionado ao inventário!", ephemeral: true, embed: RPGbotUtilities.GerarInventario(personagem));
 		}
@@ -429,7 +429,7 @@ namespace RPGbot.Modules
 			for (int i = 0; i < quantidade; i++)
 				personagem.Inventario.Remove(personagem.Inventario.Find(x => x.Id == Utilities.FormatID(nome))!);
 
-			await personagensController.Put(personagem._Id, personagem);
+			await personagensController.Put(personagem.Id, personagem);
 
 			await RespondAsync($"Item ``{old_item}`` removido do inventário!", ephemeral: true, embed: RPGbotUtilities.GerarInventario(personagem));
 		}
@@ -467,7 +467,7 @@ namespace RPGbot.Modules
 				personagem.Saldo -= item.Preco;
 			personagem.Inventario.Add(item);
 
-			await personagensController.Put(personagem._Id, personagem);
+			await personagensController.Put(personagem.Id, personagem);
 
 			await RespondAsync($"Item comprado por {(preço > 0 ? preço : item.Preco)} moedas!", ephemeral: true, embed: RPGbotUtilities.GerarInventario(personagem));
 		}
@@ -514,7 +514,7 @@ namespace RPGbot.Modules
 				personagem.Escudo = item;
 			}
 
-			await personagensController.Put(personagem._Id, personagem);
+			await personagensController.Put(personagem.Id, personagem);
 
 			if (old_item == "")
 				await RespondAsync($"Item ``{item.Name}`` equipado!", ephemeral: true, embed: RPGbotUtilities.GerarInventario(personagem));
@@ -550,7 +550,7 @@ namespace RPGbot.Modules
 				personagem.Escudo = null;
 			}
 
-			await personagensController.Put(personagem._Id, personagem);
+			await personagensController.Put(personagem.Id, personagem);
 
 			await RespondAsync($"Item desequipado!", ephemeral: true, embed: RPGbotUtilities.GerarInventario(personagem));
 		}
@@ -582,7 +582,7 @@ namespace RPGbot.Modules
 
 			personagem.Pericias.Add(pericia);
 
-			await personagensController.Put(personagem._Id, personagem);
+			await personagensController.Put(personagem.Id, personagem);
 
 			await RespondAsync($"Perícia ``{pericia}`` adicionada ao personagem!", ephemeral: true, embed: RPGbotUtilities.GerarFicha(personagem));
 		}
@@ -606,7 +606,7 @@ namespace RPGbot.Modules
 			}
 			personagem.Pericias.Remove(pericia);
 
-			await personagensController.Put(personagem._Id, personagem);
+			await personagensController.Put(personagem.Id, personagem);
 
 			await RespondAsync($"Perícia ``{pericia}`` removida do personagem!", ephemeral: true);
 		}

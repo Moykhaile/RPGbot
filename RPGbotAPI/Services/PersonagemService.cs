@@ -36,15 +36,15 @@ namespace RPGbotAPI.Services
 			await _collection.Find(x => true).ToListAsync();
 
 		public async Task<Personagem> GetAsync(ulong id) =>
-			await _collection.Find(x => x._Id == id).FirstOrDefaultAsync();
+			await _collection.Find(x => x.Id == id).FirstOrDefaultAsync();
 
 		public async Task CreateAsync(Personagem colObj) =>
 			await _collection.InsertOneAsync(colObj);
 
 		public async Task UpdateAsync(ulong id, Personagem colObj) =>
-			await _collection.ReplaceOneAsync(x => x._Id == id, colObj);
+			await _collection.ReplaceOneAsync(x => x.Id == id, colObj);
 
 		public async Task RemoveAsync(ulong id) =>
-			await _collection.DeleteOneAsync(x => x._Id == id);
+			await _collection.DeleteOneAsync(x => x.Id == id);
 	}
 }

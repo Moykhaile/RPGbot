@@ -5,7 +5,7 @@ namespace RPGbotAPI.Models
 {
 	public class Personagem
 	{
-		[BsonId, BsonRepresentation(BsonType.Decimal128, AllowTruncation = true)] public ulong _Id { get; set; }
+		[BsonId, BsonRepresentation(BsonType.Decimal128, AllowTruncation = true)] public ulong Id { get; set; }
 
 		[BsonElement] public string Nome { get; set; } = string.Empty;
 		[BsonElement] public string Jogador { get; set; } = string.Empty;
@@ -19,8 +19,7 @@ namespace RPGbotAPI.Models
 		[BsonElement] public int Peso { get; set; }
 		[BsonElement] public int Altura { get; set; }
 
-		[BsonElement] public string[]? ImgLink { get; set; }
-
+		[BsonElement] public bool GeneratedStats { get; set; } = false;
 		[BsonElement] public int Forca { get; set; }
 		[BsonElement] public int Destreza { get; set; }
 		[BsonElement] public int Inteligencia { get; set; }
@@ -32,6 +31,7 @@ namespace RPGbotAPI.Models
 		[BsonElement] public int Vida { get; set; }
 		[BsonElement] public float Saldo { get; set; }
 		[BsonElement] public int XP { get; set; }
+		[BsonElement] public int Nivel { get; set; }
 
 		[BsonElement] public Item? Armadura { get; set; }
 		[BsonElement] public Item? Escudo { get; set; }

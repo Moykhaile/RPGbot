@@ -27,13 +27,13 @@ namespace RPGbot.Modules
 				}
 				else
 				{
-					await personagensController.Delete(personagem._Id);
-					personagem = new Personagem() { _Id = 0 };
+					await personagensController.Delete(personagem.Id);
+					personagem = new Personagem() { Id = 0 };
 				}
 			}
 			else
 			{
-				personagem = new Personagem() { _Id = 0 };
+				personagem = new Personagem() { Id = 0 };
 			}
 
 			var classeMenu = new SelectMenuBuilder()
@@ -93,7 +93,7 @@ namespace RPGbot.Modules
 			.WithSelectMenu(sexualidadeMenu)
 			.WithSelectMenu(posicaoMenu);
 
-			personagem._Id = Context.User.Id;
+			personagem.Id = Context.User.Id;
 			await personagensController.Post(personagem);
 			await Context.Channel.SendMessageAsync($"<@324605986683748352>, {Context.User.Username} está criando um personagem!");
 
@@ -116,7 +116,7 @@ namespace RPGbot.Modules
 		{
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
 			personagem.Classe = classesController.Get(selected).Result.Mname;
-			await personagensController.Put(personagem._Id, personagem);
+			await personagensController.Put(personagem.Id, personagem);
 			await Context.Interaction.DeferAsync();
 		}
 		[ComponentInteraction("racaMenu")]
@@ -124,7 +124,7 @@ namespace RPGbot.Modules
 		{
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
 			personagem.Raca = racasController.Get(selected).Result.Mname;
-			await personagensController.Put(personagem._Id, personagem);
+			await personagensController.Put(personagem.Id, personagem);
 			await Context.Interaction.DeferAsync();
 		}
 		[ComponentInteraction("generoMenu")]
@@ -132,7 +132,7 @@ namespace RPGbot.Modules
 		{
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
 			personagem.Genero = selected;
-			await personagensController.Put(personagem._Id, personagem);
+			await personagensController.Put(personagem.Id, personagem);
 			await Context.Interaction.DeferAsync();
 		}
 		[ComponentInteraction("sexualidadeMenu")]
@@ -140,7 +140,7 @@ namespace RPGbot.Modules
 		{
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
 			personagem.Sexualidade = selected;
-			await personagensController.Put(personagem._Id, personagem);
+			await personagensController.Put(personagem.Id, personagem);
 			await Context.Interaction.DeferAsync();
 		}
 		[ComponentInteraction("posicaoMenu")]
@@ -148,7 +148,7 @@ namespace RPGbot.Modules
 		{
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
 			personagem.Posicao = selected;
-			await personagensController.Put(personagem._Id, personagem);
+			await personagensController.Put(personagem.Id, personagem);
 			await Context.Interaction.DeferAsync();
 		}
 
@@ -187,7 +187,7 @@ namespace RPGbot.Modules
 			personagem.Pericias = new List<string>();
 			personagem.Exaustão = 0;
 
-			await personagensController.Put(personagem._Id, personagem);
+			await personagensController.Put(personagem.Id, personagem);
 
 			await RespondAsync("Personagem criado! Use ``/ficha`` para ver a ficha do seu personagem ✅\n\n*Os dados do seu personagem são seus e cabe a você se irá ou não compartilha-los com outros. Ninguém poderá ver sua ficha, seus itens, magias, etc. além de você.*");
 
@@ -200,13 +200,6 @@ namespace RPGbot.Modules
 		Personagem GeneratePlayer(Personagem personagem)
 		{
 			ClassesController classesController = new(new("Classes"));
-
-			personagem.Forca = JogarDadosAtributos();
-			personagem.Destreza = JogarDadosAtributos();
-			personagem.Inteligencia = JogarDadosAtributos();
-			personagem.Constituicao = JogarDadosAtributos();
-			personagem.Sabedoria = JogarDadosAtributos();
-			personagem.Carisma = JogarDadosAtributos();
 
 			Classe playerClass = classesController.Get(personagem.Classe)!.Result!;
 
@@ -267,7 +260,7 @@ namespace RPGbot.Modules
 
 			return resultado;
 		}
-		int JogarDadosAtributos()
+		/*int JogarDadosAtributos()
 		{
 			var resultados = new List<int> { };
 			for (int i = 0; i < 4; i++)
@@ -279,9 +272,9 @@ namespace RPGbot.Modules
 			int resultado = 0;
 			foreach (var item in resultados)
 				resultado += item;
-			Console.WriteLine(resultado);
+
 			return resultado;
-		}
+		}*/
 		//4d6dl1
 	}
 

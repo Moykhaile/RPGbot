@@ -1,12 +1,8 @@
 ﻿using Discord;
 using Discord.Interactions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using RPGbotAPI.Controllers;
 using RPGbotAPI.Models;
 using RPGbotAPI.Services;
-using RPGbotAPI.Controllers;
 
 namespace RPGbot.Modules
 {
@@ -119,17 +115,17 @@ namespace RPGbot.Modules
 		public async Task HandleClasseMenu(string selected)
 		{
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
-			personagem.Classe = classesController.Get(selected).Result;
+			personagem.Classe = classesController.Get(selected).Result.Mname;
 			await personagensController.Put(personagem._Id, personagem);
-			await RespondAsync($"Classe {selected} selecionada!", ephemeral: true);
+			await Context.Interaction.DeferAsync();
 		}
 		[ComponentInteraction("racaMenu")]
 		public async Task HandleRacaMenu(string selected)
 		{
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
-			personagem.Raca = racasController.Get(selected).Result;
+			personagem.Raca = racasController.Get(selected).Result.Mname;
 			await personagensController.Put(personagem._Id, personagem);
-			await RespondAsync($"Raça {selected} selecionada!", ephemeral: true);
+			await Context.Interaction.DeferAsync();
 		}
 		[ComponentInteraction("generoMenu")]
 		public async Task HandleGeneroMenu(string selected)
@@ -137,7 +133,7 @@ namespace RPGbot.Modules
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
 			personagem.Genero = selected;
 			await personagensController.Put(personagem._Id, personagem);
-			await RespondAsync($"Gênero {selected} selecionado!", ephemeral: true);
+			await Context.Interaction.DeferAsync();
 		}
 		[ComponentInteraction("sexualidadeMenu")]
 		public async Task HandleSexualidadeMenu(string selected)
@@ -145,7 +141,7 @@ namespace RPGbot.Modules
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
 			personagem.Sexualidade = selected;
 			await personagensController.Put(personagem._Id, personagem);
-			await RespondAsync($"Sexualidade {selected} selecionada!", ephemeral: true);
+			await Context.Interaction.DeferAsync();
 		}
 		[ComponentInteraction("posicaoMenu")]
 		public async Task HandlePosicaoMenu(string selected)
@@ -153,7 +149,7 @@ namespace RPGbot.Modules
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
 			personagem.Posicao = selected;
 			await personagensController.Put(personagem._Id, personagem);
-			await RespondAsync($"Posição {selected} selecionada!", ephemeral: true);
+			await Context.Interaction.DeferAsync();
 		}
 
 		[ComponentInteraction("modalButton")]
@@ -186,9 +182,9 @@ namespace RPGbot.Modules
 			personagem = GeneratePlayer(personagem);
 			personagem = GerarDadosRaca(personagem);
 
-			personagem.Magias = new List<Magia>();
+			personagem.Magias = new List<string>();
 			personagem.Inventario = new List<Item>();
-			personagem.Pericias = new List<Pericia>();
+			personagem.Pericias = new List<string>();
 			personagem.Exaustão = 0;
 
 			await personagensController.Put(personagem._Id, personagem);
@@ -203,6 +199,8 @@ namespace RPGbot.Modules
 
 		Personagem GeneratePlayer(Personagem personagem)
 		{
+			ClassesController classesController = new(new("Classes"));
+
 			personagem.Forca = JogarDadosAtributos();
 			personagem.Destreza = JogarDadosAtributos();
 			personagem.Inteligencia = JogarDadosAtributos();
@@ -210,19 +208,21 @@ namespace RPGbot.Modules
 			personagem.Sabedoria = JogarDadosAtributos();
 			personagem.Carisma = JogarDadosAtributos();
 
-			Classe playerClass = personagem.Classe!;
+			Classe playerClass = classesController.Get(personagem.Classe)!.Result!;
 
 			personagem.Vida = JogarDadosVida(playerClass.Dice);
 			personagem.VidaMax = personagem.Vida;
 
-			personagem.Saldo = JogarDadosSaldo(playerClass.SaldoDice, playerClass.SaldoDiceNum, playerClass.SaldoDiceMod);
+			personagem.Saldo = JogarDadosSaldo(playerClass.SaldoDice, playerClass.SaldoDiceQntd, playerClass.SaldoDiceMod);
 
 			return personagem;
 		}
 
 		static Personagem GerarDadosRaca(Personagem personagem)
 		{
-			List<string> habilidades = personagem.Raca!.Habilidades;
+			RacasController racasController = new(new("Racas"));
+
+			List<string> habilidades = racasController.Get(personagem.Raca)!.Result!.Habilidades;
 
 			if (habilidades[0] == "Todos")
 			{
@@ -247,10 +247,10 @@ namespace RPGbot.Modules
 		}
 
 		readonly Random Rnd = new();
-		int JogarDadosSaldo(int dice, int num, int mod)
+		int JogarDadosSaldo(int dice, int qntd, int mod)
 		{
 			var resultados = new List<int> { };
-			for (int i = 0; i < num; i++)
+			for (int i = 0; i < qntd; i++)
 			{
 				resultados.Add(Rnd.Next(1, dice + 1));
 			}

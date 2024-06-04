@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "DL/BSjGP5AWA+tdchIaEIZD/xR3L1BsuKD1Aic/PYjD0Sgd4WQQKduFLYpbAbAKXAoAB8dFkKZPLDNboZe+PJA==",
+  "dgSpecHash": "66op8fkdgZvbdITXcSA1897ocWk8iVbUWOVTIai/4r5tYL27sUVzPB5zeQ3ywMF+/ObvloiN9IdcP3qjDf7pfA==",
   "success": true,
   "projectFilePath": "C:\\Dev\\cs\\RPGbot\\RPGbot\\RPGbot.csproj",
   "expectedPackageFiles": [
@@ -127,7 +127,10 @@
     "C:\\Users\\Gabriel\\.nuget\\packages\\system.valuetuple\\4.5.0\\system.valuetuple.4.5.0.nupkg.sha512",
     "C:\\Users\\Gabriel\\.nuget\\packages\\yamldotnet\\4.2.1\\yamldotnet.4.2.1.nupkg.sha512",
     "C:\\Users\\Gabriel\\.nuget\\packages\\zstdsharp.port\\0.6.2\\zstdsharp.port.0.6.2.nupkg.sha512",
-    "C:\\Users\\Gabriel\\.nuget\\packages\\microsoft.netcore.app.host.win-x86\\6.0.13\\microsoft.netcore.app.host.win-x86.6.0.13.nupkg.sha512"
+    "C:\\Users\\Gabriel\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.22\\microsoft.windowsdesktop.app.ref.6.0.22.nupkg.sha512",
+    "C:\\Users\\Gabriel\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.22\\microsoft.netcore.app.ref.6.0.22.nupkg.sha512",
+    "C:\\Users\\Gabriel\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.22\\microsoft.aspnetcore.app.ref.6.0.22.nupkg.sha512",
+    "C:\\Users\\Gabriel\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.22\\microsoft.netcore.app.host.win-x64.6.0.22.nupkg.sha512"
   ],
   "logs": []
 }

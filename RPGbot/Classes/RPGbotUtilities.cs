@@ -13,10 +13,15 @@ namespace RPGbot.Classes
 	{
 		public static Embed GerarFicha(Personagem personagem)
 		{
+			ClassesController classesController = new(new("Classes"));
+			RacasController racasController = new(new("Racas"));
+			string classe = personagem.Genero == "Feminino" ? classesController.Get(personagem.Classe).Result.Fname : classesController.Get(personagem.Classe).Result.Mname;
+			string raca = personagem.Genero == "Feminino" ? racasController.Get(personagem.Raca).Result.Fname : racasController.Get(personagem.Raca).Result.Mname;
+
 			EmbedBuilder embed = new()
 			{
 				Author = new EmbedAuthorBuilder() { Name = $"{personagem.Nome}   {personagem.Vida}/{personagem.VidaMax}hp   {GerarCA(personagem)} CA" },
-				Description = $"{(personagem.Genero == "Feminino" ? personagem.Classe!.Fname : personagem.Classe!.Mname)}   -   {personagem.Posicao}       {(personagem.Genero == "Feminino" ? personagem.Raca!.Fname : personagem.Raca!.Mname)}   -   {personagem.XP}/{NiveisXP[GerarNivel(personagem.XP) - 1]}xp",
+				Description = $"{classe}   -   {personagem.Posicao}       {raca}   -   {personagem.XP}/{NiveisXP[GerarNivel(personagem.XP) - 1]}xp",
 				Footer = new EmbedFooterBuilder() { Text = $"💰 {GerarSaldo(personagem.Saldo)}   -   {personagem.Jogador}" },
 				Fields = new List<EmbedFieldBuilder>()
 				{
@@ -45,8 +50,8 @@ namespace RPGbot.Classes
 		{
 			string txt = "```md\n> Perícias do personagem\n";
 			if (personagem.Pericias != null)
-				foreach (Pericia pericia in personagem.Pericias)
-					txt += $"- {pericia.Nome}\n";
+				foreach (string pericia in personagem.Pericias)
+					txt += $"- {pericia}\n";
 
 			EmbedBuilder embed = new()
 			{
@@ -120,18 +125,33 @@ namespace RPGbot.Classes
 
 			return embed.Build();
 		}
-		public static Embed GerarMagias(List<Magia> magias, Personagem personagem)
+		public static Embed GerarMagias(List<string> magias, Personagem personagem)
 		{
+			ClassesController classesController = new(new("Classes"));
+			string classe = personagem.Genero == "Feminino" ? classesController.Get(personagem.Classe)!.Result!.Fname : classesController.Get(personagem.Classe)!.Result!.Mname;
+
 			string magiasTxt = "";
 			for (int i = 0; i < magias.Count; i++)
-				magiasTxt += $"• {magias[i].Name} \n";
+				magiasTxt += $"• {magias[i]} \n";
+
+			if (personagem.Magias.Count == 0)
+			{
+				EmbedBuilder _embed = new()
+				{
+					Author = new EmbedAuthorBuilder() { Name = $"{personagem.Nome}" },
+					Title = $"Seu personagem não tem magias!",
+					Footer = new EmbedFooterBuilder() { Text = $"🧙 {classe}   -   {personagem.Jogador}" },
+					Color = GerarCorVida(personagem.Vida, personagem.VidaMax)
+				};
+				return _embed.Build();
+			}
 
 			EmbedBuilder embed = new()
 			{
 				Author = new EmbedAuthorBuilder() { Name = $"{personagem.Nome}" },
-				Title = $"Magias   {magias.Count}/{personagem.Classe!.Magias![GerarNivel(personagem.XP) - 1]}",
+				Title = $"Magias   {magias.Count}/{classesController.Get(personagem.Classe)!.Result!.Magias![GerarNivel(personagem.XP) - 1]}",
 				Description = magiasTxt,
-				Footer = new EmbedFooterBuilder() { Text = $"🧙 {(personagem.Genero == "Feminino" ? personagem.Classe!.Fname : personagem.Classe!.Mname)}   -   {personagem.Jogador}" },
+				Footer = new EmbedFooterBuilder() { Text = $"🧙 {classe}   -   {personagem.Jogador}" },
 				Color = GerarCorVida(personagem.Vida, personagem.VidaMax)
 			};
 

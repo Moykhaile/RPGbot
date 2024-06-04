@@ -1,0 +1,134 @@
+[{
+  "_id": "anaodacolina",
+  "Mname": "Anão da colina",
+  "Fname": "Anã da colina",
+  "Habilidades": [
+    "Constituição",
+    "Sabedoria"
+  ]
+},
+{
+  "_id": "anaodamontanha",
+  "Mname": "Anão da Montanha",
+  "Fname": "Anã da Montanha",
+  "Habilidades": [
+    "Constituição",
+    "Força"
+  ]
+},
+{
+  "_id": "altoelfo",
+  "Mname": "Alto elfo",
+  "Fname": "Alta elfa",
+  "Habilidades": [
+    "Destreza",
+    "Inteligência"
+  ]
+},
+{
+  "_id": "elfodafloresta",
+  "Mname": "Elfo da floresta",
+  "Fname": "Elfo da floresta",
+  "Habilidades": [
+    "Destreza",
+    "Sabedoria"
+  ]
+},
+{
+  "_id": "drow",
+  "Mname": "Drow",
+  "Fname": "Drow",
+  "Habilidades": [
+    "Destreza",
+    "Carisma"
+  ]
+},
+{
+  "_id": "meioelfo",
+  "Mname": "Meio-elfo",
+  "Fname": "Meia-elfo",
+  "Habilidades": [
+    "Carisma",
+    "Destreza"
+  ]
+},
+{
+  "_id": "halflingpeleve",
+  "Mname": "Halfling pé leve",
+  "Fname": "Halfling pé leve",
+  "Habilidades": [
+    "Destreza",
+    "Carisma"
+  ]
+},
+{
+  "_id": "halflingrobusto",
+  "Mname": "Halfling robusto",
+  "Fname": "Halfling robusto",
+  "Habilidades": [
+    "Destreza",
+    "Constituição"
+  ]
+},
+{
+  "_id": "humano",
+  "Mname": "Humano",
+  "Fname": "Humana",
+  "Habilidades": [
+    "Todos"
+  ]
+},
+{
+  "_id": "draconato",
+  "Mname": "Draconato",
+  "Fname": "Draconata",
+  "Habilidades": [
+    "Força",
+    "Carisma"
+  ]
+},
+{
+  "_id": "gnomodafloresta",
+  "Mname": "Gnomo da floresta",
+  "Fname": "Gnoma da floresta",
+  "Habilidades": [
+    "Inteligência",
+    "Destreza"
+  ]
+},
+{
+  "_id": "gnomodasrochas",
+  "Mname": "Gnomo das rochas",
+  "Fname": "Gnoma das rochas",
+  "Habilidades": [
+    "Inteligência",
+    "Constituição"
+  ]
+},
+{
+  "_id": "meioorc",
+  "Mname": "Meio-orc",
+  "Fname": "Meia-orc",
+  "Habilidades": [
+    "Força",
+    "Constituição"
+  ]
+},
+{
+  "_id": "tieflinginfernal",
+  "Mname": "Tiefling infernal",
+  "Fname": "Tiefling infernal",
+  "Habilidades": [
+    "Carisma",
+    "Inteligência"
+  ]
+},
+{
+  "_id": "tieflingabissal",
+  "Mname": "Tiefling abissal",
+  "Fname": "Tiefling abissal",
+  "Habilidades": [
+    "Carisma",
+    "Inteligência"
+  ]
+}]

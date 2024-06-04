@@ -1,0 +1,108 @@
+[{
+  "_id": "acrobacia",
+  "Nome": "Acrobacia",
+  "Atributo": 1,
+  "Descricao": "Uma tentativa de permanecer de pé em uma situação complicada, ou para ver se você é capaz de realizar acrobacias."
+},
+{
+  "_id": "furtividade",
+  "Nome": "Furtividade",
+  "Atributo": 1,
+  "Descricao": "Tentar esconder-se de inimigos, esgueirarse por guardas, escapar sem ser notado, ou aproximar-se de alguém sem ser visto ou ouvido."
+},
+{
+  "_id": "prestidigitacao",
+  "Nome": "Prestidigitação",
+  "Atributo": 1,
+  "Descricao": "Sempre que você tentar realizar um ato de prestidigitação ou de trapaça manual, como plantar alguma coisa em outra pessoa ou esconder um objeto em sua roupa."
+},
+{
+  "_id": "atletismo",
+  "Nome": "Atletismo",
+  "Atributo": 0,
+  "Descricao": "Situações difíceis que você encontra ao escalar, saltar ou nadar."
+},
+{
+  "_id": "arcanismo",
+  "Nome": "Arcanismo",
+  "Atributo": 3,
+  "Descricao": "Mede conhecimento sobre magias, itens mágicos, símbolos sobrenaturais, tradições mágicas, os planos de existência e os habitantes desses planos."
+},
+{
+  "_id": "historia",
+  "Nome": "História",
+  "Atributo": 3,
+  "Descricao": "Mede o conhecimento sobre eventos históricos, pessoas lendárias, 178 reinos antigos, disputas passadas, guerras recentes e civilizações perdidas."
+},
+{
+  "_id": "investigacao",
+  "Nome": "Investigação",
+  "Atributo": 3,
+  "Descricao": "Quando você olha ao redor em busca de pistas e faz deduções com base nesses indícios"
+},
+{
+  "_id": "natureza",
+  "Nome": "Natureza",
+  "Atributo": 3,
+  "Descricao": "mede o conhecimento sobre terreno, plantas e animais, clima e ciclos naturais."
+},
+{
+  "_id": "religiao",
+  "Nome": "Religião",
+  "Atributo": 3,
+  "Descricao": "mede o conhecimento de lendas sobre divindades, rituais e orações, hierarquias religiosas, símbolos sagrados e práticas de cultos secretos"
+},
+{
+  "_id": "adestraranimais",
+  "Nome": "Adestrar Animais",
+  "Atributo": 4,
+  "Descricao": "Quando houver a necessidade de saber se você pode acalmar um animal domesticado, impedir uma montaria de se assustar, ou intuir as intenções de um animal."
+},
+{
+  "_id": "intuicao",
+  "Nome": "Intuição",
+  "Atributo": 4,
+  "Descricao": "Decide se você pode determinar as verdadeiras intenções de uma criatura, perceber uma mentira ou prever o próximo movimento de alguém."
+},
+{
+  "_id": "medicina",
+  "Nome": "Medicina",
+  "Atributo": 4,
+  "Descricao": "Permite tentar estabilizar um companheiro que está morrendo ou diagnosticar uma doença."
+},
+{
+  "_id": "percepcao",
+  "Nome": "Percepção",
+  "Atributo": 4,
+  "Descricao": "Permite observar, ouvir ou detectar a presença de alguma coisa de outra forma. A percepção mede a consciência geral do que está acontecendo ao seu redor e a acuidade de seus sentidos."
+},
+{
+  "_id": "sobrevivencia",
+  "Nome": "Sobrevivência",
+  "Atributo": 4,
+  "Descricao": "Para seguir rastros, caçar, orientar o grupo através de terras congeladas, identificar sinais de que ursos-coruja vivem nas proximidades, prever o tempo, ou evitar areia movediça e outros perigos naturais."
+},
+{
+  "_id": "atuacao",
+  "Nome": "Atuação",
+  "Atributo": 5,
+  "Descricao": "Determina o quão bem você pode entreter uma plateia com música, dança, atuação, contando histórias ou alguma outra forma de entretenimento."
+},
+{
+  "_id": "enganacao",
+  "Nome": "Enganação",
+  "Atributo": 5,
+  "Descricao": "Determina se você pode esconder a verdade de forma convincente, verbalmente ou através de suas ações."
+},
+{
+  "_id": "intimidacao",
+  "Nome": "Intimidação",
+  "Atributo": 5,
+  "Descricao": "Ao tentar influenciar alguém através de ameaças abertas, ações hostis e violência física."
+},
+{
+  "_id": "persuasao",
+  "Nome": "Persuasão",
+  "Atributo": 5,
+  "Descricao": "Quando você tenta influenciar alguém ou um grupo de pessoas com tato, delicadeza ou boa índole."
+}]

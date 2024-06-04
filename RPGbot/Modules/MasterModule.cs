@@ -203,14 +203,16 @@ namespace RPGbot.Modules
 				await RespondAsync($"Usuário inválido.", ephemeral: true); return;
 			}
 
+			ClassesController classesController = new(new("Classes"));
+
 			Personagem personagem = personagensController.Get(((SocketGuildUser)user).Id).Result;
 			if (personagem == null)
 			{
 				await RespondAsync($"Personagem de ID ``{((SocketGuildUser)user).Id}`` não encontrado.", ephemeral: true); return;
 			}
-			if (!personagem.Classe!.Magico)
+			if (!classesController.Get(personagem.Classe)!.Result!.Magico)
 			{
-				await RespondAsync($"A classe do seu personagem não é mágica.", ephemeral: true); return;
+				ErrorModule.ClasseNaoMagica(Context); return;
 			}
 			if (personagem.Magias == null)
 			{

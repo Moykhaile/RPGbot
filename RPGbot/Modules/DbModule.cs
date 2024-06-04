@@ -19,7 +19,7 @@ namespace RPGbot.Modules
 		{
 			var tipoMenu = new SelectMenuBuilder()
 			{
-				CustomId = "tipoMenu",
+				CustomId = $"tipoMenu:{Nome},{Preço},{Peso}",
 				Placeholder = "Escolha o tipo de item"
 			};
 
@@ -38,7 +38,6 @@ namespace RPGbot.Modules
 				Preco = Preço,
 				Peso = Peso
 			};
-			await itensController.Post(item);
 
 			await RespondAsync($"Adicionando um item à base de dados!", components: component.Build(), ephemeral: true);
 		}
@@ -65,58 +64,73 @@ namespace RPGbot.Modules
 			await RespondAsync($"Perícia ``{pericia.Nome}`` adicionada à base");
 		}
 
-		[ComponentInteraction("tipoMenu")]
-		public async Task HandleTipoMenu(string selected)
+		[ComponentInteraction("tipoMenu:*,*,*")]
+		public async Task HandleTipoMenu(string Nome, float Preço, float Peso, string selected)
 		{
 			Console.WriteLine(selected);
 			switch (selected)
 			{
 				case "Item":
-					await RespondWithModalAsync<ItemModal>("itemModal");
+					await RespondWithModalAsync<ItemModal>($"itemModal:{Nome},{Preço},{Peso}");
 					break;
 				case "Arma":
-					await RespondWithModalAsync<ArmaModal>("armaModal");
+					await RespondWithModalAsync<ArmaModal>($"armaModal:{Nome},{Preço},{Peso}");
 					break;
 				case "Armadura":
-					await RespondWithModalAsync<ArmaduraModal>("armaduraModal");
+					await RespondWithModalAsync<ArmaduraModal>($"armaduraModal:{Nome},{Preço},{Peso}");
 					break;
 			}
 		}
 
-		[ModalInteraction("itemModal")]
-		public async Task HandleItemModal(ItemModal modal)
+		[ModalInteraction("itemModal:*,*,*")]
+		public async Task HandleItemModal(string Nome, float Preço, float Peso, ItemModal modal)
 		{
-			Item item = itensController.Get(Utilities.FormatID(modal.Name)).Result;
-			item.Id = Utilities.FormatID(modal.Name);
-			item.Tipo = modal.Tipo;
+			Item item = new()
+			{
+				Name = Nome,
+				Id = Utilities.FormatID(Nome),
+				Tipo = modal.Tipo,
+				Preco = Preço,
+				Peso = Peso
+			};
 
-			await itensController.Put(item.Id!, item);
+			await itensController.Post(item);
 
 			await RespondAsync($"Item ``{item.Name}`` adicionado à base de dados!", ephemeral: true);
 		}
-		[ModalInteraction("armaModal")]
-		public async Task HandleArmaModal(ArmaModal modal)
+		[ModalInteraction("armaModal:*,*,*")]
+		public async Task HandleArmaModal(string Nome, float Preço, float Peso, ArmaModal modal)
 		{
-			Item item = itensController.Get(Utilities.FormatID(modal.Name)).Result;
-			item.Id = Utilities.FormatID(modal.Name);
-			item.Tipo = modal.Tipo;
-			item.Propriedades = modal.Propriedades;
-			item.Dano = modal.Atributo;
+			Item item = new()
+			{
+				Name = Nome,
+				Id = Utilities.FormatID(Nome),
+				Tipo = modal.Tipo,
+				Propriedades = modal.Propriedades,
+				Dano = modal.Atributo,
+				Preco = Preço,
+				Peso = Peso
+			};
 
-			await itensController.Put(item.Id!, item);
+			await itensController.Post(item);
 
 			await RespondAsync($"Arma ``{item.Name}`` adicionado à base de dados!", ephemeral: true);
 		}
-		[ModalInteraction("armaduraModal")]
-		public async Task HandleArmaduraModal(ArmaduraModal modal)
+		[ModalInteraction("armaduraModal:*,*,*")]
+		public async Task HandleArmaduraModal(string Nome, float Preço, float Peso, ArmaduraModal modal)
 		{
-			Item item = itensController.Get(Utilities.FormatID(modal.Name)).Result;
-			item.Id = Utilities.FormatID(modal.Name);
-			item.Tipo = modal.Tipo;
-			item.Propriedades = modal.Propriedades;
-			item.Defesa = int.Parse(modal.Atributo);
+			Item item = new()
+			{
+				Name = Nome,
+				Id = Utilities.FormatID(Nome),
+				Tipo = modal.Tipo,
+				Propriedades = modal.Propriedades,
+				Defesa = int.Parse(modal.Atributo),
+				Preco = Preço,
+				Peso = Peso
+			};
 
-			await itensController.Put(item.Id!, item);
+			await itensController.Post(item);
 
 			await RespondAsync($"Armadura ``{item.Name}`` adicionado à base de dados!", ephemeral: true);
 		}
@@ -126,10 +140,6 @@ namespace RPGbot.Modules
 		{
 			public string Title => "Adicione um item!";
 
-			[InputLabel("Insira o nome")]
-			[ModalTextInput("nome", TextInputStyle.Short, "Adaga...", maxLength: 50)]
-			public string Name { get; set; } = string.Empty;
-
 			[InputLabel("Categoria do item")]
 			[ModalTextInput("tipo", TextInputStyle.Short, "Arma Simples Corpo-a-Corpo...", maxLength: 30)]
 			public string Tipo { get; set; } = string.Empty;
@@ -137,10 +147,6 @@ namespace RPGbot.Modules
 		public class ArmaModal : IModal
 		{
 			public string Title => "Adicione uma arma!";
-
-			[InputLabel("Insira o nome")]
-			[ModalTextInput("nome", TextInputStyle.Short, "Adaga...", maxLength: 50)]
-			public string Name { get; set; } = string.Empty;
 
 			[InputLabel("Categoria do item")]
 			[ModalTextInput("tipo", TextInputStyle.Short, "Arma Simples Corpo-a-Corpo...", maxLength: 30)]
@@ -157,10 +163,6 @@ namespace RPGbot.Modules
 		public class ArmaduraModal : IModal
 		{
 			public string Title => "Adicione uma armadura!";
-
-			[InputLabel("Insira o nome")]
-			[ModalTextInput("nome", TextInputStyle.Short, "Adaga...", maxLength: 50)]
-			public string Name { get; set; } = string.Empty;
 
 			[InputLabel("Categoria do item")]
 			[ModalTextInput("tipo", TextInputStyle.Short, "Arma Simples Corpo-a-Corpo...", maxLength: 30)]

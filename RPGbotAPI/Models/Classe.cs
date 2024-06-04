@@ -10,9 +10,12 @@ namespace RPGbotAPI.Models
 		public string Mname { get; set; } = string.Empty;
 		public int Dice { get; set; }
 		public int SaldoDice { get; set; }
-		public int SaldoDiceNum { get; set; }
+		public int SaldoDiceQntd { get; set; }
 		public int SaldoDiceMod { get; set; }
 		public bool Magico { get; set; }
 		public List<int>? Magias { get; set; }
+		public string Desc { get; set; } = string.Empty;
+		public string HabilidadeP { get; set; } = string.Empty;
+		public int Pagina { get; set; } = 0;
 	}
 }

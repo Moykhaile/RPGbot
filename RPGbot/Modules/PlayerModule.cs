@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Interactions;
-using Newtonsoft.Json;
 using RPGbot.Classes;
 using RPGbotAPI.Controllers;
 using RPGbotAPI.Models;
@@ -18,20 +17,21 @@ namespace RPGbot.Modules
 		readonly MagiasController magiasController = new(new MagiaService("Magias"));
 		readonly ItensController itensController = new(new ItemService("Itens"));
 
+		#region Ficha
 		[SlashCommand("ficha", "Apresenta a ficha do personagem")]
 		public async Task Ficha()
 		{
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
 			if (personagem == null || personagem._Id == 0)
 			{
-				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
+				ErrorModule.PersonagemNotFound(Context, Context.User.Id.ToString()); return;
 			}
 
 			var inventarioBtn = new ButtonBuilder()
 			{
 				CustomId = "inventarioBtn",
 				Label = "Ver inventário",
-				Style = ButtonStyle.Primary
+				Style = ButtonStyle.Danger
 			};
 			var periciasBtn = new ButtonBuilder()
 			{
@@ -39,19 +39,27 @@ namespace RPGbot.Modules
 				Label = "Ver perícias",
 				Style = ButtonStyle.Success
 			};
+			var magiasBtn = new ButtonBuilder()
+			{
+				CustomId = "magiasBtn",
+				Label = "Ver magias",
+				Style = ButtonStyle.Primary
+			};
 
-			var buttonComponent = new ComponentBuilder().WithButton(inventarioBtn).WithButton(periciasBtn);
+			var buttonComponent = new ComponentBuilder().WithButton(inventarioBtn).WithButton(periciasBtn).WithButton(magiasBtn);
 
-			await RespondAsync($"Sua ficha de personagem!", ephemeral: true, components: buttonComponent.Build(), embed: RPGbotUtilities.GerarFicha(personagem));
+			await RespondAsync($"Sua ficha de personagem!", ephemeral: true, components: buttonComponent.Build(), embed: RPGbotUtilities.GerarFicha(personagem!));
 		}
 		[ComponentInteraction("fichaBtn")]
 		public async Task FichaButton()
 		{
+			await DeferAsync();
+
 			var inventarioBtn = new ButtonBuilder()
 			{
 				CustomId = "inventarioBtn",
 				Label = "Ver inventário",
-				Style = ButtonStyle.Primary
+				Style = ButtonStyle.Danger
 			};
 			var periciasBtn = new ButtonBuilder()
 			{
@@ -59,39 +67,68 @@ namespace RPGbot.Modules
 				Label = "Ver perícias",
 				Style = ButtonStyle.Success
 			};
+			var magiasBtn = new ButtonBuilder()
+			{
+				CustomId = "magiasBtn",
+				Label = "Ver magias",
+				Style = ButtonStyle.Primary
+			};
 
-			var buttonComponent = new ComponentBuilder().WithButton(inventarioBtn).WithButton(periciasBtn);
+			var buttonComponent = new ComponentBuilder().WithButton(inventarioBtn).WithButton(periciasBtn).WithButton(magiasBtn);
 
-			await Context.Interaction.RespondAsync("Sua ficha de personagem!", ephemeral: true, components: buttonComponent.Build(), embed: RPGbotUtilities.GerarFicha(personagensController.Get(Context.User.Id).Result));
+			await Context.Interaction.ModifyOriginalResponseAsync(msg =>
+			{
+				msg.Content = "Sua ficha de personagem!";
+				msg.Components = buttonComponent.Build();
+				msg.Embed = RPGbotUtilities.GerarFicha(personagensController.Get(Context.User.Id).Result);
+			});
 		}
 		[ComponentInteraction("periciasBtn")]
 		public async Task PericiasButton()
 		{
-			var fichaBtn = new ButtonBuilder()
-			{
-				CustomId = "fichaBtn",
-				Label = "Ver ficha",
-				Style = ButtonStyle.Primary
-			};
+			await DeferAsync();
+
 			var inventarioBtn = new ButtonBuilder()
 			{
 				CustomId = "inventarioBtn",
 				Label = "Ver inventário",
-				Style = ButtonStyle.Success
+				Style = ButtonStyle.Danger
 			};
-
-			var buttonComponent = new ComponentBuilder().WithButton(fichaBtn).WithButton(inventarioBtn);
-
-			await Context.Interaction.RespondAsync("Suas perícias de personagem!", ephemeral: true, components: buttonComponent.Build(), embed: RPGbotUtilities.GerarPericias(personagensController.Get(Context.User.Id).Result));
-		}
-		[ComponentInteraction("inventarioBtn")]
-		public async Task InventarioButton()
-		{
 			var fichaBtn = new ButtonBuilder()
 			{
 				CustomId = "fichaBtn",
 				Label = "Ver ficha",
+				Style = ButtonStyle.Success
+			};
+			var magiasBtn = new ButtonBuilder()
+			{
+				CustomId = "magiasBtn",
+				Label = "Ver magias",
 				Style = ButtonStyle.Primary
+			};
+
+			var buttonComponent = new ComponentBuilder()
+				.WithButton(inventarioBtn)
+				.WithButton(fichaBtn)
+				.WithButton(magiasBtn);
+
+			await Context.Interaction.ModifyOriginalResponseAsync(msg =>
+			{
+				msg.Content = "Suas perícias de personagem!";
+				msg.Components = buttonComponent.Build();
+				msg.Embed = RPGbotUtilities.GerarPericias(personagensController.Get(Context.User.Id).Result);
+			});
+		}
+		[ComponentInteraction("inventarioBtn")]
+		public async Task InventarioButton()
+		{
+			await DeferAsync();
+
+			var fichaBtn = new ButtonBuilder()
+			{
+				CustomId = "fichaBtn",
+				Label = "Ver ficha",
+				Style = ButtonStyle.Danger
 			};
 			var periciasBtn = new ButtonBuilder()
 			{
@@ -99,19 +136,72 @@ namespace RPGbot.Modules
 				Label = "Ver perícias",
 				Style = ButtonStyle.Success
 			};
+			var magiasBtn = new ButtonBuilder()
+			{
+				CustomId = "magiasBtn",
+				Label = "Ver magias",
+				Style = ButtonStyle.Primary
+			};
 
-			var buttonComponent = new ComponentBuilder().WithButton(fichaBtn).WithButton(periciasBtn);
+			var buttonComponent = new ComponentBuilder()
+				.WithButton(fichaBtn)
+				.WithButton(periciasBtn)
+				.WithButton(magiasBtn);
 
-			await Context.Interaction.RespondAsync("Seu inventário de personagem!", ephemeral: true, components: buttonComponent.Build(), embed: RPGbotUtilities.GerarInventario(personagensController.Get(Context.User.Id).Result));
+			await Context.Interaction.ModifyOriginalResponseAsync(msg =>
+			{
+				msg.Content = "Seu inventário de personagem!";
+				msg.Components = buttonComponent.Build();
+				msg.Embed = RPGbotUtilities.GerarInventario(personagensController.Get(Context.User.Id).Result);
+			});
 		}
+		[ComponentInteraction("magiasBtn")]
+		public async Task MagiasButton()
+		{
+			await DeferAsync();
 
+			var inventarioBtn = new ButtonBuilder()
+			{
+				CustomId = "inventarioBtn",
+				Label = "Ver inventário",
+				Style = ButtonStyle.Danger
+			};
+			var periciasBtn = new ButtonBuilder()
+			{
+				CustomId = "periciasBtn",
+				Label = "Ver perícias",
+				Style = ButtonStyle.Success
+			};
+			var fichaBtn = new ButtonBuilder()
+			{
+				CustomId = "fichaBtn",
+				Label = "Ver ficha",
+				Style = ButtonStyle.Primary
+			};
+
+			var buttonComponent = new ComponentBuilder()
+				.WithButton(inventarioBtn)
+				.WithButton(periciasBtn)
+				.WithButton(fichaBtn);
+
+			Personagem personagem = personagensController.Get(Context.User.Id).Result;
+			await Context.Interaction.ModifyOriginalResponseAsync(msg =>
+			{
+				msg.Content = "Suas magias de personagem!";
+				msg.Components = buttonComponent.Build();
+				msg.Embed = RPGbotUtilities.GerarMagias(personagem.Magias!, personagem);
+			});
+		}
+		#endregion
+
+		#region Básicos
 		[SlashCommand("vida", "Adiciona ou remove vida do personagem")]
 		public async Task Vida([MaxValue(999), MinValue(-999)] int qntd)
 		{
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
 			if (personagem == null)
 			{
-				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
+				ErrorModule.PersonagemNotFound(Context, Context.User.Id.ToString()); return;
 			}
 
 			int old_vida = personagem.Vida;
@@ -133,7 +223,7 @@ namespace RPGbot.Modules
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
 			if (personagem == null)
 			{
-				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
+				ErrorModule.PersonagemNotFound(Context, Context.User.Id.ToString()); return;
 			}
 
 			int old_xp = personagem.XP;
@@ -150,7 +240,7 @@ namespace RPGbot.Modules
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
 			if (personagem == null)
 			{
-				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
+				ErrorModule.PersonagemNotFound(Context, Context.User.Id.ToString()); return;
 			}
 
 			float old_saldo = personagem.Saldo;
@@ -161,125 +251,112 @@ namespace RPGbot.Modules
 
 			await RespondAsync($"Saldo do personagem alterado! Anterior: {old_saldo}", embed: RPGbotUtilities.GerarFicha(personagem), ephemeral: true);
 		}
+		#endregion
 
+		#region Magias
 		[SlashCommand("addmagia", "Adiciona uma magia aos conhecimentos do personagem")]
 		public async Task AddMagia(string nome)
 		{
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
+			ClassesController classesController = new ClassesController(new ClasseService("Classes"));
+
 			if (personagem == null)
 			{
-				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
+				ErrorModule.PersonagemNotFound(Context, Context.User.Id.ToString()); return;
 			}
-			if (!personagem.Classe!.Magico)
+			if (classesController.Get(personagem.Classe)!.Result!.Magico)
 			{
-				await RespondAsync($"A classe do seu personagem não é mágica.", ephemeral: true); return;
+				ErrorModule.ClasseNaoMagica(Context); return;
 			}
 
-			Magia magia = magiasController.Get(nome).Result;
+			string magia = magiasController.Get(nome).Result.Name;
 
 			if (magia == null)
 			{
-				await RespondAsync($"Magia ``{magia}`` não existe!", ephemeral: true); return;
+				ErrorModule.MagiaNotFound(Context, nome); return;
 			}
 
-			personagem.Magias ??= new List<Magia>();
+			personagem.Magias ??= new List<string>();
 
 			if (personagem.Magias.Contains(magia))
 			{
-				await RespondAsync($"Seu personagem já conhece esta magia.", ephemeral: true); return;
+				ErrorModule.HasOrHasnt(Context, true, ErrorModule.T.Magia); return;
 			}
-			if (personagem.Magias.Count >= personagem.Classe!.Magias![RPGbotUtilities.GerarNivel(personagem.XP) - 1])
+			if (personagem.Magias.Count >= classesController.Get(personagem.Classe)!.Result!.Magias![RPGbotUtilities.GerarNivel(personagem.XP) - 1])
 			{
-				await RespondAsync($"Seu personagem não tem experiência suficiente para aprender tantas magias! Explore o mundo e tente estudar novamente.", ephemeral: true); return;
+				ErrorModule.NotEnoughXP(Context); return;
 			}
 
 			personagem.Magias.Add(magia);
 
 			await personagensController.Put(personagem._Id, personagem);
 
-			await RespondAsync($"Magia ``{magia.Name}`` adicionada ao personagem!", ephemeral: true, embed: RPGbotUtilities.GerarMagias(personagem.Magias, personagem));
+			await RespondAsync($"Magia ``{magia}`` adicionada ao personagem!", ephemeral: true, embed: RPGbotUtilities.GerarMagias(personagem.Magias, personagem));
 		}
 
 		[SlashCommand("removermagia", "Remove uma magia dos conhecimentos do personagem")]
 		public async Task RemoverMagia(string nome)
 		{
+			ClassesController classesController = new ClassesController(new ClasseService("Classes"));
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
 			if (personagem == null)
 			{
-				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
+				ErrorModule.PersonagemNotFound(Context, Context.User.Id.ToString()); return;
 			}
-			if (!personagem.Classe!.Magico)
+			if (classesController.Get(personagem.Classe)!.Result!.Magico)
 			{
-				await RespondAsync($"A classe do seu personagem não é mágica.", ephemeral: true); return;
+				ErrorModule.ClasseNaoMagica(Context); return;
 			}
 
-			personagem.Magias ??= new List<Magia>();
+			personagem.Magias ??= new List<string>();
 
-			Magia magia = personagem.Magias.Find(x => x.Id == Utilities.FormatID(nome))!;
+			string magia = personagem.Magias.Find(x => Utilities.FormatID(x) == Utilities.FormatID(nome))!;
 
 			if (magia == null)
 			{
-				await RespondAsync($"Seu personagem não conhece esta magia.", ephemeral: true); return;
+				ErrorModule.HasOrHasnt(Context, false, ErrorModule.T.Magia); return;
 			}
 			personagem.Magias.Remove(magia);
 
 			await personagensController.Put(personagem._Id, personagem);
 
-			await RespondAsync($"Magia ``{magia.Name}`` removida do personagem!", ephemeral: true);
+			await RespondAsync($"Magia ``{magia}`` removida do personagem!", ephemeral: true);
 		}
 
-		[SlashCommand("magias", "Apresenta as mágias conhecidas pelo personagem")]
+		/*[SlashCommand("magias", "Apresenta as mágias conhecidas pelo personagem")]
 		public async Task Magias()
 		{
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
 			if (personagem == null)
 			{
-				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
+				ErrorModule.PersonagemNotFound(Context, Context.User.Id.ToString()); return;
 			}
 			if (!personagem.Classe!.Magico)
 			{
-				await RespondAsync($"A classe do seu personagem não é mágica.", ephemeral: true); return;
+				ErrorModule.ClasseNaoMagica(Context); return;
 			}
 			if (personagem.Magias == null || personagem.Magias.Count == 0)
 			{
-				await RespondAsync($"O seu personagem não conhece nenhuma magia.", ephemeral: true); return;
+				ErrorModule.DoesntHaveInventory(Context, ErrorModule.T.Magia); return;
 			}
 
 			await RespondAsync($"As magias do seu personagem!", ephemeral: true, embed: RPGbotUtilities.GerarMagias(personagem.Magias, personagem));
-		}
+		}*/
+		#endregion
 
-		[SlashCommand("vermagia", "Apresenta as informações da magia, como tempo de conjuração, alcance, etc.")]
-		public async Task VerMagia(string magia)
-		{
-			Personagem personagem = personagensController.Get(Context.User.Id).Result;
-			if (personagem == null)
-			{
-				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
-			}
-			if (!personagem.Classe!.Magico)
-			{
-				await RespondAsync($"A classe do seu personagem não é mágica.", ephemeral: true); return;
-			}
-			if (magiasController.Get(magia).Result == null)
-			{
-				await RespondAsync($"Magia {magia} não existe!", ephemeral: true); return;
-			}
-
-			await RespondAsync($"Informações da magia:", ephemeral: true, embed: RPGbotUtilities.GerarMagia(magia));
-		}
-
-		[SlashCommand("inventario", "Apresenta o inventário do personagem")]
+		#region Itens e Inventário
+		/*[SlashCommand("inventario", "Apresenta o inventário do personagem")]
 		public async Task Inventario()
 		{
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
 			if (personagem == null)
 			{
-				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
+				ErrorModule.PersonagemNotFound(Context, Context.User.Id.ToString()); return;
 			}
 
 			if (personagem.Inventario == null || personagem.Inventario.Count == 0)
 			{
-				await RespondAsync($"{personagem.Nome} não tem itens em seu inventário.", ephemeral: true); return;
+				ErrorModule.DoesntHaveInventory(Context, ErrorModule.T.Item); return;
 			}
 
 			var fichaBtn = new ButtonBuilder()
@@ -298,7 +375,7 @@ namespace RPGbot.Modules
 			var buttonComponent = new ComponentBuilder().WithButton(fichaBtn).WithButton(periciasBtn);
 
 			await RespondAsync($"Seu inventário de personagem!", ephemeral: true, components: buttonComponent.Build(), embed: RPGbotUtilities.GerarInventario(personagem));
-		}
+		}*/
 
 		[SlashCommand("additem", "Adiciona um item ao inventário do personagem")]
 		public async Task AddItem(string nome, [Optional(), DefaultParameterValue(1), MinValue(1)] int quantidade)
@@ -306,20 +383,20 @@ namespace RPGbot.Modules
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
 			if (personagem == null)
 			{
-				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
+				ErrorModule.PersonagemNotFound(Context, Context.User.Id.ToString()); return;
 			}
 
 			Item item = itensController.Get(nome).Result;
 
 			if (item == null)
 			{
-				await RespondAsync($"Item ``{nome}`` não existe!", ephemeral: true); return;
+				ErrorModule.ItemNotFound(Context, nome); return;
 			}
 			personagem.Inventario ??= new List<Item>();
 
 			if (personagem.Forca * RPGbotUtilities.PesoMod < (RPGbotUtilities.GerarPesoInventario(personagem) + item.Peso) * quantidade)
 			{
-				await RespondAsync($"Você não tem espaço para carregar este item na sua mochila!", ephemeral: true); return;
+				ErrorModule.NotEnoughInvSpace(Context); return;
 			}
 
 			for (int i = 0; i < quantidade; i++)
@@ -336,7 +413,7 @@ namespace RPGbot.Modules
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
 			if (personagem == null)
 			{
-				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
+				ErrorModule.PersonagemNotFound(Context, Context.User.Id.ToString()); return;
 			}
 
 			personagem.Inventario ??= new List<Item>();
@@ -345,7 +422,7 @@ namespace RPGbot.Modules
 
 			if (!personagem.Inventario.Contains(item))
 			{
-				await RespondAsync($"Seu personagem não tem este item.", ephemeral: true); return;
+				ErrorModule.HasOrHasnt(Context, false, ErrorModule.T.Item); return;
 			}
 			string old_item = item.Name;
 
@@ -363,25 +440,25 @@ namespace RPGbot.Modules
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
 			if (personagem == null)
 			{
-				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
+				ErrorModule.PersonagemNotFound(Context, Context.User.Id.ToString()); return;
 			}
 
 			Item item = itensController.Get(nome).Result;
 
 			if (item == null)
 			{
-				await RespondAsync($"Item ``{nome}`` não existe!", ephemeral: true); return;
+				ErrorModule.ItemNotFound(Context, nome); return;
 			}
 			personagem.Inventario ??= new List<Item>();
 
 			if (personagem.Forca * RPGbotUtilities.PesoMod + RPGbotUtilities.GetMochila(personagem.Inventario) + personagem.Saldo * 0.1f < (RPGbotUtilities.GerarPesoInventario(personagem) + item.Peso))
 			{
-				await RespondAsync($"Você não tem espaço para carregar este item na sua mochila!", ephemeral: true); return;
+				ErrorModule.NotEnoughInvSpace(Context); return;
 			}
 
 			if (personagem.Saldo < (preço > 0 ? preço : item.Preco))
 			{
-				await RespondAsync($"Você não tem dinheiro suficiente! Você tem ``{personagem.Saldo}`` de saldo, e o item custa ``{(preço > 0 ? preço : item.Preco)}``.", ephemeral: true); return;
+				ErrorModule.NotEnoughMoney(Context); return;
 			}
 
 			if (preço > 0)
@@ -395,80 +472,6 @@ namespace RPGbot.Modules
 			await RespondAsync($"Item comprado por {(preço > 0 ? preço : item.Preco)} moedas!", ephemeral: true, embed: RPGbotUtilities.GerarInventario(personagem));
 		}
 
-		[SlashCommand("veritem", "Apresenta as informações do item como dano, peso, preço, etc.")]
-		public async Task VerItem(string nome)
-		{
-			Embed embed = RPGbotUtilities.GerarItem(nome);
-			if (embed == null)
-			{
-				await RespondAsync($"Item ``{nome}`` não existe!", ephemeral: true); return;
-			}
-
-			await RespondAsync($"Item:", embed: embed, ephemeral: true);
-		}
-
-		[SlashCommand("addpericia", "Adiciona uma perícia ao personagem")]
-		public async Task AddPericia(string nome)
-		{
-			Personagem personagem = personagensController.Get(Context.User.Id).Result;
-			if (personagem == null)
-			{
-				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
-			}
-
-			Pericia pericia = periciasController.Get(nome).Result;
-
-			if (pericia == null)
-			{
-				await RespondAsync($"Perícia ``{nome}`` não existe!", ephemeral: true); return;
-			}
-
-			personagem.Pericias ??= new List<Pericia>();
-
-			if (personagem.Pericias.Contains(pericia))
-			{
-				await RespondAsync($"Seu personagem já tem esta perícia.", ephemeral: true); return;
-			}
-
-			personagem.Pericias.Add(pericia);
-
-			await personagensController.Put(personagem._Id, personagem);
-
-			await RespondAsync($"Perícia ``{pericia.Nome}`` adicionada ao personagem!", ephemeral: true, embed: RPGbotUtilities.GerarFicha(personagem));
-		}
-
-		[SlashCommand("removerpericia", "Remove uma perícia do personagem")]
-		public async Task RemoverPericia(string nome)
-		{
-			Personagem personagem = personagensController.Get(Context.User.Id).Result;
-			if (personagem == null)
-			{
-				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
-			}
-
-			personagem.Pericias ??= new List<Pericia>();
-
-			Pericia pericia = personagem.Pericias.Find(x => x.Id == Utilities.FormatID(nome))!;
-
-			if (pericia == null)
-			{
-				await RespondAsync($"Seu personagem não tem esta perícia.", ephemeral: true); return;
-			}
-			personagem.Pericias.Remove(pericia);
-
-			await personagensController.Put(personagem._Id, personagem);
-
-			await RespondAsync($"Perícia ``{pericia.Nome}`` removida do personagem!", ephemeral: true);
-		}
-
-		[SlashCommand("verpericias", "Apresenta todas as perícias disponíveis")]
-		public async Task VerPericias()
-		{
-			List<Pericia> list = periciasController.GetAll().Result;
-
-			await RespondAsync($"Perícias:", ephemeral: true, embed: RPGbotUtilities.GerarAllPericias(list));
-		}
-
 		public enum Equipaveis { Armadura, Escudo }
 		[SlashCommand("equipar", "Equipar um item do inventário ao personagem")]
 		public async Task Equipar(Equipaveis tipo, string nome)
@@ -476,14 +479,14 @@ namespace RPGbot.Modules
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
 			if (personagem == null)
 			{
-				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
+				ErrorModule.PersonagemNotFound(Context, Context.User.Id.ToString()); return;
 			}
 
 			Item item = personagem.Inventario!.Find(x => x.Id == Utilities.FormatID(nome))!;
 
 			if (!personagem.Inventario!.Contains(item))
 			{
-				await RespondAsync($"Você não tem o item ``{item.Name}``!", ephemeral: true); return;
+				ErrorModule.HasOrHasnt(Context, false, ErrorModule.T.Item); return;
 			}
 
 			string old_item = "";
@@ -520,12 +523,12 @@ namespace RPGbot.Modules
 		}
 
 		[SlashCommand("desequipar", "Desequipar um item do personagem ao inventário")]
-		public async Task Desequipar(Equipaveis tipo, string nome)
+		public async Task Desequipar(Equipaveis tipo)
 		{
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
 			if (personagem == null)
 			{
-				await RespondAsync($"Personagem de ID \"{Context.User.Id}\" não encontrado.", ephemeral: true); return;
+				ErrorModule.PersonagemNotFound(Context, Context.User.Id.ToString()); return;
 			}
 
 			if (tipo == Equipaveis.Armadura)
@@ -549,34 +552,64 @@ namespace RPGbot.Modules
 
 			await personagensController.Put(personagem._Id, personagem);
 
-				await RespondAsync($"Item desequipado!", ephemeral: true, embed: RPGbotUtilities.GerarInventario(personagem));
+			await RespondAsync($"Item desequipado!", ephemeral: true, embed: RPGbotUtilities.GerarInventario(personagem));
 		}
+		#endregion
 
-		[SlashCommand("veritens", "Mostra todos os itens disponíveis no jogo até então")]
-		public async Task VerItens()
+		#region Perícias
+		[SlashCommand("addpericia", "Adiciona uma perícia ao personagem")]
+		public async Task AddPericia(string nome)
 		{
-			List<Item> itens = itensController.GetAll().Result.ToList();
-
-			itens = itens.OrderByDescending(x => x.Tipo).ToList();
-
-			int maxlenght = 1536;
-
-			string itensTxt1 = "";
-			string itensTxt2 = "";
-			string itensTxt3 = "";
-			foreach (Item item in itens)
+			Personagem personagem = personagensController.Get(Context.User.Id).Result;
+			if (personagem == null)
 			{
-				if (itensTxt1.Length < maxlenght)
-					itensTxt1 += $"{item.Name}\n";
-				else if (itensTxt2.Length < maxlenght)
-					itensTxt2 += $"{item.Name}\n";
-				else
-					itensTxt3 += $"{item.Name}\n";
+				ErrorModule.PersonagemNotFound(Context, Context.User.Id.ToString()); return;
 			}
 
-			await RespondAsync(itensTxt1, ephemeral: true);
-			if (itensTxt2 != "") await FollowupAsync(itensTxt2, ephemeral: true);
-			if (itensTxt3 != "") await FollowupAsync(itensTxt3, ephemeral: true);
+			string pericia = periciasController.Get(nome).Result.Nome;
+
+			if (pericia == null)
+			{
+				ErrorModule.PericiaNotFound(Context, nome); return;
+			}
+
+			personagem.Pericias ??= new List<string>();
+
+			if (personagem.Pericias.Contains(pericia))
+			{
+				ErrorModule.HasOrHasnt(Context, true, ErrorModule.T.Pericia); return;
+			}
+
+			personagem.Pericias.Add(pericia);
+
+			await personagensController.Put(personagem._Id, personagem);
+
+			await RespondAsync($"Perícia ``{pericia}`` adicionada ao personagem!", ephemeral: true, embed: RPGbotUtilities.GerarFicha(personagem));
 		}
+
+		[SlashCommand("removerpericia", "Remove uma perícia do personagem")]
+		public async Task RemoverPericia(string nome)
+		{
+			Personagem personagem = personagensController.Get(Context.User.Id).Result;
+			if (personagem == null)
+			{
+				ErrorModule.PersonagemNotFound(Context, Context.User.Id.ToString()); return;
+			}
+
+			personagem.Pericias ??= new List<string>();
+
+			string pericia = personagem.Pericias.Find(x => Utilities.FormatID(x) == Utilities.FormatID(nome))!;
+
+			if (pericia == null)
+			{
+				ErrorModule.HasOrHasnt(Context, false, ErrorModule.T.Pericia); return;
+			}
+			personagem.Pericias.Remove(pericia);
+
+			await personagensController.Put(personagem._Id, personagem);
+
+			await RespondAsync($"Perícia ``{pericia}`` removida do personagem!", ephemeral: true);
+		}
+		#endregion
 	}
 }

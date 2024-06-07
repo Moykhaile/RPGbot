@@ -240,7 +240,7 @@ namespace RPGbot.Modules
 					if (personagem.Id != Context.User.Id)
 						embed.AddField(
 							$"{personagem.Nome}",
-							$"```❤️ {personagem.Vida}/{personagem.VidaMax}\n🌟 {personagem.XP}/{RPGbotUtilities.NiveisXP[RPGbotUtilities.GerarNivel(personagem.XP) - 1]} lvl {RPGbotUtilities.GerarNivel(personagem.XP)}\n💰 {personagem.Saldo}```",
+							$"```❤️ {personagem.Vida}/{personagem.VidaMax}\n🌟 {personagem.XP}/{RPGbotUtilities.NiveisXP[personagem.Nivel - 1]} lvl {personagem.Nivel}\n💰 {personagem.Saldo}```",
 							inline: true
 						);
 				}

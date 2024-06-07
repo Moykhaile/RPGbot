@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RPGbotAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fe842d51cc9d15610125705bb3ca4ab97f28476a")]
 [assembly: System.Reflection.AssemblyProductAttribute("RPGbotAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RPGbotAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

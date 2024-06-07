@@ -16,6 +16,5 @@ namespace RPGbotAPI.Models
 		public List<int>? Magias { get; set; }
 		public string Desc { get; set; } = string.Empty;
 		public string HabilidadeP { get; set; } = string.Empty;
-		public int Pagina { get; set; } = 0;
 	}
 }

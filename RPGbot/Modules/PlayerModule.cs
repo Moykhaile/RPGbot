@@ -251,6 +251,86 @@ namespace RPGbot.Modules
 
 			await RespondAsync($"Saldo do personagem alterado! Anterior: {old_saldo}", embed: RPGbotUtilities.GerarFicha(personagem), ephemeral: true);
 		}
+
+		[SlashCommand("exaustao", "Adiciona e remove exaustão ao personagem")]
+		public async Task Exaustao([MaxValue(5), MinValue(-5)] int qntd)
+		{
+			Personagem personagem = personagensController.Get(Context.User.Id).Result;
+			if (personagem == null)
+			{
+				ErrorModule.PersonagemNotFound(Context, Context.User.Id.ToString()); return;
+			}
+
+			float old_exaustao = personagem.Exaustão;
+			personagem.Exaustão += qntd;
+			personagem.Exaustão = personagem.Exaustão < 0 ? 0 : personagem.Exaustão > 5 ? 5 : personagem.Exaustão;
+
+			await personagensController.Put(personagem.Id, personagem);
+
+			await RespondAsync($"Saldo do personagem alterado! Anterior: {old_exaustao}", embed: RPGbotUtilities.GerarFicha(personagem), ephemeral: true);
+		}
+
+		[SlashCommand("levelup", "Pula de nível e gera os novos atributos do personagem")]
+		public async Task LevelUp(Utilities.Atributos atributo, [Optional, DefaultParameterValue(Utilities.Atributos.Nenhum)] Utilities.Atributos atributo2)
+		{
+			ClassesController classesController = new(new("Classes"));
+			Personagem personagem = personagensController.Get(Context.User.Id).Result;
+			if (personagem == null)
+			{
+				ErrorModule.PersonagemNotFound(Context, Context.User.Id.ToString()); return;
+			}
+			if (personagem.XP < RPGbotUtilities.NiveisXP[personagem.Nivel - 1])
+			{
+				await RespondAsync("Seu personagem não tem XP suficiente!", ephemeral: true); return;
+			}
+			if (atributo == Utilities.Atributos.Nenhum)
+			{
+				await RespondAsync("O primeiro atributo não pode ser vazio!", ephemeral: true); return;
+			}
+
+			personagem.Nivel += 1;
+			int dadoVida = JogarDadosVida(classesController.Get(personagem.Classe).Result.Dice)
+				+ RPGbotUtilities.CalcularMod(personagem.Constituicao);
+			personagem.VidaMax += dadoVida;
+			personagem.Vida += dadoVida;
+
+			if (atributo2 != Utilities.Atributos.Nenhum)
+			{
+				if (atributo == Utilities.Atributos.Força) personagem.Forca += 1;
+				if (atributo == Utilities.Atributos.Destreza) personagem.Destreza += 1;
+				if (atributo == Utilities.Atributos.Constituição) personagem.Constituicao += 1;
+				if (atributo == Utilities.Atributos.Inteligência) personagem.Inteligencia += 1;
+				if (atributo == Utilities.Atributos.Sabedoria) personagem.Sabedoria += 1;
+				if (atributo == Utilities.Atributos.Carisma) personagem.Carisma += 1;
+
+				if (atributo2 == Utilities.Atributos.Força) personagem.Forca += 1;
+				if (atributo2 == Utilities.Atributos.Destreza) personagem.Destreza += 1;
+				if (atributo2 == Utilities.Atributos.Constituição) personagem.Constituicao += 1;
+				if (atributo2 == Utilities.Atributos.Inteligência) personagem.Inteligencia += 1;
+				if (atributo2 == Utilities.Atributos.Sabedoria) personagem.Sabedoria += 1;
+				if (atributo2 == Utilities.Atributos.Carisma) personagem.Carisma += 1;
+			}
+			else
+			{
+				if (atributo == Utilities.Atributos.Força) personagem.Forca += 2;
+				if (atributo == Utilities.Atributos.Destreza) personagem.Destreza += 2;
+				if (atributo == Utilities.Atributos.Constituição) personagem.Constituicao += 2;
+				if (atributo == Utilities.Atributos.Inteligência) personagem.Inteligencia += 2;
+				if (atributo == Utilities.Atributos.Sabedoria) personagem.Sabedoria += 2;
+				if (atributo == Utilities.Atributos.Carisma) personagem.Carisma += 2;
+			}
+
+			await personagensController.Put(personagem.Id, personagem);
+
+			await RespondAsync($"Você agora está no **nível {personagem.Nivel}**!", embed: RPGbotUtilities.GerarFicha(personagem), ephemeral: true);
+		}
+		readonly Random Rnd = new();
+		int JogarDadosVida(int y)
+		{
+			int resultado = Rnd.Next(1, y + 1);
+
+			return resultado;
+		}
 		#endregion
 
 		#region Magias
@@ -258,7 +338,7 @@ namespace RPGbot.Modules
 		public async Task AddMagia(string nome)
 		{
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
-			ClassesController classesController = new ClassesController(new ClasseService("Classes"));
+			ClassesController classesController = new(new("Classes"));
 
 			if (personagem == null)
 			{
@@ -282,7 +362,7 @@ namespace RPGbot.Modules
 			{
 				ErrorModule.HasOrHasnt(Context, true, ErrorModule.T.Magia); return;
 			}
-			if (personagem.Magias.Count >= classesController.Get(personagem.Classe)!.Result!.Magias![RPGbotUtilities.GerarNivel(personagem.XP) - 1])
+			if (personagem.Magias.Count >= classesController.Get(personagem.Classe)!.Result!.Magias![personagem.Nivel - 1])
 			{
 				ErrorModule.NotEnoughXP(Context); return;
 			}
@@ -297,7 +377,7 @@ namespace RPGbot.Modules
 		[SlashCommand("removermagia", "Remove uma magia dos conhecimentos do personagem")]
 		public async Task RemoverMagia(string nome)
 		{
-			ClassesController classesController = new ClassesController(new ClasseService("Classes"));
+			ClassesController classesController = new(new("Classes"));
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
 			if (personagem == null)
 			{

@@ -1,12 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "amJN/TtpLxGZCMcAp1OtyTrogQfQX8Y7EZ4KHpB0BZpvWViMUcXWSqIbF6N4q+p4OrElZajqHuokXV08XkkEmQ==",
+  "dgSpecHash": "xvscRL5TYlq6wmVoLBEdtkCSuoCz8ipbUHAG4rY+PZjDecrNyacxRNOC2YGH92jUnqJh3kwN7/J1JhGdF7xglQ==",
   "success": true,
-  "projectFilePath": "C:\\Dev\\cs\\RPGbot\\RPGbotLib\\RPGbotLib.csproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\Gabriel\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.22\\microsoft.windowsdesktop.app.ref.6.0.22.nupkg.sha512",
-    "C:\\Users\\Gabriel\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.22\\microsoft.netcore.app.ref.6.0.22.nupkg.sha512",
-    "C:\\Users\\Gabriel\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.22\\microsoft.aspnetcore.app.ref.6.0.22.nupkg.sha512"
-  ],
+  "projectFilePath": "C:\\Users\\user\\Documents\\Dev\\C#\\RPGbot\\RPGbotLib\\RPGbotLib.csproj",
+  "expectedPackageFiles": [],
   "logs": []
 }

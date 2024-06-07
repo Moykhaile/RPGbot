@@ -1,25 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Dev\\cs\\RPGbot\\RPGbotAPI\\RPGbotAPI.csproj": {}
+    "C:\\Users\\user\\Documents\\Dev\\C#\\RPGbot\\RPGbotAPI\\RPGbotAPI.csproj": {}
   },
   "projects": {
-    "C:\\Dev\\cs\\RPGbot\\RPGbotAPI\\RPGbotAPI.csproj": {
+    "C:\\Users\\user\\Documents\\Dev\\C#\\RPGbot\\RPGbotAPI\\RPGbotAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Dev\\cs\\RPGbot\\RPGbotAPI\\RPGbotAPI.csproj",
+        "projectUniqueName": "C:\\Users\\user\\Documents\\Dev\\C#\\RPGbot\\RPGbotAPI\\RPGbotAPI.csproj",
         "projectName": "RPGbotAPI",
-        "projectPath": "C:\\Dev\\cs\\RPGbot\\RPGbotAPI\\RPGbotAPI.csproj",
-        "packagesPath": "C:\\Users\\Gabriel\\.nuget\\packages\\",
-        "outputPath": "C:\\Dev\\cs\\RPGbot\\RPGbotAPI\\obj\\",
+        "projectPath": "C:\\Users\\user\\Documents\\Dev\\C#\\RPGbot\\RPGbotAPI\\RPGbotAPI.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\Documents\\Dev\\C#\\RPGbot\\RPGbotAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Users\\Gabriel\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder",
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Gabriel\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Users\\Gabriel\\AppData\\Roaming\\NuGet\\config\\Godot.Offline.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -35,8 +33,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Dev\\cs\\RPGbot\\RPGbotLib\\RPGbotLib.csproj": {
-                "projectPath": "C:\\Dev\\cs\\RPGbot\\RPGbotLib\\RPGbotLib.csproj"
+              "C:\\Users\\user\\Documents\\Dev\\C#\\RPGbot\\RPGbotLib\\RPGbotLib.csproj": {
+                "projectPath": "C:\\Users\\user\\Documents\\Dev\\C#\\RPGbot\\RPGbotLib\\RPGbotLib.csproj"
               }
             }
           }
@@ -45,6 +43,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -83,24 +86,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[6.0.22, 6.0.22]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[6.0.22, 6.0.22]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[6.0.22, 6.0.22]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[6.0.22, 6.0.22]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -109,26 +94,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Dev\\cs\\RPGbot\\RPGbotLib\\RPGbotLib.csproj": {
+    "C:\\Users\\user\\Documents\\Dev\\C#\\RPGbot\\RPGbotLib\\RPGbotLib.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Dev\\cs\\RPGbot\\RPGbotLib\\RPGbotLib.csproj",
+        "projectUniqueName": "C:\\Users\\user\\Documents\\Dev\\C#\\RPGbot\\RPGbotLib\\RPGbotLib.csproj",
         "projectName": "RPGbotLib",
-        "projectPath": "C:\\Dev\\cs\\RPGbot\\RPGbotLib\\RPGbotLib.csproj",
-        "packagesPath": "C:\\Users\\Gabriel\\.nuget\\packages\\",
-        "outputPath": "C:\\Dev\\cs\\RPGbot\\RPGbotLib\\obj\\",
+        "projectPath": "C:\\Users\\user\\Documents\\Dev\\C#\\RPGbot\\RPGbotLib\\RPGbotLib.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\Documents\\Dev\\C#\\RPGbot\\RPGbotLib\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Users\\Gabriel\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder",
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Gabriel\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Users\\Gabriel\\AppData\\Roaming\\NuGet\\config\\Godot.Offline.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -150,6 +133,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -166,26 +154,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[6.0.22, 6.0.22]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[6.0.22, 6.0.22]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[6.0.22, 6.0.22]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200\\RuntimeIdentifierGraph.json"
         }
       }
     }

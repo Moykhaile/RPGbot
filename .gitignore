@@ -2,8 +2,9 @@
 .vs
 */config.yml
 
-RPGbot\obj
-RPGbot\bin
-
-RPGbotAPI\obj
-RPGbotAPI\bin
+RPGbot/bin/
+RPGbot/obj/
+RPGbotAPI/bin/
+RPGbotAPI/obj/
+RPGbotLib/bin/
+RPGbotLib/obj/

@@ -20,7 +20,7 @@ namespace RPGbotAPI.Services
 				(service.Value.CollectionName);
 		}
 
-		public PersonagemService(string _CollectionName)
+		public PersonagemService()
 		{
 			var mongoClient = new MongoClient(IDatabaseConfiguration.ConnectionString);
 
@@ -29,7 +29,7 @@ namespace RPGbotAPI.Services
 			
 
 			_collection = mongoDatabase.GetCollection<Personagem>
-				(_CollectionName);
+				("Personagens");
 		}
 
 		public async Task<List<Personagem>> GetAsync() =>

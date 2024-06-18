@@ -19,14 +19,14 @@ namespace RPGbotAPI.Services
 				(service.Value.CollectionName);
 		}
 
-		public ClasseService(string _CollectionName)
+		public ClasseService()
 		{
 			var mongoClient = new MongoClient(IDatabaseConfiguration.ConnectionString);
 
 			var mongoDatabase = mongoClient.GetDatabase(IDatabaseConfiguration.DatabaseName);
 
 			_collection = mongoDatabase.GetCollection<Classe>
-				(_CollectionName);
+				("Classes");
 		}
 
 		public async Task<List<Classe>> GetAsync() =>

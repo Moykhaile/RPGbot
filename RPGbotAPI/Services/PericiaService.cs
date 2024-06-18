@@ -19,7 +19,7 @@ namespace RPGbotAPI.Services
 				(service.Value.CollectionName);
 		}
 
-		public PericiaService(string _CollectionName)
+		public PericiaService()
 		{
 			var mongoClient = new MongoClient(IDatabaseConfiguration.ConnectionString);
 
@@ -28,7 +28,7 @@ namespace RPGbotAPI.Services
 
 
 			_collection = mongoDatabase.GetCollection<Pericia>
-				(_CollectionName);
+				("Pericias");
 		}
 
 		public async Task<List<Pericia>> GetAsync() =>

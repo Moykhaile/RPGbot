@@ -18,7 +18,7 @@ namespace RPGbotAPI.Services
 			_collection = mongoDatabase.GetCollection<Raca>
 				(service.Value.CollectionName);
 		}
-		public RacaService(string _CollectionName)
+		public RacaService()
 		{
 			var mongoClient = new MongoClient(IDatabaseConfiguration.ConnectionString);
 
@@ -27,7 +27,7 @@ namespace RPGbotAPI.Services
 			
 
 			_collection = mongoDatabase.GetCollection<Raca>
-				(_CollectionName);
+				("Racas");
 		}
 
 		public async Task<List<Raca>> GetAsync() =>

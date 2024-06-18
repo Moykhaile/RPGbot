@@ -21,13 +21,14 @@ namespace RPGbot.Classes
 			EmbedBuilder embed = new()
 			{
 				Author = new EmbedAuthorBuilder() { Name = $"{personagem.Nome}   {personagem.Vida}/{personagem.VidaMax}hp   {GerarCA(personagem)} CA" },
-				Description = $"{classe}   -   {personagem.Posicao}       {raca}   -   {personagem.XP}/{NiveisXP[GerarNivel(personagem.XP) - 1]}xp",
-				Footer = new EmbedFooterBuilder() { Text = $"💰 {GerarSaldo(personagem.Saldo)}₹   -   {personagem.Jogador}" },
+				Description = $"{classe}   -   {personagem.Posicao}       {raca}   -   {personagem.XP}/{NiveisXP[personagem.Nivel - 1]}xp",
+				Footer = new EmbedFooterBuilder() { Text = $"💰 {GerarSaldo(personagem.Saldo)}   -   {personagem.Jogador}" },
+
 				Fields = new List<EmbedFieldBuilder>()
 				{
 					new EmbedFieldBuilder()
 					{
-						Name = $"Proficiência   +{Proficiencia[GerarNivel(personagem.XP) - 1]}",
+						Name = $"Proficiência   +{Proficiencia[personagem.Nivel -1 ]}",
 						Value = $"```" +
 						$"FOR {GerarMod(personagem.Forca)}   INT {GerarMod(personagem.Inteligencia)}\n" +
 						$"DES {GerarMod(personagem.Destreza)}   SAB {GerarMod(personagem.Sabedoria)}\n" +
@@ -36,13 +37,16 @@ namespace RPGbot.Classes
 					},
 					new EmbedFieldBuilder()
 					{
-						Name = $"Nível {GerarNivel(personagem.XP)}",
+						Name = $"Nível {personagem.Nivel}",
 						Value = $"{personagem.Peso}kg   {personagem.Altura}cm\n{personagem.Idade} anos de idade\n{personagem.Genero} - {personagem.Sexualidade}\n**{(personagem.Exaustão > 0 ? $"Exaustão {GerarExaustão(personagem.Exaustão)}" : "Descansado")}**",
 						IsInline = true
 					}
 				},
 				Color = GerarCorVida(personagem.Vida, personagem.VidaMax)
 			};
+
+			if (personagem.XP >= NiveisXP[personagem.Nivel - 1])
+				embed.Description += "\n\n**Passe de nível com ``/levelup``!**\n";
 
 			return embed.Build();
 		}
@@ -57,7 +61,7 @@ namespace RPGbot.Classes
 			{
 				Author = new EmbedAuthorBuilder() { Name = $"{personagem.Nome}   {personagem.Vida}/{personagem.VidaMax}hp" },
 				Description = $"{txt}```",
-				Footer = new EmbedFooterBuilder() { Text = $"🌟 Nível {GerarNivel(personagem.XP)}   -   {personagem.Jogador}" },
+				Footer = new EmbedFooterBuilder() { Text = $"🌟 Nível {personagem.Nivel}   -   {personagem.Jogador}" },
 				Color = GerarCorVida(personagem.Vida, personagem.VidaMax)
 			};
 
@@ -149,7 +153,7 @@ namespace RPGbot.Classes
 			EmbedBuilder embed = new()
 			{
 				Author = new EmbedAuthorBuilder() { Name = $"{personagem.Nome}" },
-				Title = $"Magias   {magias.Count}/{classesController.Get(personagem.Classe)!.Result!.Magias![GerarNivel(personagem.XP) - 1]}",
+				Title = $"Magias   {magias.Count}/{classesController.Get(personagem.Classe)!.Result!.Magias![personagem.Nivel - 1]}",
 				Description = magiasTxt,
 				Footer = new EmbedFooterBuilder() { Text = $"🧙 {classe}   -   {personagem.Jogador}" },
 				Color = GerarCorVida(personagem.Vida, personagem.VidaMax)
@@ -428,9 +432,13 @@ namespace RPGbot.Classes
 					return personagem.Armadura.Defesa + personagem.Escudo.Defesa;
 			}
 		}
+		public static int CalcularMod(int valor)
+		{
+			return (int)Math.Floor((float)valor - 10) / 2;
+		}
 		public static string GerarMod(int valor)
 		{
-			double resultado = Math.Floor((float.Parse(valor.ToString()) - 10) / 2);
+			double resultado = CalcularMod(valor);
 			return resultado >= 0 ? $"+{resultado}" : $"-{Math.Abs(resultado)}";
 		}
 		public static Color GerarCorVida(int vida, int vidamax)
@@ -458,7 +466,7 @@ namespace RPGbot.Classes
 
 		public enum Atributos { Força, Destreza, Constituição, Inteligência, Sabedoria, Carisma }
 
-		public static int GerarNivel(int xp)
+		/*public static int GerarNivel(int xp)
 		{
 			var nivel = 1;
 
@@ -471,7 +479,7 @@ namespace RPGbot.Classes
 			}
 
 			return nivel;
-		}
+		}*/
 
 		public static string GerarSaldo(float saldo)
 		{

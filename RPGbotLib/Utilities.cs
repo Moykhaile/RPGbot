@@ -6,7 +6,7 @@ namespace RPGbotLib
 {
 	public class Utilities
 	{
-		public enum Atributos { Força, Destreza, Constituição, Inteligência, Sabedoria, Carisma }
+		public enum Atributos { Nenhum, Força, Destreza, Constituição, Inteligência, Sabedoria, Carisma }
 
 		public enum PetGenero { Feminino, Masculino }
 

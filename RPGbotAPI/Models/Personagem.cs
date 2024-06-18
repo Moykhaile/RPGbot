@@ -31,7 +31,7 @@ namespace RPGbotAPI.Models
 		[BsonElement] public int Vida { get; set; }
 		[BsonElement] public float Saldo { get; set; }
 		[BsonElement] public int XP { get; set; }
-		[BsonElement] public int Nivel { get; set; }
+		[BsonElement] public int Nivel { get; set; } = 1;
 
 		[BsonElement] public Item? Armadura { get; set; }
 		[BsonElement] public Item? Escudo { get; set; }

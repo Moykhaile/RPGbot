@@ -1,3 +1,9 @@
 .tmp*
 .vs
 */config.yml
+
+RPGbot\obj
+RPGbot\bin
+
+RPGbotAPI\obj
+RPGbotAPI\bin

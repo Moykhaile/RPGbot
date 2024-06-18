@@ -191,6 +191,8 @@ namespace RPGbot.Modules
 
 			await RespondAsync("Personagem criado! Use ``/ficha`` para ver a ficha do seu personagem ✅\n\n*Os dados do seu personagem são seus e cabe a você se irá ou não compartilha-los com outros. Ninguém poderá ver sua ficha, seus itens, magias, etc. além de você.*");
 
+			await RespondAsync("> **Utilize o comando ``/addstats`` para gerar seus atributos como força, destreza, constituição, etc.**", ephemeral: true);
+
 			var role = Context.Guild.Roles.FirstOrDefault(x => x.Name == "Jogador");
 
 			await (Context.User as IGuildUser)!.AddRoleAsync(role);

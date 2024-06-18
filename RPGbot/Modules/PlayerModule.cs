@@ -469,7 +469,42 @@ namespace RPGbot.Modules
 
 			await personagensController.Put(personagem.Id, personagem);
 
-			await RespondAsync($"Item comprado por {(preço > 0 ? preço : item.Preco)} moedas!", ephemeral: true, embed: RPGbotUtilities.GerarInventario(personagem));
+			await RespondAsync($"Item comprado por {(preço > 0 ? preço : item.Preco)}₹!", ephemeral: true, embed: RPGbotUtilities.GerarInventario(personagem));
+		}
+
+		[SlashCommand("venderitem", "Compra um item e o adiciona ao inventário do personagem")]
+		public async Task VenderItem([Required] string nome, [Optional, MinValue(1), DefaultParameterValue(0)] float preço)
+		{
+			Personagem personagem = personagensController.Get(Context.User.Id).Result;
+			if (personagem == null)
+			{
+				ErrorModule.PersonagemNotFound(Context, Context.User.Id.ToString()); return;
+			}
+
+			Item item = itensController.Get(nome).Result;
+
+			if (item == null)
+			{
+				ErrorModule.ItemNotFound(Context, nome); return;
+			}
+			personagem.Inventario ??= new List<Item>();
+
+			if (!personagem.Inventario.Contains(item))
+			{
+				ErrorModule.HasOrHasnt(Context, false, ErrorModule.T.Item); return;
+			}
+			string old_item = item.Name;
+
+			if (preço > 0)
+				personagem.Saldo += preço;
+			else
+				personagem.Saldo += item.Preco;
+
+			personagem.Inventario.Remove(personagem.Inventario.Find(x => x.Id == Utilities.FormatID(nome))!);
+
+			await personagensController.Put(personagem.Id, personagem);
+
+			await RespondAsync($"Item vendido por {(preço > 0 ? preço : item.Preco)}₹!", ephemeral: true, embed: RPGbotUtilities.GerarInventario(personagem));
 		}
 
 		public enum Equipaveis { Armadura, Escudo }

@@ -22,7 +22,7 @@ namespace RPGbot.Classes
 			{
 				Author = new EmbedAuthorBuilder() { Name = $"{personagem.Nome}   {personagem.Vida}/{personagem.VidaMax}hp   {GerarCA(personagem)} CA" },
 				Description = $"{classe}   -   {personagem.Posicao}       {raca}   -   {personagem.XP}/{NiveisXP[GerarNivel(personagem.XP) - 1]}xp",
-				Footer = new EmbedFooterBuilder() { Text = $"💰 {GerarSaldo(personagem.Saldo)}   -   {personagem.Jogador}" },
+				Footer = new EmbedFooterBuilder() { Text = $"💰 {GerarSaldo(personagem.Saldo)}₹   -   {personagem.Jogador}" },
 				Fields = new List<EmbedFieldBuilder>()
 				{
 					new EmbedFieldBuilder()
@@ -230,7 +230,7 @@ namespace RPGbot.Classes
 
 			EmbedBuilder embed = new EmbedBuilder()
 				.WithTitle(item.Name)
-				.WithDescription($"{item.Peso}kg   |   {item.Preco} moedas {modificador}")
+				.WithDescription($"{item.Peso}kg   |   {item.Preco}₹ {modificador}")
 				.WithFooter(new EmbedFooterBuilder() { Text = $"{item.Tipo}" });
 			embed.Color = item.Dano != string.Empty ? new Color(0xED4245) : item.Defesa != 0 ? new Color(0x57F287) : new Color(0x3498DB);
 
@@ -265,9 +265,9 @@ namespace RPGbot.Classes
 				if (pet.Magias != null && pet.Magias!.Count != 0)
 				{
 					magias += "\nMagias:";
-					foreach (Magia magia in pet.Magias!)
+					foreach (string magia in pet.Magias!)
 					{
-						magias += $"**{magia.Name}**   →   ";
+						magias += $"**{magia}**   →   ";
 					}
 					magias += "\n";
 				}
@@ -277,7 +277,7 @@ namespace RPGbot.Classes
 					inventario += $"\n**{pet.Inventario.Count} itens**\n";
 				}
 
-				embed.AddField($"{pet.Name}   (*{pet.Especie}*)   {(pet.Genero == Utilities.PetGenero.Feminino ? "♀️" : "♂️")}", $"{pet.Vida}/{pet.MaxVida}hp   -   {pet.Defesa}CA\n{GerarPesoInventario(pet):N2}/{pet.TamanhoMochila}kg\n{ataques}{magias}{inventario}", true);
+				embed.AddField($"{pet.Nome}   (*{pet.Especie}*)   {(pet.Genero == Utilities.PetGenero.Feminino ? "♀️" : "♂️")}", $"{pet.Vida}/{pet.MaxVida}hp   -   {pet.Defesa}CA\n{GerarPesoInventario(pet):N2}/{pet.TamanhoMochila}kg\n{ataques}{magias}{inventario}", true);
 			}
 
 			return embed.Build();
@@ -310,9 +310,9 @@ namespace RPGbot.Classes
 				if (pet.Magias != null && pet.Magias!.Count != 0)
 				{
 					magias += "\nMagias:";
-					foreach (Magia magia in pet.Magias!)
+					foreach (string magia in pet.Magias!)
 					{
-						magias += $"**{magia.Name}**   →   ";
+						magias += $"**{magia}**   →   ";
 					}
 					magias += "\n";
 				}
@@ -328,7 +328,7 @@ namespace RPGbot.Classes
 					inventario += "\n";
 				}
 
-				embed.AddField($"{pet.Name}   (*{pet.Especie}*)   {(pet.Genero == Utilities.PetGenero.Feminino ? "♀️" : "♂️")}", $"{pet.Vida}/{pet.MaxVida}hp   -   {pet.Defesa}CA\n{GerarPesoInventario(pet):N2}/{pet.TamanhoMochila}kg\n{ataques}{magias}{inventario}", true);
+				embed.AddField($"{pet.Nome}   (*{pet.Especie}*)   {(pet.Genero == Utilities.PetGenero.Feminino ? "♀️" : "♂️")}", $"{pet.Vida}/{pet.MaxVida}hp   -   {pet.Defesa}CA\n{GerarPesoInventario(pet):N2}/{pet.TamanhoMochila}kg\n{ataques}{magias}{inventario}", true);
 			}
 
 			return embed.Build();
@@ -353,16 +353,16 @@ namespace RPGbot.Classes
 			}
 
 			string magiasTxt = "";
-			pet.Magias ??= new List<Magia>();
-			List<Magia> magias = pet.Magias.OrderByDescending(x => x.Name).ToList();
-			foreach (Magia magia in pet.Magias)
+			pet.Magias ??= new List<string>();
+			List<string> magias = pet.Magias.OrderByDescending(x => x).ToList();
+			foreach (string magia in pet.Magias)
 			{
-				magiasTxt += $"{magia.Name}\n";
+				magiasTxt += $"{magia}\n";
 			}
 
 			var embed = new EmbedBuilder()
 			{
-				Title = pet.Name,
+				Title = pet.Nome,
 				Description = $"{(pet.Genero == Utilities.PetGenero.Feminino ? "♀️" : "♂️")}   *{pet.Especie}*   {pet.Vida}/{pet.MaxVida}hp",
 				Footer = new EmbedFooterBuilder() { Text = nomePersonagem }
 			};

@@ -49,7 +49,7 @@ namespace RPGbot.Modules
 				return;
 			}
 
-			await RespondAsync($"Seu pet, ``{pet.Name}``", embed: RPGbotUtilities.GerarPet(pet, personagem.Nome), ephemeral: true);
+			await RespondAsync($"Seu pet, ``{pet.Nome}``", embed: RPGbotUtilities.GerarPet(pet, personagem.Nome), ephemeral: true);
 		}
 
 		[SlashCommand("addpet", "Adiciona um pet ao personagem")]
@@ -68,7 +68,7 @@ namespace RPGbot.Modules
 				return;
 			}
 
-			pet.Name = NomeDoPet;
+			pet.Nome = NomeDoPet;
 			pet.Id = Utilities.FormatID(NomeDoPet);
 			pet.Genero = genero;
 
@@ -78,7 +78,7 @@ namespace RPGbot.Modules
 
 			await personagensController.Put(personagem.Id, personagem);
 
-			await RespondAsync($"Pet ``{pet.Name}`` adicionado ao seu personagem!", embed: RPGbotUtilities.GerarPets(personagem), ephemeral: true);
+			await RespondAsync($"Pet ``{pet.Nome}`` adicionado ao seu personagem!", embed: RPGbotUtilities.GerarPets(personagem), ephemeral: true);
 		}
 
 		[SlashCommand("petvida", "Adiciona ou subtrai da vida do seu pet")]
@@ -107,7 +107,7 @@ namespace RPGbot.Modules
 
 			await personagensController.Put(personagem.Id, personagem);
 
-			await RespondAsync($"Vida do pet ``{pet.Name}`` alterada de ``{old_vida}`` para ``{pet.Vida}``", embed: RPGbotUtilities.GerarPets(personagem), ephemeral: true);
+			await RespondAsync($"Vida do pet ``{pet.Nome}`` alterada de ``{old_vida}`` para ``{pet.Vida}``", embed: RPGbotUtilities.GerarPets(personagem), ephemeral: true);
 		}
 		[SlashCommand("petadditem", "Adiciona um item ao seu pet")]
 		public async Task PetAddItem(string PetNome, string NomeDoItem, [Optional(), DefaultParameterValue(1), MinValue(1)] int Quantidade)
@@ -143,7 +143,7 @@ namespace RPGbot.Modules
 
 			await personagensController.Put(personagem.Id, personagem);
 
-			await RespondAsync($"Item ``{item.Name}`` adicionado ao inventário do pet ``{pet.Name}``!", ephemeral: true, embed: RPGbotUtilities.GerarPets(personagem));
+			await RespondAsync($"Item ``{item.Name}`` adicionado ao inventário do pet ``{pet.Nome}``!", ephemeral: true, embed: RPGbotUtilities.GerarPets(personagem));
 		}
 
 		[SlashCommand("petremoveritem", "Remove um item do inventário do pet")]
@@ -177,7 +177,7 @@ namespace RPGbot.Modules
 
 			await personagensController.Put(personagem.Id, personagem);
 
-			await RespondAsync($"Item ``{old_item}`` removido do inventário de {pet.Name}!", ephemeral: true, embed: RPGbotUtilities.GerarPet(pet, personagem.Nome));
+			await RespondAsync($"Item ``{old_item}`` removido do inventário de {pet.Nome}!", ephemeral: true, embed: RPGbotUtilities.GerarPet(pet, personagem.Nome));
 		}
 	}
 }

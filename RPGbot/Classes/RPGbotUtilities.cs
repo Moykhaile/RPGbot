@@ -13,8 +13,8 @@ namespace RPGbot.Classes
 	{
 		public static Embed GerarFicha(Personagem personagem)
 		{
-			ClassesController classesController = new(new("Classes"));
-			RacasController racasController = new(new("Racas"));
+			ClassesController classesController = new(new());
+			RacasController racasController = new(new());
 			string classe = personagem.Genero == "Feminino" ? classesController.Get(personagem.Classe).Result.Fname : classesController.Get(personagem.Classe).Result.Mname;
 			string raca = personagem.Genero == "Feminino" ? racasController.Get(personagem.Raca).Result.Fname : racasController.Get(personagem.Raca).Result.Mname;
 
@@ -71,7 +71,7 @@ namespace RPGbot.Classes
 		public static float PesoMod { get; } = 7.5f;
 		public static Embed GerarInventario(Personagem personagem)
 		{
-			ItensController itensController = new(new ItemService("Itens"));
+			ItensController itensController = new(new ItemService());
 
 			List<Item> inventarioStrings = personagem.Inventario!;
 
@@ -131,7 +131,7 @@ namespace RPGbot.Classes
 		}
 		public static Embed GerarMagias(List<string> magias, Personagem personagem)
 		{
-			ClassesController classesController = new(new("Classes"));
+			ClassesController classesController = new(new());
 			string classe = personagem.Genero == "Feminino" ? classesController.Get(personagem.Classe)!.Result!.Fname : classesController.Get(personagem.Classe)!.Result!.Mname;
 
 			string magiasTxt = "";
@@ -183,7 +183,7 @@ namespace RPGbot.Classes
 		}
 		public static Embed GerarMagia(string nome)
 		{
-			MagiasController magiasController = new(new MagiaService("Magias"));
+			MagiasController magiasController = new(new MagiaService());
 			Magia magia = magiasController.Get(nome).Result;
 
 			EmbedBuilder embed = new()
@@ -220,7 +220,7 @@ namespace RPGbot.Classes
 		}
 		public static Embed GerarItem(string nome)
 		{
-			ItensController itensController = new(new ItemService("Itens"));
+			ItensController itensController = new(new ItemService());
 
 			List<Item> itemList = itensController.GetAll().Result;
 			Item item = itemList.Find(x => x.Id == FormatID(nome))!;
@@ -385,7 +385,7 @@ namespace RPGbot.Classes
 		{
 			float mochila = 0f;
 
-			ItensController itensController = new(new ItemService("Itens"));
+			ItensController itensController = new(new ItemService());
 
 			List<Item> itemList = itensController.GetAll().Result;
 			for (int i = 0; i < inventario.Count; i++)

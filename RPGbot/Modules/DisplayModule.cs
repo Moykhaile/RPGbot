@@ -11,9 +11,9 @@ namespace RPGbot.Modules
 {
 	public class DisplayModule : InteractionModuleBase<SocketInteractionContext>
 	{
-		readonly PericiasController periciasController = new(new PericiaService("Pericias"));
-		readonly MagiasController magiasController = new(new MagiaService("Magias"));
-		readonly ItensController itensController = new(new ItemService("Itens"));
+		readonly PericiasController periciasController = new(new PericiaService());
+		readonly MagiasController magiasController = new(new MagiaService());
+		readonly ItensController itensController = new(new ItemService());
 
 		[SlashCommand("vermagia", "Apresenta as informações da magia, como tempo de conjuração, alcance, etc.")]
 		public async Task VerMagia(string magia)
@@ -366,7 +366,7 @@ namespace RPGbot.Modules
 		[SlashCommand("verclasse", "Mostra dados da classe selecionada")]
 		public async Task VerClasse(string nome)
 		{
-			ClassesController classesController = new(new("Classes"));
+			ClassesController classesController = new(new());
 			Classe classe = classesController.Get(RPGbotUtilities.FormatID(nome)).Result;
 			if (classe == null)
 			{
@@ -387,7 +387,7 @@ namespace RPGbot.Modules
 
 		public async Task VerRaça(string nome)
 		{
-			RacasController racasController = new(new("Racas"));
+			RacasController racasController = new(new());
 			Raca raca = racasController.Get(RPGbotUtilities.FormatID(nome)).Result;
 			if (raca == null)
 			{

@@ -10,7 +10,7 @@ namespace RPGbot.Modules
 {
 	public class AddStatsModule : InteractionModuleBase<SocketInteractionContext>
 	{
-		readonly PersonagensController personagensController = new(new PersonagemService("Personagens"));
+		readonly PersonagensController personagensController = new(new PersonagemService());
 
 		[SlashCommand("addstats", "Gera seus stats (força, destreza, carisma, etc) com base nas suas escolhas")]
 		public async Task HandleAddStatsCommand(int Força, int Destreza, int Constituição, int Inteligência, int Sabedoria, int carisma)

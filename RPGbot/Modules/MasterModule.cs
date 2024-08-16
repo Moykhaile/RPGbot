@@ -35,7 +35,7 @@ namespace RPGbot.Modules
 			XP
 		}
 
-		readonly PersonagensController personagensController = new(new PersonagemService("Personagens"));
+		readonly PersonagensController personagensController = new(new PersonagemService());
 
 		[SlashCommand("editplayer", "Editar informação do personagem")]
 		public async Task EditPlayer(IMentionable user, Dados atributo, string valor)
@@ -203,7 +203,7 @@ namespace RPGbot.Modules
 				await RespondAsync($"Usuário inválido.", ephemeral: true); return;
 			}
 
-			ClassesController classesController = new(new("Classes"));
+			ClassesController classesController = new(new());
 
 			Personagem personagem = personagensController.Get(((SocketGuildUser)user).Id).Result;
 			if (personagem == null)

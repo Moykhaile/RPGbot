@@ -13,7 +13,7 @@ namespace RPGbot
 {
 	class Program
 	{
-		readonly BotInfoController botInfoController = new(new BotInfoService("BotInfo"));
+		readonly BotInfoController botInfoController = new(new BotInfoService());
 
 		public static Task Main() => new Program().MainAsync(new Program().GetHost());
 

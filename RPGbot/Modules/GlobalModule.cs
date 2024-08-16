@@ -9,7 +9,7 @@ namespace RPGbot.Modules
 	{
 		private readonly DiscordSocketClient _client;
 
-		readonly BotInfoController botInfoController = new(new BotInfoService("BotInfo"));
+		readonly BotInfoController botInfoController = new(new BotInfoService());
 
 		public GlobalModule(DiscordSocketClient client)
 		{

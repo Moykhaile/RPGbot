@@ -9,9 +9,9 @@ namespace RPGbot.Modules
 {
 	public class DbModule : InteractionModuleBase<SocketInteractionContext>
 	{
-		readonly ItensController itensController = new(new ItemService("Itens"));
-		readonly MagiasController magiasController = new(new MagiaService("Magias"));
-		readonly PericiasController periciasController = new(new PericiaService("Pericias"));
+		readonly ItensController itensController = new(new ItemService());
+		readonly MagiasController magiasController = new(new MagiaService());
+		readonly PericiasController periciasController = new(new PericiaService());
 
 		[RequireRole("Mestre")]
 		[SlashCommand("dbadditem", "Adiciona item à base de dados do RPGbot")]

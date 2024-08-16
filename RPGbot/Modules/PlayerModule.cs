@@ -12,10 +12,10 @@ namespace RPGbot.Modules
 {
 	public class PlayerModule : InteractionModuleBase<SocketInteractionContext>
 	{
-		readonly PersonagensController personagensController = new(new PersonagemService("Personagens"));
-		readonly PericiasController periciasController = new(new PericiaService("Pericias"));
-		readonly MagiasController magiasController = new(new MagiaService("Magias"));
-		readonly ItensController itensController = new(new ItemService("Itens"));
+		readonly PersonagensController personagensController = new(new PersonagemService());
+		readonly PericiasController periciasController = new(new PericiaService());
+		readonly MagiasController magiasController = new(new MagiaService());
+		readonly ItensController itensController = new(new ItemService());
 
 		#region Ficha
 		[SlashCommand("ficha", "Apresenta a ficha do personagem")]
@@ -273,7 +273,7 @@ namespace RPGbot.Modules
 		[SlashCommand("levelup", "Pula de nível e gera os novos atributos do personagem")]
 		public async Task LevelUp(Utilities.Atributos atributo, [Optional, DefaultParameterValue(Utilities.Atributos.Nenhum)] Utilities.Atributos atributo2)
 		{
-			ClassesController classesController = new(new("Classes"));
+			ClassesController classesController = new(new());
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
 			if (personagem == null)
 			{
@@ -338,7 +338,7 @@ namespace RPGbot.Modules
 		public async Task AddMagia(string nome)
 		{
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
-			ClassesController classesController = new(new("Classes"));
+			ClassesController classesController = new(new());
 
 			if (personagem == null)
 			{
@@ -377,7 +377,7 @@ namespace RPGbot.Modules
 		[SlashCommand("removermagia", "Remove uma magia dos conhecimentos do personagem")]
 		public async Task RemoverMagia(string nome)
 		{
-			ClassesController classesController = new(new("Classes"));
+			ClassesController classesController = new(new());
 			Personagem personagem = personagensController.Get(Context.User.Id).Result;
 			if (personagem == null)
 			{

@@ -11,9 +11,9 @@ namespace RPGbot.Modules
 {
 	public class PetModule : InteractionModuleBase<SocketInteractionContext>
 	{
-		readonly PersonagensController personagensController = new(new PersonagemService("Personagens"));
-		readonly PetsController petsController = new(new PetService("Pets"));
-		readonly ItensController itensController = new(new ItemService("Itens"));
+		readonly PersonagensController personagensController = new(new PersonagemService());
+		readonly PetsController petsController = new(new PetService());
+		readonly ItensController itensController = new(new ItemService());
 
 		[SlashCommand("pets", "Apresenta os pets do personagem")]
 		public async Task Pets()

@@ -10,9 +10,9 @@ namespace RPGbot.Modules
 	{
 		public InteractionService? Commands { get; set; }
 
-		readonly PersonagensController personagensController = new(new PersonagemService("Personagens"));
-		readonly ClassesController classesController = new(new ClasseService("Classes"));
-		readonly RacasController racasController = new(new RacaService("Racas"));
+		readonly PersonagensController personagensController = new(new PersonagemService());
+		readonly ClassesController classesController = new(new ClasseService());
+		readonly RacasController racasController = new(new RacaService());
 
 		[SlashCommand("add", "Adiciona um personagem ao jogo. Só é permitido 1 personagem por jogador")]
 		public async Task HandleAddCommand()
@@ -191,7 +191,7 @@ namespace RPGbot.Modules
 
 			await RespondAsync("Personagem criado! Use ``/ficha`` para ver a ficha do seu personagem ✅\n\n*Os dados do seu personagem são seus e cabe a você se irá ou não compartilha-los com outros. Ninguém poderá ver sua ficha, seus itens, magias, etc. além de você.*");
 
-			await RespondAsync("> **Utilize o comando ``/addstats`` para gerar seus atributos como força, destreza, constituição, etc.**", ephemeral: true);
+			await FollowupAsync("> **Utilize o comando ``/addstats`` para gerar seus atributos como força, destreza, constituição, etc.**", ephemeral: true);
 
 			var role = Context.Guild.Roles.FirstOrDefault(x => x.Name == "Jogador");
 
@@ -201,7 +201,7 @@ namespace RPGbot.Modules
 
 		Personagem GeneratePlayer(Personagem personagem)
 		{
-			ClassesController classesController = new(new("Classes"));
+			ClassesController classesController = new(new());
 
 			Classe playerClass = classesController.Get(personagem.Classe)!.Result!;
 
@@ -215,7 +215,7 @@ namespace RPGbot.Modules
 
 		static Personagem GerarDadosRaca(Personagem personagem)
 		{
-			RacasController racasController = new(new("Racas"));
+			RacasController racasController = new(new());
 
 			List<string> habilidades = racasController.Get(personagem.Raca)!.Result!.Habilidades;
 

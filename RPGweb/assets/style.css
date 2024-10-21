@@ -1,0 +1,143 @@
+* {
+    font-family: "Metamorphous", serif;
+    margin: 0 auto;
+    color: #ededed;
+    text-align: center;
+    border-left: 100px;
+}
+
+.metamorphous-regular {
+    font-family: "Metamorphous", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.cinza,
+.vermelho,
+.amarelo,
+.verde,
+.azul {
+    border-radius: 5px;
+    width: 50px;
+}
+
+.preto {
+    background-color: #000;
+}
+
+.cinza {
+    background-color: #d5d5d5;
+}
+
+.vermelho {
+    background-color: #dc3545;
+}
+
+.verde {
+    background-color: #28a745;
+}
+
+.amarelo {
+    background-color: #fbcf6d;
+}
+
+.azul {
+    background-color: #2e009a;
+}
+
+.texto_preto {
+    text-align: center;
+    color: #000;
+}
+
+.duplas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.duplas>div {
+    flex: 1 1 400px;
+}
+
+#personagem,
+#stats,
+#hab,
+#botoes,
+.infos {
+    width: 400px;
+    max-width: 450px;
+    margin: 0 auto;
+}
+
+#exp {
+    background-color: #6497DA;
+    text-align: center;
+    color: #000;
+    border-radius: 5px;
+}
+
+#vida {
+    background-color: #64D694;
+    text-align: center;
+    color: #000;
+    border-radius: 5px;
+}
+
+table {
+    border: 0px;
+    border-collapse: collapse;
+    background-color: #1b1d1f;
+    margin: 25px;
+    width: 100%;
+}
+
+thead tr {
+    background-color: #1b1d1f;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #212427;
+}
+
+th {
+    font-weight: bold;
+}
+
+th,
+td {
+    height: 50px;
+}
+
+.img {
+    margin: 0 auto;
+    width: 100%;
+}
+
+button {
+    border: none;
+    outline: none;
+    background: #1b1d1f;
+    height: 35px;
+    flex: none;
+    margin: 35px;
+}
+
+#botoes {
+    display: flex;
+    justify-content: space-between;
+}
+
+button:hover {
+    border: none;
+    outline: none;
+    background: #212427;
+    height: 35px;
+}
+
+#dados {
+    display: flex;
+}

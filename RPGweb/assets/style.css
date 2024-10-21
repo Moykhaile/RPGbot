@@ -20,11 +20,6 @@
     border-radius: 5px;
     width: 50px;
 }
-
-.preto {
-    background-color: #000;
-}
-
 .cinza {
     background-color: #d5d5d5;
 }
@@ -51,6 +46,7 @@
 }
 
 .duplas {
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -59,8 +55,17 @@
     max-width: 1200px;
 }
 
+body{
+    background-image: url("https://i0.wp.com/espaferro.com.br/wp-content/uploads/2024/06/placeholder.png?ssl=1");
+    background-size: cover; /* Ajusta a imagem para cobrir toda a tela */
+    background-position: center; /* Centraliza a imagem */
+    background-repeat: no-repeat; /* Impede que a imagem se repita */
+    height: 100vh; /* Altura da tela */
+    margin: 0;
+}
 .duplas>div {
     flex: 1 1 400px;
+    margin-top: 15px;
 }
 
 #personagem,
@@ -71,10 +76,11 @@
     width: 400px;
     max-width: 450px;
     margin: 0 auto;
+    opacity: 200%;
 }
 
 #exp {
-    background-color: #6497DA;
+    background-color: #8A2BE2;
     text-align: center;
     color: #000;
     border-radius: 5px;
@@ -112,9 +118,9 @@ td {
     height: 50px;
 }
 
-.img {
+img {
     margin: 0 auto;
-    width: 100%;
+    border-radius: 100%;
 }
 
 button {
@@ -140,4 +146,85 @@ button:hover {
 
 #dados {
     display: flex;
+}
+
+p {
+    margin-top: 25px;
+}
+
+.logo {
+    border-radius: 0px;
+}
+
+@media (max-width: 768px) {
+    * {
+        font-size: 10px;
+    }
+
+    img {
+        height: auto;
+        width: 50%;
+        border-radius: 50%;
+    }
+
+    .logo {
+        width: 20%;
+        border-radius: 0px;
+    }
+
+    body {
+        height: auto;
+        margin: 0px;
+    }
+
+    .duplas>div {
+        flex: 1 1 100%;
+    }
+
+    .infos {
+        width: auto;
+        /* Ajuste a largura */
+    }
+
+    th,
+    td {
+        height: auto;
+        /* Ajuste a altura */
+    }
+
+    #personagem,
+    #stats,
+    #hab,
+    #botoes,
+    .infos,
+    .duplas>div {
+        max-width: 300px;
+        margin-top: 15px;
+    }
+
+    table {
+        width: 100%;
+        height: auto;
+        border: 0px;
+        border-collapse: collapse;
+        background-color: #1b1d1f;
+        margin: 0px
+    }
+
+    #botoes {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    button {
+        width: 100%;
+        margin: 10px 0;
+        height: 35px;
+    }
+
+    p {
+        margin-top: 5px;
+    }
 }

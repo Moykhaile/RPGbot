@@ -16,6 +16,7 @@
   <header>
     <img src="assets/Logo.png" width='150px' class="logo">
   </header>
+  <div class="overlay"></div>
 
   <div class="duplas">
 
@@ -68,9 +69,9 @@
               <td scope="row">Constituição</td>
             </tr>
             <tr>
-              <td scope="row"><button id="forca"> 9 (-1)</button></td>
-              <td scope="row">15 (+2)</td>
-              <td scope="row">8 (-1)</td>
+              <td><button class="rolagem rolar-dado" data-tipo="d20-1"> 9 (-1)</button></td>
+              <td><button class="rolagem rolar-dado" data-tipo="d20+2">15 (+2)</button></td>
+              <td><button class="rolagem rolar-dado" data-tipo="d20-1">8 (-1)</button></td>
             </tr>
             <tr>
               <td scope="row">Inteligência</td>
@@ -78,9 +79,9 @@
               <td scope="row">Carisma</td>
             </tr>
             <tr>
-              <td scope="row">13 (+1)</td>
-              <td scope="row">11 (+0)</td>
-              <td scope="row">17 (+3)</td>
+              <td><button class="rolagem rolar-dado" data-tipo="d20+1">13 (+1)</button></td>
+              <td><button class="rolagem rolar-dado" data-tipo="d20">11 (+0)</button></td>
+              <td><button class="rolagem rolar-dado" data-tipo="d20+3">17 (+3)</button></td>
             </tr>
           </tbody>
         </table>
@@ -89,34 +90,180 @@
         <table>
           <thead>
             <tr>
-              <th colspan="2">Habilidades e Perícias</th>
+              <th colspan="2" scope="row">Habilidades e Perícias</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td scope="row">Visão no Escuro</td>
-              <td scope="row">Resistência Infernal</td>
+              <td>Visão no Escuro</td>
+              <td>Resistência Infernal</td>
             </tr>
             </tr>
             <tr>
-              <td scope="row">Taumaturgia</td>
-              <td scope="row">Atuação</td>
+              <td>Taumaturgia</td>
+              <td>Atuação</td>
             </tr>
             <tr>
-              <td scope="row">Medicina</td>
-              <td scope="row">Persuasão</td>
+              <td>Medicina</td>
+              <td>Persuasão</td>
             </tr>
           </tbody>
         </table>
       </div>
       <div id="botoes">
-        <button>Inventário</button>
-        <button>Combate</button>
-        <button>Inf. Pers.</button>
+        <button id="inv">Inventário</button>
+        <button id="com">Combate</button>
+        <button id="inf">Inf. Pers.</button>
       </div>
     </div>
   </div>
+  <div id="aparecerinfo">
+    <button class="close">Fechar</button>
+    <table class="table" id="informacoes">
+      <thead class="text-center">
+        <tr>
+          <th colspan="2">Dados Pessoais</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td scope="row">Nome do Jogador</td>
+          <td>Deni</td>
+        </tr>
+        <tr>
+          <td scope="row">Nome do Personagem</td>
+          <td>Luan Verdes</td>
+        </tr>
+        <tr>
+          <td scope="row">Ocupação</td>
+          <td>Artista</td>
+        </tr>
+        <tr>
+          <td scope="row">Idade</td>
+          <td>22 anos</td>
+        </tr>
+        <tr>
+          <td scope="row">Sexo</td>
+          <td>Masculino</td>
+        </tr>
+        <tr>
+          <td scope="row">Raça</td>
+          <td>Tiefling</td>
+        </tr>
+        <tr>
+          <td scope="row">Classe</td>
+          <td>Bardo</td>
+        </tr>
+        <tr>
+          <td scope="row">Alinhamento</td>
+          <td>Bom e Caótico</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div id="aparecerinv">
+    <table class="table" id="inventario">
+      <thead>
+        <tr>
+          <th colspan="4">Inventário</th>
+        </tr>
+        <tr>
+          <th colspan="4">Peso Total: 23 / 67,5</th>
+        </tr>
+        <tr>
+          <th colspan="4">Saldo: 130</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td scope="row">Nome</td>
+          <td scope="row">Peso</td>
+          <td scope="row">Nome</td>
+          <td scope="row">Peso</td>
+        </tr>
+        <tr>
+          <td>Rapieira</td>
+          <td>1</td>
+          <td>Adaga</td>
+          <td>0,5</td>
+        </tr>
+        <tr>
+          <td>Kit De Disfarce</td>
+          <td>1,5</td>
+          <td>Violino</td>
+          <td>3</td>
+        </tr>
+        <tr>
+          <td>Armadura de Couro</td>
+          <td>4</td>
+          <td>Violino</td>
+          <td>3</td>
+        </tr>
+        <tr>
+          <td>Mochila</td>
+          <td>2,5</td>
+          <td>Saco de Dormir</td>
+          <td>3,5</td>
+        </tr>
+        <tr>
+          <td>2x Fantasias</td>
+          <td>4</td>
+          <td>3x Vela</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>5x Rações</td>
+          <td>5</td>
+          <td>Cantil</td>
+          <td>2,5</td>
+        </tr>
+      </tbody>
+      <button class="close">Fechar</button>
+    </table>
+  </div>
 
+  <div id="combate">
+    <table>
+      <thead>
+        <tr>
+          <th colspan="7">Combate</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td scope="row">Nome</td>
+          <td scope="row">Tipo</td>
+          <td scope="row">Dano</td>
+          <td scope="row">Rol</td>
+          <td scope="row">Propriedade</td>
+          <td scope="row">Distância</td>
+          <td scope="row">Munição</td>
+        </tr>
+        <tr>
+          <td>Adaga</td>
+          <td>Simples</td>
+          <td><button class="dado rolar-dado" data-tipo="d4">1d4</button></td>
+          <td><button class="dado rolar-dado" data-tipo="d20"><img src="https://img.icons8.com/?size=100&id=gDI9OczF2khm&format=png&color=000000"
+                width="50px"></button></td>
+          <td>Perfurante / Acuidade / Arremesso / Leve</td>
+          <td>6/18</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Rapieira</td>
+          <td>Marcial</td>
+          <td><button class="dado rolar-dado" data-tipo="d8">1d8</button></td>
+          <td><button class="dado rolar-dado" data-tipo="d20"><img src="https://img.icons8.com/?size=100&id=gDI9OczF2khm&format=png&color=000000"
+                width="50px"></button></td>
+          <td>Perfurante / Acuidade</td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+      <button class="close">Fechar</button>
+    </table>
+  </div>
 </body>
 <script src="assets/script.js"></script>
+
 </html>

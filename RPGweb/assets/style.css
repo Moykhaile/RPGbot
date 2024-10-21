@@ -20,6 +20,7 @@
     border-radius: 5px;
     width: 50px;
 }
+
 .cinza {
     background-color: #d5d5d5;
 }
@@ -53,16 +54,22 @@
     align-items: center;
     width: 100%;
     max-width: 1200px;
+    z-index: 1;
 }
 
-body{
+body {
     background-image: url("https://i0.wp.com/espaferro.com.br/wp-content/uploads/2024/06/placeholder.png?ssl=1");
-    background-size: cover; /* Ajusta a imagem para cobrir toda a tela */
-    background-position: center; /* Centraliza a imagem */
-    background-repeat: no-repeat; /* Impede que a imagem se repita */
-    height: 100vh; /* Altura da tela */
+    background-size: cover;
+    /* Ajusta a imagem para cobrir toda a tela */
+    background-position: center;
+    /* Centraliza a imagem */
+    background-repeat: no-repeat;
+    /* Impede que a imagem se repita */
+    height: 100vh;
+    /* Altura da tela */
     margin: 0;
 }
+
 .duplas>div {
     flex: 1 1 400px;
     margin-top: 15px;
@@ -132,6 +139,10 @@ button {
     margin: 35px;
 }
 
+.rolagem {
+    margin: 0px;
+}
+
 #botoes {
     display: flex;
     justify-content: space-between;
@@ -142,6 +153,7 @@ button:hover {
     outline: none;
     background: #212427;
     height: 35px;
+    cursor: pointer;
 }
 
 #dados {
@@ -154,6 +166,91 @@ p {
 
 .logo {
     border-radius: 0px;
+}
+
+
+#aparecerinfo {
+    width: 600px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    display: none;
+}
+
+.close {
+    margin: 0px;
+    position: fixed;
+    right: 0;
+    z-index: 50;
+}
+
+#informacoes {
+    margin: 0px auto;
+}
+
+#aparecerinv {
+    margin: 0px;
+    width: 800px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    display: none;
+}
+
+#aparecerinv .close {
+    position: absolute;
+    top: 25px;
+    right: -25px
+}
+
+#invetario {
+    margin: 0px;
+}
+
+#combate {
+    margin: 0px;
+    width: 900px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    display: none;
+}
+
+#combate .close {
+    position: absolute;
+    top: 25px;
+    right: -25px
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 5;
+    display: none;
+}
+
+.dado {
+    margin: 0px auto;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.dado:hover {
+    margin: 0px auto;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    height: 50px;
+    background: #303030;
 }
 
 @media (max-width: 768px) {
